@@ -5,7 +5,7 @@ A clean starter project for building a quantitative 2026 FIFA World Cup predicti
 This repo intentionally does not include a full prediction model yet. It provides:
 
 - A project structure for modeling, simulation, data, and dashboard work
-- Sample team data with placeholder ratings and qualification assumptions
+- A real-data ingestion script for World Football Elo ratings
 - A working dashboard prototype showing estimated champion likelihoods
 - Lightweight Python stubs for the future model pipeline
 
@@ -18,10 +18,15 @@ This repo intentionally does not include a full prediction model yet. It provide
 │   ├── main.js
 │   └── styles.css
 ├── data/
-│   ├── sample_teams.csv         # Starter team-strength inputs
+│   ├── raw/world_elo.tsv        # Downloaded World Football Elo table
+│   ├── raw/elo_team_names.tsv   # Downloaded Elo team-code names
+│   ├── derived_team_strengths.csv
+│   ├── derived_team_strengths.json
+│   ├── sample_teams.csv         # Offline fallback inputs
 │   └── sample_matches.csv       # Starter fixture/result-style data
 ├── notebooks/                   # Exploratory analysis notebooks
 ├── scripts/
+│   ├── fetch_elo_data.py        # Download and export Elo starter ratings
 │   └── smoke.py                 # Import and data smoke check
 ├── src/worldcup_prediction/
 │   ├── config.py
@@ -34,6 +39,36 @@ This repo intentionally does not include a full prediction model yet. It provide
 │       └── tournament.py        # Tournament simulation stub
 └── tests/                       # Future tests
 ```
+
+## Data Source
+
+The real data source is World Football Elo Ratings:
+
+```text
+https://www.eloratings.net/
+```
+
+This starter downloads the current world ratings table from:
+
+```text
+https://www.eloratings.net/World.tsv
+```
+
+It also downloads Elo team names and confederation pages from `eloratings.net` so the dashboard can show readable team names and regional filters. The exported starter ratings preserve the official Elo value directly. The `attack_rating` and `defense_rating` fields are lightweight dashboard placeholders derived from historical goals for/against per match; they are not official Elo fields.
+
+## Refresh Elo Data
+
+```bash
+PYTHONPATH=src python3 scripts/fetch_elo_data.py
+```
+
+This writes:
+
+- `data/raw/world_elo.tsv`
+- `data/raw/elo_team_names.tsv`
+- `data/raw/elo_*.tsv`
+- `data/derived_team_strengths.csv`
+- `data/derived_team_strengths.json`
 
 ## Run The Dashboard
 
@@ -49,7 +84,7 @@ Then open:
 http://localhost:5173/app/
 ```
 
-The dashboard currently uses transparent placeholder formulas and sample data. Treat its probabilities as demo values only.
+The dashboard reads `data/derived_team_strengths.json` when served locally. If that file is missing or the page is opened directly from disk, it falls back to embedded demo values.
 
 ## Run The Python Smoke Check
 

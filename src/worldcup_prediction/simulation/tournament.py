@@ -13,7 +13,8 @@ def estimate_demo_champion_probabilities(
     strengths: list[TeamStrength],
 ) -> list[ChampionProbability]:
     """Placeholder champion probabilities for dashboard-style smoke tests."""
-    weights = [max(0.01, (team.overall / 78) ** 5.6) for team in strengths]
+    field_average = sum(team.overall for team in strengths) / len(strengths)
+    weights = [max(0.01, (team.overall / field_average) ** 8) for team in strengths]
     total = sum(weights)
     probabilities = [
         ChampionProbability(team=team.team, probability=round(weight / total, 4))

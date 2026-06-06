@@ -1,4 +1,4 @@
-const teams = [
+const fallbackTeams = [
   { name: "Brazil", confederation: "CONMEBOL", rating: 92, attack: 93, defense: 88 },
   { name: "France", confederation: "UEFA", rating: 91, attack: 90, defense: 89 },
   { name: "Argentina", confederation: "CONMEBOL", rating: 89, attack: 88, defense: 87 },
@@ -13,10 +13,13 @@ const teams = [
   { name: "Japan", confederation: "AFC", rating: 79, attack: 78, defense: 78 }
 ];
 
+let teams = fallbackTeams;
+
 function championProbability(team) {
   const strength = team.rating * 0.65 + team.attack * 0.2 + team.defense * 0.15;
-  const fieldAverage = 78;
-  return Math.max(0.8, Math.pow(strength / fieldAverage, 5.6));
+  const fieldAverage =
+    teams.reduce((sum, currentTeam) => sum + currentTeam.rating, 0) / teams.length;
+  return Math.max(0.8, Math.pow(strength / fieldAverage, 8));
 }
 
 function normalizedTeams(region = "all") {
@@ -49,7 +52,7 @@ function renderBars(region) {
         <div class="team-row">
           <div>
             <div class="team-name">${team.name}</div>
-            <div class="team-meta">${team.confederation} · Rating ${team.rating}</div>
+            <div class="team-meta">${team.confederation} · Elo ${team.elo || team.rating} · Rank ${team.rank || "demo"}</div>
           </div>
           <div class="track" aria-hidden="true">
             <div class="fill" style="width: ${width}%"></div>
@@ -65,21 +68,21 @@ function renderBars(region) {
   document.querySelector("#top-team-detail").textContent = `${formatPercent(top.probability)} demo champion probability`;
 
   const best = [...teams].sort((a, b) => b.rating - a.rating)[0];
-  document.querySelector("#best-strength").textContent = `${best.name} ${best.rating}`;
+  document.querySelector("#best-strength").textContent = `${best.name} ${best.elo || best.rating}`;
 }
 
 function predictMatch(home, away) {
   const ratingGap = home.rating - away.rating;
-  const homeWin = 1 / (1 + Math.exp(-ratingGap / 9));
-  const draw = Math.max(0.16, 0.27 - Math.abs(ratingGap) / 120);
+  const homeWin = 1 / (1 + Math.pow(10, -ratingGap / 400));
+  const draw = Math.max(0.18, 0.28 - Math.abs(ratingGap) / 1000);
   const adjustedHomeWin = homeWin * (1 - draw);
   const awayWin = 1 - draw - adjustedHomeWin;
   return { homeWin: adjustedHomeWin, draw, awayWin };
 }
 
 function renderMatchCard() {
-  const home = teams.find((team) => team.name === "Brazil");
-  const away = teams.find((team) => team.name === "France");
+  const home = teams.find((team) => team.name === "Brazil") || teams[0];
+  const away = teams.find((team) => team.name === "France") || teams[1];
   const probabilities = predictMatch(home, away);
   document.querySelector("#match-card").innerHTML = `
     <div class="versus">
@@ -107,5 +110,21 @@ document.querySelector("#region-filter").addEventListener("change", (event) => {
   renderBars(event.target.value);
 });
 
-renderBars("all");
-renderMatchCard();
+async function loadDashboardData() {
+  try {
+    const response = await fetch("../data/derived_team_strengths.json");
+    if (!response.ok) {
+      throw new Error(`Data request failed: ${response.status}`);
+    }
+    const data = await response.json();
+    teams = data.teams;
+    document.querySelector("#data-status").textContent = `Elo as of ${data.asOf || "latest"}`;
+  } catch (error) {
+    document.querySelector("#data-status").textContent = "Fallback data";
+  }
+
+  renderBars("all");
+  renderMatchCard();
+}
+
+loadDashboardData();
