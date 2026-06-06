@@ -25,8 +25,10 @@ This repo intentionally does not include a full prediction model yet. It provide
 │   ├── sample_teams.csv         # Offline fallback inputs
 │   └── sample_matches.csv       # Starter fixture/result-style data
 ├── notebooks/                   # Exploratory analysis notebooks
+├── reports/                     # Generated simulation outputs
 ├── scripts/
 │   ├── fetch_elo_data.py        # Download and export Elo starter ratings
+│   ├── run_simulation.py        # Run Monte Carlo and write report files
 │   └── smoke.py                 # Import and data smoke check
 ├── src/worldcup_prediction/
 │   ├── config.py
@@ -91,6 +93,20 @@ The dashboard reads `data/derived_team_strengths.json` when served locally. If t
 ```bash
 PYTHONPATH=src python3 scripts/smoke.py
 ```
+
+## Run Monte Carlo Simulation
+
+```bash
+PYTHONPATH=src python3 scripts/run_simulation.py --iterations 10000
+```
+
+This writes:
+
+- `reports/monte_carlo_results.csv`
+- `reports/monte_carlo_results.json`
+- `reports/monte_carlo_report.html`
+
+The HTML report is designed as a print-friendly snapshot that can be exported to PDF from a browser.
 
 ## Modeling Roadmap
 

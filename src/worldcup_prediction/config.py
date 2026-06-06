@@ -3,6 +3,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_ROOT / "data"
 RAW_DATA_DIR = DATA_DIR / "raw"
+REPORTS_DIR = PROJECT_ROOT / "reports"
 SAMPLE_TEAMS_PATH = DATA_DIR / "sample_teams.csv"
 SAMPLE_MATCHES_PATH = DATA_DIR / "sample_matches.csv"
 ELO_WORLD_URL = "https://www.eloratings.net/World.tsv"

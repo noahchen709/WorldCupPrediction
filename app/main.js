@@ -14,6 +14,7 @@ const fallbackTeams = [
 ];
 
 let teams = fallbackTeams;
+let simulationResults = [];
 
 function championProbability(team) {
   const strength = team.rating * 0.65 + team.attack * 0.2 + team.defense * 0.15;
@@ -23,6 +24,24 @@ function championProbability(team) {
 }
 
 function normalizedTeams(region = "all") {
+  if (simulationResults.length) {
+    return simulationResults
+      .map((result) => {
+        const team = teams.find((candidate) => candidate.name === result.team);
+        return {
+          ...team,
+          name: result.team,
+          probability: result.champion_probability,
+          rank: result.rank,
+          elo: result.elo,
+          confederation: team?.confederation || "Other",
+          rating: team?.rating || result.elo
+        };
+      })
+      .filter((team) => region === "all" || team.confederation === region)
+      .sort((a, b) => b.probability - a.probability);
+  }
+
   const visibleTeams = teams.filter((team) => region === "all" || team.confederation === region);
   const weighted = visibleTeams.map((team) => ({
     ...team,
@@ -121,6 +140,17 @@ async function loadDashboardData() {
     document.querySelector("#data-status").textContent = `Elo as of ${data.asOf || "latest"}`;
   } catch (error) {
     document.querySelector("#data-status").textContent = "Fallback data";
+  }
+
+  try {
+    const response = await fetch("../reports/monte_carlo_results.json");
+    if (response.ok) {
+      const simulation = await response.json();
+      simulationResults = simulation.results;
+      document.querySelector("#data-status").textContent = `${simulation.iterations.toLocaleString()} simulations`;
+    }
+  } catch (error) {
+    simulationResults = [];
   }
 
   renderBars("all");

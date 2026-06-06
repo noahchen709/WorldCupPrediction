@@ -1,6 +1,5 @@
 from dataclasses import dataclass
-from math import pow
-
+from .elo import elo_win_draw_loss
 from .team_strength import TeamStrength
 
 
@@ -13,11 +12,7 @@ class MatchOutcomeProbabilities:
 
 def predict_win_draw_loss(home: TeamStrength, away: TeamStrength) -> MatchOutcomeProbabilities:
     """Simple placeholder W/D/L estimate from an Elo rating gap."""
-    rating_gap = home.overall - away.overall
-    draw = max(0.18, 0.28 - abs(rating_gap) / 1000)
-    home_without_draw = 1 / (1 + pow(10, -rating_gap / 400))
-    home_win = home_without_draw * (1 - draw)
-    away_win = 1 - draw - home_win
+    home_win, draw, away_win = elo_win_draw_loss(home.overall, away.overall)
     return MatchOutcomeProbabilities(
         home_win=round(home_win, 4),
         draw=round(draw, 4),
