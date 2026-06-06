@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>World Cup 2026 Quant Dashboard</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="topbar" aria-label="Dashboard overview">
+        <div>
+          <p class="eyebrow">2026 FIFA World Cup</p>
+          <h1>Quant Prediction Dashboard</h1>
+        </div>
+        <div class="status-pill">
+          <span class="dot"></span>
+          Prototype data
+        </div>
+      </section>
+
+      <section class="summary-grid" aria-label="Model summary">
+        <article class="metric">
+          <span class="metric-label">Top Champion Pick</span>
+          <strong id="top-team">Loading</strong>
+          <small id="top-team-detail">Demo simulation snapshot</small>
+        </article>
+        <article class="metric">
+          <span class="metric-label">Highest Strength</span>
+          <strong id="best-strength">Loading</strong>
+          <small>Sample blended rating</small>
+        </article>
+        <article class="metric">
+          <span class="metric-label">Model Stage</span>
+          <strong>Starter</strong>
+          <small>Structure and prototype only</small>
+        </article>
+      </section>
+
+      <section class="dashboard-grid">
+        <section class="panel panel-wide" aria-labelledby="winner-heading">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Tournament simulation</p>
+              <h2 id="winner-heading">Likely Winners</h2>
+            </div>
+            <label class="select-label">
+              Region
+              <select id="region-filter">
+                <option value="all">All</option>
+                <option value="UEFA">UEFA</option>
+                <option value="CONMEBOL">CONMEBOL</option>
+                <option value="CONCACAF">CONCACAF</option>
+                <option value="CAF">CAF</option>
+                <option value="AFC">AFC</option>
+              </select>
+            </label>
+          </div>
+          <div id="winner-bars" class="bars" aria-live="polite"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="model-heading">
+          <p class="eyebrow">Pipeline</p>
+          <h2 id="model-heading">Model Components</h2>
+          <ol class="pipeline">
+            <li>
+              <span>Team strength</span>
+              <small>Rating blend placeholder</small>
+            </li>
+            <li>
+              <span>Win/draw/loss</span>
+              <small>Calibrated probabilities next</small>
+            </li>
+            <li>
+              <span>Scoreline</span>
+              <small>xG and Poisson family model</small>
+            </li>
+            <li>
+              <span>Tournament simulation</span>
+              <small>Group and knockout Monte Carlo</small>
+            </li>
+          </ol>
+        </section>
+
+        <section class="panel" aria-labelledby="match-heading">
+          <p class="eyebrow">Match prototype</p>
+          <h2 id="match-heading">Sample W/D/L</h2>
+          <div id="match-card" class="match-card"></div>
+        </section>
+      </section>
+    </main>
+    <script src="./main.js"></script>
+  </body>
+</html>

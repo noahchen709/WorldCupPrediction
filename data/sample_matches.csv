@@ -1,0 +1,6 @@
+date,home_team,away_team,home_goals,away_goals,competition,neutral_site
+2025-03-20,Brazil,Argentina,2,1,Sample qualifier,true
+2025-03-21,France,Germany,1,1,Sample friendly,false
+2025-03-22,England,Spain,1,2,Sample friendly,false
+2025-03-23,United States,Mexico,2,0,Sample regional,false
+2025-03-24,Morocco,Japan,1,1,Sample friendly,true

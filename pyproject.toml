@@ -1,0 +1,10 @@
+[project]
+name = "worldcup-prediction"
+version = "0.1.0"
+description = "Starter app for a 2026 FIFA World Cup quant prediction project."
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
