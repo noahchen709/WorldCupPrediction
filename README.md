@@ -22,9 +22,7 @@ This repo intentionally does not include a full prediction model yet. It provide
 │   ├── raw/world_elo.tsv        # Downloaded World Football Elo table
 │   ├── raw/elo_team_names.tsv   # Downloaded Elo team-code names
 │   ├── derived_team_strengths.csv
-│   ├── derived_team_strengths.json
-│   ├── sample_teams.csv         # Offline fallback inputs
-│   └── sample_matches.csv       # Starter fixture/result-style data
+│   └── derived_team_strengths.json
 ├── notebooks/                   # Exploratory analysis notebooks
 ├── reports/                     # Generated simulation outputs
 ├── scripts/
@@ -87,7 +85,7 @@ Then open:
 http://localhost:5173/app/
 ```
 
-The dashboard reads `data/derived_team_strengths.json` when served locally. If that file is missing or the page is opened directly from disk, it falls back to embedded demo values.
+The dashboard reads `data/derived_team_strengths.json` and `reports/monte_carlo_results.json` when served locally.
 
 ## Run The Python Smoke Check
 

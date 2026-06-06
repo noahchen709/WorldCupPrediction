@@ -1,19 +1,4 @@
-const fallbackTeams = [
-  { name: "Brazil", confederation: "CONMEBOL", rating: 92, attack: 93, defense: 88 },
-  { name: "France", confederation: "UEFA", rating: 91, attack: 90, defense: 89 },
-  { name: "Argentina", confederation: "CONMEBOL", rating: 89, attack: 88, defense: 87 },
-  { name: "England", confederation: "UEFA", rating: 87, attack: 86, defense: 86 },
-  { name: "Spain", confederation: "UEFA", rating: 86, attack: 85, defense: 87 },
-  { name: "Germany", confederation: "UEFA", rating: 84, attack: 85, defense: 82 },
-  { name: "Portugal", confederation: "UEFA", rating: 84, attack: 86, defense: 80 },
-  { name: "Netherlands", confederation: "UEFA", rating: 83, attack: 82, defense: 84 },
-  { name: "United States", confederation: "CONCACAF", rating: 78, attack: 77, defense: 76 },
-  { name: "Mexico", confederation: "CONCACAF", rating: 76, attack: 74, defense: 76 },
-  { name: "Morocco", confederation: "CAF", rating: 80, attack: 78, defense: 82 },
-  { name: "Japan", confederation: "AFC", rating: 79, attack: 78, defense: 78 }
-];
-
-let teams = fallbackTeams;
+let teams = [];
 let simulationResults = [];
 
 function championProbability(team) {
@@ -62,8 +47,17 @@ function formatPercent(value) {
 
 function renderBars(region) {
   const ranked = normalizedTeams(region);
-  const maxProbability = Math.max(...ranked.map((team) => team.probability));
   const bars = document.querySelector("#winner-bars");
+
+  if (!ranked.length) {
+    bars.innerHTML = `<div class="team-row">No rating data loaded</div>`;
+    document.querySelector("#top-team").textContent = "No data";
+    document.querySelector("#top-team-detail").textContent = "Serve the project locally and refresh Elo data";
+    document.querySelector("#best-strength").textContent = "No data";
+    return;
+  }
+
+  const maxProbability = Math.max(...ranked.map((team) => team.probability));
   bars.innerHTML = ranked
     .map((team) => {
       const width = (team.probability / maxProbability) * 100;
@@ -71,7 +65,7 @@ function renderBars(region) {
         <div class="team-row">
           <div>
             <div class="team-name">${team.name}</div>
-            <div class="team-meta">${team.confederation} · Elo ${team.elo || team.rating} · Rank ${team.rank || "demo"}</div>
+            <div class="team-meta">${team.confederation} · Elo ${team.elo || team.rating} · Rank ${team.rank || "n/a"}</div>
           </div>
           <div class="track" aria-hidden="true">
             <div class="fill" style="width: ${width}%"></div>
@@ -84,7 +78,7 @@ function renderBars(region) {
 
   const top = ranked[0];
   document.querySelector("#top-team").textContent = top.name;
-  document.querySelector("#top-team-detail").textContent = `${formatPercent(top.probability)} demo champion probability`;
+  document.querySelector("#top-team-detail").textContent = `${formatPercent(top.probability)} champion probability`;
 
   const best = [...teams].sort((a, b) => b.rating - a.rating)[0];
   document.querySelector("#best-strength").textContent = `${best.name} ${best.elo || best.rating}`;
@@ -100,6 +94,11 @@ function predictMatch(home, away) {
 }
 
 function renderMatchCard() {
+  if (teams.length < 2) {
+    document.querySelector("#match-card").innerHTML = "";
+    return;
+  }
+
   const home = teams.find((team) => team.name === "Brazil") || teams[0];
   const away = teams.find((team) => team.name === "France") || teams[1];
   const probabilities = predictMatch(home, away);
@@ -139,7 +138,7 @@ async function loadDashboardData() {
     teams = data.teams;
     document.querySelector("#data-status").textContent = `Elo as of ${data.asOf || "latest"}`;
   } catch (error) {
-    document.querySelector("#data-status").textContent = "Fallback data";
+    document.querySelector("#data-status").textContent = "Data unavailable";
   }
 
   try {

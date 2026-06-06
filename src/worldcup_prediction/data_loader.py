@@ -1,7 +1,7 @@
 import csv
 from dataclasses import dataclass
 
-from .config import DERIVED_TEAMS_PATH, SAMPLE_TEAMS_PATH
+from .config import DERIVED_TEAMS_PATH
 
 
 @dataclass(frozen=True)
@@ -16,8 +16,8 @@ class TeamRecord:
     matches: int = 0
 
 
-def load_sample_teams(path=SAMPLE_TEAMS_PATH) -> list[TeamRecord]:
-    """Load starter team data from CSV."""
+def load_derived_teams(path=DERIVED_TEAMS_PATH) -> list[TeamRecord]:
+    """Load team ratings exported from World Football Elo data."""
     with path.open(newline="", encoding="utf-8") as file:
         rows = csv.DictReader(file)
         return [
@@ -33,8 +33,3 @@ def load_sample_teams(path=SAMPLE_TEAMS_PATH) -> list[TeamRecord]:
             )
             for row in rows
         ]
-
-
-def load_derived_teams(path=DERIVED_TEAMS_PATH) -> list[TeamRecord]:
-    """Load team ratings exported from World Football Elo data."""
-    return load_sample_teams(path)
