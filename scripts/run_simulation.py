@@ -31,11 +31,11 @@ def write_csv(results, path) -> None:
             writer.writerow(result.__dict__)
 
 
-def write_json(results, path, iterations: int, field_size: int, seed: int) -> None:
+def write_json(results, path, iterations: int, team_count: int, seed: int) -> None:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "iterations": iterations,
-        "fieldSize": field_size,
+        "teamCount": team_count,
         "seed": seed,
         "method": "Elo expected result + draw curve + official 2026 groups and knockout bracket",
         "results": [result.__dict__ for result in results],
@@ -43,7 +43,7 @@ def write_json(results, path, iterations: int, field_size: int, seed: int) -> No
     path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
 
-def write_html_report(results, path, iterations: int, field_size: int, seed: int) -> None:
+def write_html_report(results, path, iterations: int, team_count: int, seed: int) -> None:
     rows = "\n".join(
         f"""
         <tr>
@@ -110,7 +110,7 @@ def write_html_report(results, path, iterations: int, field_size: int, seed: int
   </head>
   <body>
     <h1>World Cup 2026 Elo Monte Carlo Report</h1>
-    <p class="meta">Generated {generated} · {iterations:,} simulations · official 2026 field ({field_size} teams) · seed {seed}</p>
+    <p class="meta">Generated {generated} · {iterations:,} simulations · official 2026 field ({team_count} teams) · seed {seed}</p>
     <table>
       <thead>
         <tr>
@@ -142,7 +142,6 @@ def write_html_report(results, path, iterations: int, field_size: int, seed: int
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run a starter World Cup Elo Monte Carlo simulation.")
     parser.add_argument("--iterations", type=int, default=10_000)
-    parser.add_argument("--field-size", type=int, default=48, help="Deprecated; the official 2026 field is always used.")
     parser.add_argument("--seed", type=int, default=2026)
     args = parser.parse_args()
 
@@ -151,14 +150,13 @@ def main() -> None:
         teams,
         iterations=args.iterations,
         seed=args.seed,
-        field_size=args.field_size,
     )
-    field_size = len(results)
+    team_count = len(results)
 
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     write_csv(results, REPORTS_DIR / "monte_carlo_results.csv")
-    write_json(results, REPORTS_DIR / "monte_carlo_results.json", args.iterations, field_size, args.seed)
-    write_html_report(results, REPORTS_DIR / "monte_carlo_report.html", args.iterations, field_size, args.seed)
+    write_json(results, REPORTS_DIR / "monte_carlo_results.json", args.iterations, team_count, args.seed)
+    write_html_report(results, REPORTS_DIR / "monte_carlo_report.html", args.iterations, team_count, args.seed)
 
     print(f"Champion favorite: {results[0].team} ({percent(results[0].champion_probability)})")
     print(f"Wrote: {REPORTS_DIR / 'monte_carlo_results.csv'}")

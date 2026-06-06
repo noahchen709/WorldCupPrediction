@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-06T16:16:11.000865+00:00",
+  "generatedAt": "2026-06-06T16:22:19.797636+00:00",
   "iterations": 10000,
-  "fieldSize": 48,
+  "teamCount": 48,
   "seed": 2026,
   "method": "Elo expected result + draw curve + official 2026 groups and knockout bracket",
   "results": [

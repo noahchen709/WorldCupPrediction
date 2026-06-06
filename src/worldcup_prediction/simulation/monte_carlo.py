@@ -124,18 +124,6 @@ def sample_knockout_winner(team_a: TeamRecord, team_b: TeamRecord, rng: random.R
     return team_a if rng.random() < win else team_b
 
 
-def make_seeded_groups(teams: list[TeamRecord], group_count: int = 12) -> list[list[TeamRecord]]:
-    field = sorted(teams, key=lambda team: team.rating, reverse=True)
-    groups = [[] for _ in range(group_count)]
-    for index, team in enumerate(field):
-        pot_index = index // group_count
-        group_index = index % group_count
-        if pot_index % 2:
-            group_index = group_count - 1 - group_index
-        groups[group_index].append(team)
-    return groups
-
-
 def simulate_group(group: list[TeamRecord], rng: random.Random) -> list[SimTeam]:
     table = {team.team: SimTeam(team) for team in group}
     for team_a, team_b in combinations(group, 2):
@@ -169,25 +157,6 @@ def simulate_group(group: list[TeamRecord], rng: random.Random) -> list[SimTeam]
         ),
         reverse=True,
     )
-
-
-def qualify_round_of_32(groups: list[list[TeamRecord]], rng: random.Random) -> list[TeamRecord]:
-    group_tables = [simulate_group(group, rng) for group in groups]
-    automatic = [row.record for table in group_tables for row in table[:2]]
-    third_place = [table[2] for table in group_tables if len(table) > 2]
-    best_thirds = sorted(
-        third_place,
-        key=lambda row: (
-            row.points,
-            row.goal_difference,
-            row.goals_for,
-            row.wins,
-            row.record.rating,
-            rng.random(),
-        ),
-        reverse=True,
-    )[:8]
-    return sorted(automatic + [row.record for row in best_thirds], key=lambda team: team.rating, reverse=True)
 
 
 def assign_third_place_slots(
@@ -271,18 +240,6 @@ def qualify_official_round_of_32(
     return matches, qualifiers
 
 
-def simulate_knockout_round(
-    teams: list[TeamRecord],
-    rng: random.Random,
-) -> list[TeamRecord]:
-    winners = []
-    for index in range(len(teams) // 2):
-        team_a = teams[index]
-        team_b = teams[-index - 1]
-        winners.append(sample_knockout_winner(team_a, team_b, rng))
-    return sorted(winners, key=lambda team: team.rating, reverse=True)
-
-
 def simulate_official_knockout(
     round_of_32_matches: dict[int, tuple[TeamRecord, TeamRecord]],
     rng: random.Random,
@@ -313,7 +270,6 @@ def simulate_tournament(
     teams: list[TeamRecord],
     iterations: int = 10_000,
     seed: int = 2026,
-    field_size: int | None = None,
 ) -> list[TournamentSimulationResult]:
     rng = random.Random(seed)
     groups = make_official_2026_groups(teams)
