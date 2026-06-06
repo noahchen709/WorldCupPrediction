@@ -1,11 +1,12 @@
 import argparse
 import csv
-import json
 from datetime import datetime, timezone
 from html import escape
+import json
 
 from worldcup_prediction.config import REPORTS_DIR
 from worldcup_prediction.data_loader import load_derived_teams
+from worldcup_prediction.models.elo import elo_win_draw_loss
 from worldcup_prediction.simulation.monte_carlo import (
     KNOCKOUT_ROUNDS,
     OFFICIAL_2026_GROUPS,
@@ -14,6 +15,140 @@ from worldcup_prediction.simulation.monte_carlo import (
 )
 
 ROUND_NAMES = ("Round of 16", "Quarter-finals", "Semi-finals", "Final")
+GROUP_STAGE_FIXTURES: tuple[tuple[str, tuple[tuple[str, str, str], ...]], ...] = (
+    (
+        "A",
+        (
+            ("June 11, 2026", "Mexico", "South Africa"),
+            ("June 11, 2026", "South Korea", "Czechia"),
+            ("June 18, 2026", "Czechia", "South Africa"),
+            ("June 18, 2026", "Mexico", "South Korea"),
+            ("June 24, 2026", "Czechia", "Mexico"),
+            ("June 24, 2026", "South Africa", "South Korea"),
+        ),
+    ),
+    (
+        "B",
+        (
+            ("June 12, 2026", "Canada", "Bosnia and Herzegovina"),
+            ("June 13, 2026", "Qatar", "Switzerland"),
+            ("June 18, 2026", "Switzerland", "Bosnia and Herzegovina"),
+            ("June 18, 2026", "Canada", "Qatar"),
+            ("June 24, 2026", "Switzerland", "Canada"),
+            ("June 24, 2026", "Bosnia and Herzegovina", "Qatar"),
+        ),
+    ),
+    (
+        "C",
+        (
+            ("June 13, 2026", "Brazil", "Morocco"),
+            ("June 13, 2026", "Haiti", "Scotland"),
+            ("June 19, 2026", "Scotland", "Morocco"),
+            ("June 19, 2026", "Brazil", "Haiti"),
+            ("June 24, 2026", "Scotland", "Brazil"),
+            ("June 24, 2026", "Morocco", "Haiti"),
+        ),
+    ),
+    (
+        "D",
+        (
+            ("June 12, 2026", "United States", "Paraguay"),
+            ("June 13, 2026", "Australia", "Turkey"),
+            ("June 19, 2026", "Turkey", "Paraguay"),
+            ("June 19, 2026", "United States", "Australia"),
+            ("June 25, 2026", "Turkey", "United States"),
+            ("June 25, 2026", "Paraguay", "Australia"),
+        ),
+    ),
+    (
+        "E",
+        (
+            ("June 14, 2026", "Ivory Coast", "Ecuador"),
+            ("June 14, 2026", "Germany", "Curaçao"),
+            ("June 20, 2026", "Germany", "Ivory Coast"),
+            ("June 20, 2026", "Ecuador", "Curaçao"),
+            ("June 25, 2026", "Curaçao", "Ivory Coast"),
+            ("June 25, 2026", "Ecuador", "Germany"),
+        ),
+    ),
+    (
+        "F",
+        (
+            ("June 14, 2026", "Netherlands", "Japan"),
+            ("June 14, 2026", "Sweden", "Tunisia"),
+            ("June 20, 2026", "Netherlands", "Sweden"),
+            ("June 20, 2026", "Tunisia", "Japan"),
+            ("June 25, 2026", "Japan", "Sweden"),
+            ("June 25, 2026", "Tunisia", "Netherlands"),
+        ),
+    ),
+    (
+        "G",
+        (
+            ("June 15, 2026", "Iran", "New Zealand"),
+            ("June 15, 2026", "Belgium", "Egypt"),
+            ("June 21, 2026", "Belgium", "Iran"),
+            ("June 21, 2026", "New Zealand", "Egypt"),
+            ("June 26, 2026", "Egypt", "Iran"),
+            ("June 26, 2026", "New Zealand", "Belgium"),
+        ),
+    ),
+    (
+        "H",
+        (
+            ("June 15, 2026", "Saudi Arabia", "Uruguay"),
+            ("June 15, 2026", "Spain", "Cape Verde"),
+            ("June 21, 2026", "Uruguay", "Cape Verde"),
+            ("June 21, 2026", "Spain", "Saudi Arabia"),
+            ("June 26, 2026", "Cape Verde", "Saudi Arabia"),
+            ("June 26, 2026", "Uruguay", "Spain"),
+        ),
+    ),
+    (
+        "I",
+        (
+            ("June 16, 2026", "France", "Senegal"),
+            ("June 16, 2026", "Iraq", "Norway"),
+            ("June 22, 2026", "Norway", "Senegal"),
+            ("June 22, 2026", "France", "Iraq"),
+            ("June 26, 2026", "Norway", "France"),
+            ("June 26, 2026", "Senegal", "Iraq"),
+        ),
+    ),
+    (
+        "J",
+        (
+            ("June 16, 2026", "Argentina", "Algeria"),
+            ("June 16, 2026", "Austria", "Jordan"),
+            ("June 22, 2026", "Argentina", "Austria"),
+            ("June 22, 2026", "Jordan", "Algeria"),
+            ("June 27, 2026", "Algeria", "Austria"),
+            ("June 27, 2026", "Jordan", "Argentina"),
+        ),
+    ),
+    (
+        "K",
+        (
+            ("June 17, 2026", "Portugal", "DR Congo"),
+            ("June 17, 2026", "Uzbekistan", "Colombia"),
+            ("June 23, 2026", "Portugal", "Uzbekistan"),
+            ("June 23, 2026", "Colombia", "DR Congo"),
+            ("June 27, 2026", "Colombia", "Portugal"),
+            ("June 27, 2026", "DR Congo", "Uzbekistan"),
+        ),
+    ),
+    (
+        "L",
+        (
+            ("June 17, 2026", "Ghana", "Panama"),
+            ("June 17, 2026", "England", "Croatia"),
+            ("June 23, 2026", "England", "Ghana"),
+            ("June 23, 2026", "Panama", "Croatia"),
+            ("June 27, 2026", "Panama", "England"),
+            ("June 27, 2026", "Croatia", "Ghana"),
+        ),
+    ),
+)
 
 
 def percent(value: float) -> str:
@@ -202,7 +337,43 @@ def probability_bracket_html(bracket_results) -> str:
     return "\n".join(sections)
 
 
-def write_html_report(results, bracket_results, path, iterations: int, team_count: int, seed: int) -> None:
+def group_match_rows_html(group_name: str, records_by_name: dict) -> str:
+    rows = []
+    fixtures = dict(GROUP_STAGE_FIXTURES)[group_name]
+    for date, home_name, away_name in fixtures:
+        home = records_by_name[home_name]
+        away = records_by_name[away_name]
+        home_win, draw, away_win = elo_win_draw_loss(home.rating, away.rating, allow_draw=True)
+        rows.append(
+            f"""
+            <tr>
+              <td>{escape(date)}</td>
+              <td>
+                <span class="fixture-team">{escape(home_name)}</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">{escape(away_name)}</span>
+              </td>
+              <td>
+                <span class="odds-chip">{escape(home_name)} {percent(home_win)}</span>
+                <span class="odds-chip draw-pick">Draw {percent(draw)}</span>
+                <span class="odds-chip">{escape(away_name)} {percent(away_win)}</span>
+              </td>
+            </tr>
+            """
+        )
+    return "".join(rows)
+
+
+def write_html_report(
+    results,
+    bracket_results,
+    teams,
+    path,
+    iterations: int,
+    team_count: int,
+    seed: int,
+) -> None:
+    records_by_name = {team.team: team for team in teams}
     group_cards = "\n".join(
         f"""
         <section class="group-card">
@@ -210,6 +381,19 @@ def write_html_report(results, bracket_results, path, iterations: int, team_coun
           <ol>
             {"".join(f"<li>{escape(team)}</li>" for team in teams)}
           </ol>
+          <h4>Group Game Probabilities</h4>
+          <table class="group-matches">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fixture</th>
+                <th>Simulated Result Odds</th>
+              </tr>
+            </thead>
+            <tbody>
+              {group_match_rows_html(group_name, records_by_name)}
+            </tbody>
+          </table>
         </section>
         """
         for group_name, teams in OFFICIAL_2026_GROUPS
@@ -260,6 +444,11 @@ def write_html_report(results, bracket_results, path, iterations: int, team_coun
         margin: 0 0 8px;
         font-size: 14px;
       }}
+      h4 {{
+        margin: 12px 0 6px;
+        color: #344054;
+        font-size: 12px;
+      }}
       .tabs {{
         display: flex;
         flex-wrap: wrap;
@@ -309,8 +498,8 @@ def write_html_report(results, bracket_results, path, iterations: int, team_coun
       }}
       .groups {{
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 10px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
         margin-bottom: 10px;
       }}
       .group-card {{
@@ -323,6 +512,47 @@ def write_html_report(results, bracket_results, path, iterations: int, team_coun
         padding-left: 20px;
         font-size: 13px;
         line-height: 1.6;
+      }}
+      .group-matches {{
+        margin-top: 12px;
+        font-size: 12px;
+      }}
+      .group-matches th,
+      .group-matches td {{
+        padding: 6px 5px;
+      }}
+      .group-matches th,
+      .group-matches td {{
+        text-align: left;
+      }}
+      .group-matches th:nth-child(1),
+      .group-matches td:nth-child(1) {{
+        white-space: nowrap;
+        width: 108px;
+      }}
+      .fixture-team {{
+        font-weight: 700;
+      }}
+      .fixture-v {{
+        color: #667085;
+        display: inline-block;
+        margin: 0 6px;
+      }}
+      .odds-chip {{
+        background: #f3f5f8;
+        border: 1px solid #d9dee7;
+        border-radius: 999px;
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        margin: 2px 4px 2px 0;
+        padding: 3px 7px;
+        white-space: nowrap;
+      }}
+      .draw-pick {{
+        background: #fff7e6;
+        border-color: #f4d29a;
+        color: #8a5a00;
       }}
       .bracket-grid {{
         display: grid;
@@ -447,6 +677,7 @@ def main() -> None:
     write_html_report(
         results,
         bracket_results,
+        teams,
         REPORTS_DIR / "monte_carlo_report.html",
         args.iterations,
         team_count,

@@ -25,6 +25,11 @@
         margin: 0 0 8px;
         font-size: 14px;
       }
+      h4 {
+        margin: 12px 0 6px;
+        color: #344054;
+        font-size: 12px;
+      }
       .tabs {
         display: flex;
         flex-wrap: wrap;
@@ -74,8 +79,8 @@
       }
       .groups {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 10px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
         margin-bottom: 10px;
       }
       .group-card {
@@ -88,6 +93,47 @@
         padding-left: 20px;
         font-size: 13px;
         line-height: 1.6;
+      }
+      .group-matches {
+        margin-top: 12px;
+        font-size: 12px;
+      }
+      .group-matches th,
+      .group-matches td {
+        padding: 6px 5px;
+      }
+      .group-matches th,
+      .group-matches td {
+        text-align: left;
+      }
+      .group-matches th:nth-child(1),
+      .group-matches td:nth-child(1) {
+        white-space: nowrap;
+        width: 108px;
+      }
+      .fixture-team {
+        font-weight: 700;
+      }
+      .fixture-v {
+        color: #667085;
+        display: inline-block;
+        margin: 0 6px;
+      }
+      .odds-chip {
+        background: #f3f5f8;
+        border: 1px solid #d9dee7;
+        border-radius: 999px;
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        margin: 2px 4px 2px 0;
+        padding: 3px 7px;
+        white-space: nowrap;
+      }
+      .draw-pick {
+        background: #fff7e6;
+        border-color: #f4d29a;
+        color: #8a5a00;
       }
       .bracket-grid {
         display: grid;
@@ -125,7 +171,7 @@
   </head>
   <body>
     <h1>World Cup 2026 Elo Monte Carlo Report</h1>
-    <p class="meta">Generated 2026-06-06 17:05 UTC · 10,000 simulations · official 2026 field (48 teams) · seed 2026</p>
+    <p class="meta">Generated 2026-06-06 17:29 UTC · 10,000 simulations · official 2026 field (48 teams) · seed 2026</p>
     <nav class="tabs" role="tablist" aria-label="Report sections">
       <button class="tab-button" id="tab-probabilities" type="button" role="tab" aria-selected="true" aria-controls="panel-probabilities" data-tab="probabilities">Team Probabilities</button>
       <button class="tab-button" id="tab-bracket" type="button" role="tab" aria-selected="false" aria-controls="panel-bracket" data-tab="bracket">Probabilistic Bracket</button>
@@ -924,6 +970,103 @@
           <ol>
             <li>Mexico</li><li>South Africa</li><li>South Korea</li><li>Czechia</li>
           </ol>
+          <h4>Group Game Probabilities</h4>
+          <table class="group-matches">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fixture</th>
+                <th>Simulated Result Odds</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td>June 11, 2026</td>
+              <td>
+                <span class="fixture-team">Mexico</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">South Africa</span>
+              </td>
+              <td>
+                <span class="odds-chip">Mexico 80.6%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">South Africa 3.4%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 11, 2026</td>
+              <td>
+                <span class="fixture-team">South Korea</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Czechia</span>
+              </td>
+              <td>
+                <span class="odds-chip">South Korea 38.3%</span>
+                <span class="odds-chip draw-pick">Draw 28.5%</span>
+                <span class="odds-chip">Czechia 33.2%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 18, 2026</td>
+              <td>
+                <span class="fixture-team">Czechia</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">South Africa</span>
+              </td>
+              <td>
+                <span class="odds-chip">Czechia 70.2%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">South Africa 13.8%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 18, 2026</td>
+              <td>
+                <span class="fixture-team">Mexico</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">South Korea</span>
+              </td>
+              <td>
+                <span class="odds-chip">Mexico 56.1%</span>
+                <span class="odds-chip draw-pick">Draw 20.2%</span>
+                <span class="odds-chip">South Korea 23.6%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 24, 2026</td>
+              <td>
+                <span class="fixture-team">Czechia</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Mexico</span>
+              </td>
+              <td>
+                <span class="odds-chip">Czechia 22.1%</span>
+                <span class="odds-chip draw-pick">Draw 18.8%</span>
+                <span class="odds-chip">Mexico 59.1%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 24, 2026</td>
+              <td>
+                <span class="fixture-team">South Africa</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">South Korea</span>
+              </td>
+              <td>
+                <span class="odds-chip">South Africa 12.1%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">South Korea 71.9%</span>
+              </td>
+            </tr>
+            
+            </tbody>
+          </table>
         </section>
         
 
@@ -932,6 +1075,103 @@
           <ol>
             <li>Canada</li><li>Switzerland</li><li>Qatar</li><li>Bosnia and Herzegovina</li>
           </ol>
+          <h4>Group Game Probabilities</h4>
+          <table class="group-matches">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fixture</th>
+                <th>Simulated Result Odds</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td>June 12, 2026</td>
+              <td>
+                <span class="fixture-team">Canada</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Bosnia and Herzegovina</span>
+              </td>
+              <td>
+                <span class="odds-chip">Canada 67.7%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Bosnia and Herzegovina 16.3%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 13, 2026</td>
+              <td>
+                <span class="fixture-team">Qatar</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Switzerland</span>
+              </td>
+              <td>
+                <span class="odds-chip">Qatar 0.0%</span>
+                <span class="odds-chip draw-pick">Draw 12.5%</span>
+                <span class="odds-chip">Switzerland 87.5%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 18, 2026</td>
+              <td>
+                <span class="fixture-team">Switzerland</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Bosnia and Herzegovina</span>
+              </td>
+              <td>
+                <span class="odds-chip">Switzerland 77.1%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Bosnia and Herzegovina 6.9%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 18, 2026</td>
+              <td>
+                <span class="fixture-team">Canada</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Qatar</span>
+              </td>
+              <td>
+                <span class="odds-chip">Canada 81.1%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Qatar 2.9%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 24, 2026</td>
+              <td>
+                <span class="fixture-team">Switzerland</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Canada</span>
+              </td>
+              <td>
+                <span class="odds-chip">Switzerland 54.2%</span>
+                <span class="odds-chip draw-pick">Draw 21.2%</span>
+                <span class="odds-chip">Canada 24.6%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 24, 2026</td>
+              <td>
+                <span class="fixture-team">Bosnia and Herzegovina</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Qatar</span>
+              </td>
+              <td>
+                <span class="odds-chip">Bosnia and Herzegovina 64.5%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Qatar 19.5%</span>
+              </td>
+            </tr>
+            
+            </tbody>
+          </table>
         </section>
         
 
@@ -940,6 +1180,103 @@
           <ol>
             <li>Brazil</li><li>Morocco</li><li>Haiti</li><li>Scotland</li>
           </ol>
+          <h4>Group Game Probabilities</h4>
+          <table class="group-matches">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fixture</th>
+                <th>Simulated Result Odds</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td>June 13, 2026</td>
+              <td>
+                <span class="fixture-team">Brazil</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Morocco</span>
+              </td>
+              <td>
+                <span class="odds-chip">Brazil 63.8%</span>
+                <span class="odds-chip draw-pick">Draw 16.3%</span>
+                <span class="odds-chip">Morocco 19.8%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 13, 2026</td>
+              <td>
+                <span class="fixture-team">Haiti</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Scotland</span>
+              </td>
+              <td>
+                <span class="odds-chip">Haiti 13.8%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Scotland 70.2%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 19, 2026</td>
+              <td>
+                <span class="fixture-team">Scotland</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Morocco</span>
+              </td>
+              <td>
+                <span class="odds-chip">Scotland 29.5%</span>
+                <span class="odds-chip draw-pick">Draw 25.5%</span>
+                <span class="odds-chip">Morocco 45.0%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 19, 2026</td>
+              <td>
+                <span class="fixture-team">Brazil</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Haiti</span>
+              </td>
+              <td>
+                <span class="odds-chip">Brazil 85.3%</span>
+                <span class="odds-chip draw-pick">Draw 14.7%</span>
+                <span class="odds-chip">Haiti 0.0%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 24, 2026</td>
+              <td>
+                <span class="fixture-team">Scotland</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Brazil</span>
+              </td>
+              <td>
+                <span class="odds-chip">Scotland 14.2%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Brazil 69.8%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 24, 2026</td>
+              <td>
+                <span class="fixture-team">Morocco</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Haiti</span>
+              </td>
+              <td>
+                <span class="odds-chip">Morocco 75.0%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Haiti 9.0%</span>
+              </td>
+            </tr>
+            
+            </tbody>
+          </table>
         </section>
         
 
@@ -948,6 +1285,103 @@
           <ol>
             <li>United States</li><li>Paraguay</li><li>Australia</li><li>Turkey</li>
           </ol>
+          <h4>Group Game Probabilities</h4>
+          <table class="group-matches">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fixture</th>
+                <th>Simulated Result Odds</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td>June 12, 2026</td>
+              <td>
+                <span class="fixture-team">United States</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Paraguay</span>
+              </td>
+              <td>
+                <span class="odds-chip">United States 25.2%</span>
+                <span class="odds-chip draw-pick">Draw 21.7%</span>
+                <span class="odds-chip">Paraguay 53.2%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 13, 2026</td>
+              <td>
+                <span class="fixture-team">Australia</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Turkey</span>
+              </td>
+              <td>
+                <span class="odds-chip">Australia 22.4%</span>
+                <span class="odds-chip draw-pick">Draw 19.0%</span>
+                <span class="odds-chip">Turkey 58.6%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 19, 2026</td>
+              <td>
+                <span class="fixture-team">Turkey</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Paraguay</span>
+              </td>
+              <td>
+                <span class="odds-chip">Turkey 48.4%</span>
+                <span class="odds-chip draw-pick">Draw 23.9%</span>
+                <span class="odds-chip">Paraguay 27.7%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 19, 2026</td>
+              <td>
+                <span class="fixture-team">United States</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Australia</span>
+              </td>
+              <td>
+                <span class="odds-chip">United States 30.8%</span>
+                <span class="odds-chip draw-pick">Draw 26.6%</span>
+                <span class="odds-chip">Australia 42.6%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 25, 2026</td>
+              <td>
+                <span class="fixture-team">Turkey</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">United States</span>
+              </td>
+              <td>
+                <span class="odds-chip">Turkey 65.0%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">United States 19.0%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 25, 2026</td>
+              <td>
+                <span class="fixture-team">Paraguay</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Australia</span>
+              </td>
+              <td>
+                <span class="odds-chip">Paraguay 45.9%</span>
+                <span class="odds-chip draw-pick">Draw 25.1%</span>
+                <span class="odds-chip">Australia 29.0%</span>
+              </td>
+            </tr>
+            
+            </tbody>
+          </table>
         </section>
         
 
@@ -956,6 +1390,103 @@
           <ol>
             <li>Germany</li><li>Ecuador</li><li>Curaçao</li><li>Ivory Coast</li>
           </ol>
+          <h4>Group Game Probabilities</h4>
+          <table class="group-matches">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fixture</th>
+                <th>Simulated Result Odds</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td>June 14, 2026</td>
+              <td>
+                <span class="fixture-team">Ivory Coast</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Ecuador</span>
+              </td>
+              <td>
+                <span class="odds-chip">Ivory Coast 12.1%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Ecuador 71.9%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 14, 2026</td>
+              <td>
+                <span class="fixture-team">Germany</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Curaçao</span>
+              </td>
+              <td>
+                <span class="odds-chip">Germany 88.9%</span>
+                <span class="odds-chip draw-pick">Draw 11.1%</span>
+                <span class="odds-chip">Curaçao 0.0%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 20, 2026</td>
+              <td>
+                <span class="fixture-team">Germany</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Ivory Coast</span>
+              </td>
+              <td>
+                <span class="odds-chip">Germany 71.0%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Ivory Coast 13.0%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 20, 2026</td>
+              <td>
+                <span class="fixture-team">Ecuador</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Curaçao</span>
+              </td>
+              <td>
+                <span class="odds-chip">Ecuador 89.5%</span>
+                <span class="odds-chip draw-pick">Draw 10.5%</span>
+                <span class="odds-chip">Curaçao 0.0%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 25, 2026</td>
+              <td>
+                <span class="fixture-team">Curaçao</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Ivory Coast</span>
+              </td>
+              <td>
+                <span class="odds-chip">Curaçao 10.1%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Ivory Coast 73.9%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 25, 2026</td>
+              <td>
+                <span class="fixture-team">Ecuador</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Germany</span>
+              </td>
+              <td>
+                <span class="odds-chip">Ecuador 36.9%</span>
+                <span class="odds-chip draw-pick">Draw 29.2%</span>
+                <span class="odds-chip">Germany 34.0%</span>
+              </td>
+            </tr>
+            
+            </tbody>
+          </table>
         </section>
         
 
@@ -964,6 +1495,103 @@
           <ol>
             <li>Netherlands</li><li>Japan</li><li>Tunisia</li><li>Sweden</li>
           </ol>
+          <h4>Group Game Probabilities</h4>
+          <table class="group-matches">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fixture</th>
+                <th>Simulated Result Odds</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td>June 14, 2026</td>
+              <td>
+                <span class="fixture-team">Netherlands</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Japan</span>
+              </td>
+              <td>
+                <span class="odds-chip">Netherlands 42.0%</span>
+                <span class="odds-chip draw-pick">Draw 26.8%</span>
+                <span class="odds-chip">Japan 31.1%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 14, 2026</td>
+              <td>
+                <span class="fixture-team">Sweden</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Tunisia</span>
+              </td>
+              <td>
+                <span class="odds-chip">Sweden 50.4%</span>
+                <span class="odds-chip draw-pick">Draw 23.0%</span>
+                <span class="odds-chip">Tunisia 26.6%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 20, 2026</td>
+              <td>
+                <span class="fixture-team">Netherlands</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Sweden</span>
+              </td>
+              <td>
+                <span class="odds-chip">Netherlands 71.2%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Sweden 12.8%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 20, 2026</td>
+              <td>
+                <span class="fixture-team">Tunisia</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Japan</span>
+              </td>
+              <td>
+                <span class="odds-chip">Tunisia 8.8%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Japan 75.2%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 25, 2026</td>
+              <td>
+                <span class="fixture-team">Japan</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Sweden</span>
+              </td>
+              <td>
+                <span class="odds-chip">Japan 67.3%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Sweden 16.7%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 25, 2026</td>
+              <td>
+                <span class="fixture-team">Tunisia</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Netherlands</span>
+              </td>
+              <td>
+                <span class="odds-chip">Tunisia 6.0%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Netherlands 78.0%</span>
+              </td>
+            </tr>
+            
+            </tbody>
+          </table>
         </section>
         
 
@@ -972,6 +1600,103 @@
           <ol>
             <li>Belgium</li><li>Iran</li><li>Egypt</li><li>New Zealand</li>
           </ol>
+          <h4>Group Game Probabilities</h4>
+          <table class="group-matches">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fixture</th>
+                <th>Simulated Result Odds</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td>June 15, 2026</td>
+              <td>
+                <span class="fixture-team">Iran</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">New Zealand</span>
+              </td>
+              <td>
+                <span class="odds-chip">Iran 68.9%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">New Zealand 15.1%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 15, 2026</td>
+              <td>
+                <span class="fixture-team">Belgium</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Egypt</span>
+              </td>
+              <td>
+                <span class="odds-chip">Belgium 67.3%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Egypt 16.7%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 21, 2026</td>
+              <td>
+                <span class="fixture-team">Belgium</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Iran</span>
+              </td>
+              <td>
+                <span class="odds-chip">Belgium 56.8%</span>
+                <span class="odds-chip draw-pick">Draw 19.9%</span>
+                <span class="odds-chip">Iran 23.3%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 21, 2026</td>
+              <td>
+                <span class="fixture-team">New Zealand</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Egypt</span>
+              </td>
+              <td>
+                <span class="odds-chip">New Zealand 22.0%</span>
+                <span class="odds-chip draw-pick">Draw 18.7%</span>
+                <span class="odds-chip">Egypt 59.3%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 26, 2026</td>
+              <td>
+                <span class="fixture-team">Egypt</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Iran</span>
+              </td>
+              <td>
+                <span class="odds-chip">Egypt 27.7%</span>
+                <span class="odds-chip draw-pick">Draw 23.9%</span>
+                <span class="odds-chip">Iran 48.4%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 26, 2026</td>
+              <td>
+                <span class="fixture-team">New Zealand</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Belgium</span>
+              </td>
+              <td>
+                <span class="odds-chip">New Zealand 5.0%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Belgium 79.0%</span>
+              </td>
+            </tr>
+            
+            </tbody>
+          </table>
         </section>
         
 
@@ -980,6 +1705,103 @@
           <ol>
             <li>Spain</li><li>Uruguay</li><li>Saudi Arabia</li><li>Cape Verde</li>
           </ol>
+          <h4>Group Game Probabilities</h4>
+          <table class="group-matches">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fixture</th>
+                <th>Simulated Result Odds</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td>June 15, 2026</td>
+              <td>
+                <span class="fixture-team">Saudi Arabia</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Uruguay</span>
+              </td>
+              <td>
+                <span class="odds-chip">Saudi Arabia 5.5%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Uruguay 78.5%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 15, 2026</td>
+              <td>
+                <span class="fixture-team">Spain</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Cape Verde</span>
+              </td>
+              <td>
+                <span class="odds-chip">Spain 93.1%</span>
+                <span class="odds-chip draw-pick">Draw 6.9%</span>
+                <span class="odds-chip">Cape Verde 0.0%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 21, 2026</td>
+              <td>
+                <span class="fixture-team">Uruguay</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Cape Verde</span>
+              </td>
+              <td>
+                <span class="odds-chip">Uruguay 78.0%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Cape Verde 6.0%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 21, 2026</td>
+              <td>
+                <span class="fixture-team">Spain</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Saudi Arabia</span>
+              </td>
+              <td>
+                <span class="odds-chip">Spain 93.4%</span>
+                <span class="odds-chip draw-pick">Draw 6.6%</span>
+                <span class="odds-chip">Saudi Arabia 0.0%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 26, 2026</td>
+              <td>
+                <span class="fixture-team">Cape Verde</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Saudi Arabia</span>
+              </td>
+              <td>
+                <span class="odds-chip">Cape Verde 36.3%</span>
+                <span class="odds-chip draw-pick">Draw 29.4%</span>
+                <span class="odds-chip">Saudi Arabia 34.3%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 26, 2026</td>
+              <td>
+                <span class="fixture-team">Uruguay</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Spain</span>
+              </td>
+              <td>
+                <span class="odds-chip">Uruguay 10.0%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Spain 74.0%</span>
+              </td>
+            </tr>
+            
+            </tbody>
+          </table>
         </section>
         
 
@@ -988,6 +1810,103 @@
           <ol>
             <li>France</li><li>Senegal</li><li>Iraq</li><li>Norway</li>
           </ol>
+          <h4>Group Game Probabilities</h4>
+          <table class="group-matches">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fixture</th>
+                <th>Simulated Result Odds</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td>June 16, 2026</td>
+              <td>
+                <span class="fixture-team">France</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Senegal</span>
+              </td>
+              <td>
+                <span class="odds-chip">France 67.4%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Senegal 16.6%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 16, 2026</td>
+              <td>
+                <span class="fixture-team">Iraq</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Norway</span>
+              </td>
+              <td>
+                <span class="odds-chip">Iraq 7.2%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Norway 76.8%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 22, 2026</td>
+              <td>
+                <span class="fixture-team">Norway</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Senegal</span>
+              </td>
+              <td>
+                <span class="odds-chip">Norway 44.2%</span>
+                <span class="odds-chip draw-pick">Draw 25.8%</span>
+                <span class="odds-chip">Senegal 29.9%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 22, 2026</td>
+              <td>
+                <span class="fixture-team">France</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Iraq</span>
+              </td>
+              <td>
+                <span class="odds-chip">France 85.6%</span>
+                <span class="odds-chip draw-pick">Draw 14.4%</span>
+                <span class="odds-chip">Iraq 0.0%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 26, 2026</td>
+              <td>
+                <span class="fixture-team">Norway</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">France</span>
+              </td>
+              <td>
+                <span class="odds-chip">Norway 21.3%</span>
+                <span class="odds-chip draw-pick">Draw 17.9%</span>
+                <span class="odds-chip">France 60.8%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 26, 2026</td>
+              <td>
+                <span class="fixture-team">Senegal</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Iraq</span>
+              </td>
+              <td>
+                <span class="odds-chip">Senegal 72.7%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Iraq 11.3%</span>
+              </td>
+            </tr>
+            
+            </tbody>
+          </table>
         </section>
         
 
@@ -996,6 +1915,103 @@
           <ol>
             <li>Argentina</li><li>Austria</li><li>Algeria</li><li>Jordan</li>
           </ol>
+          <h4>Group Game Probabilities</h4>
+          <table class="group-matches">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fixture</th>
+                <th>Simulated Result Odds</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td>June 16, 2026</td>
+              <td>
+                <span class="fixture-team">Argentina</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Algeria</span>
+              </td>
+              <td>
+                <span class="odds-chip">Argentina 80.4%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Algeria 3.6%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 16, 2026</td>
+              <td>
+                <span class="fixture-team">Austria</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Jordan</span>
+              </td>
+              <td>
+                <span class="odds-chip">Austria 60.8%</span>
+                <span class="odds-chip draw-pick">Draw 17.9%</span>
+                <span class="odds-chip">Jordan 21.3%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 22, 2026</td>
+              <td>
+                <span class="fixture-team">Argentina</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Austria</span>
+              </td>
+              <td>
+                <span class="odds-chip">Argentina 75.6%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Austria 8.4%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 22, 2026</td>
+              <td>
+                <span class="fixture-team">Jordan</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Algeria</span>
+              </td>
+              <td>
+                <span class="odds-chip">Jordan 27.5%</span>
+                <span class="odds-chip draw-pick">Draw 23.8%</span>
+                <span class="odds-chip">Algeria 48.8%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 27, 2026</td>
+              <td>
+                <span class="fixture-team">Algeria</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Austria</span>
+              </td>
+              <td>
+                <span class="odds-chip">Algeria 28.0%</span>
+                <span class="odds-chip draw-pick">Draw 24.2%</span>
+                <span class="odds-chip">Austria 47.9%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 27, 2026</td>
+              <td>
+                <span class="fixture-team">Jordan</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Argentina</span>
+              </td>
+              <td>
+                <span class="odds-chip">Jordan 0.0%</span>
+                <span class="odds-chip draw-pick">Draw 15.7%</span>
+                <span class="odds-chip">Argentina 84.3%</span>
+              </td>
+            </tr>
+            
+            </tbody>
+          </table>
         </section>
         
 
@@ -1004,6 +2020,103 @@
           <ol>
             <li>Portugal</li><li>Colombia</li><li>Uzbekistan</li><li>DR Congo</li>
           </ol>
+          <h4>Group Game Probabilities</h4>
+          <table class="group-matches">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fixture</th>
+                <th>Simulated Result Odds</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td>June 17, 2026</td>
+              <td>
+                <span class="fixture-team">Portugal</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">DR Congo</span>
+              </td>
+              <td>
+                <span class="odds-chip">Portugal 78.5%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">DR Congo 5.5%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 17, 2026</td>
+              <td>
+                <span class="fixture-team">Uzbekistan</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Colombia</span>
+              </td>
+              <td>
+                <span class="odds-chip">Uzbekistan 10.4%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Colombia 73.6%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 23, 2026</td>
+              <td>
+                <span class="fixture-team">Portugal</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Uzbekistan</span>
+              </td>
+              <td>
+                <span class="odds-chip">Portugal 74.2%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Uzbekistan 9.8%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 23, 2026</td>
+              <td>
+                <span class="fixture-team">Colombia</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">DR Congo</span>
+              </td>
+              <td>
+                <span class="odds-chip">Colombia 78.0%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">DR Congo 6.0%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 27, 2026</td>
+              <td>
+                <span class="fixture-team">Colombia</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Portugal</span>
+              </td>
+              <td>
+                <span class="odds-chip">Colombia 34.3%</span>
+                <span class="odds-chip draw-pick">Draw 29.4%</span>
+                <span class="odds-chip">Portugal 36.3%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 27, 2026</td>
+              <td>
+                <span class="fixture-team">DR Congo</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Uzbekistan</span>
+              </td>
+              <td>
+                <span class="odds-chip">DR Congo 29.2%</span>
+                <span class="odds-chip draw-pick">Draw 25.2%</span>
+                <span class="odds-chip">Uzbekistan 45.5%</span>
+              </td>
+            </tr>
+            
+            </tbody>
+          </table>
         </section>
         
 
@@ -1012,6 +2125,103 @@
           <ol>
             <li>England</li><li>Croatia</li><li>Ghana</li><li>Panama</li>
           </ol>
+          <h4>Group Game Probabilities</h4>
+          <table class="group-matches">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fixture</th>
+                <th>Simulated Result Odds</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td>June 17, 2026</td>
+              <td>
+                <span class="fixture-team">Ghana</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Panama</span>
+              </td>
+              <td>
+                <span class="odds-chip">Ghana 13.6%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Panama 70.4%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 17, 2026</td>
+              <td>
+                <span class="fixture-team">England</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Croatia</span>
+              </td>
+              <td>
+                <span class="odds-chip">England 55.2%</span>
+                <span class="odds-chip draw-pick">Draw 20.7%</span>
+                <span class="odds-chip">Croatia 24.1%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 23, 2026</td>
+              <td>
+                <span class="fixture-team">England</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Ghana</span>
+              </td>
+              <td>
+                <span class="odds-chip">England 89.9%</span>
+                <span class="odds-chip draw-pick">Draw 10.1%</span>
+                <span class="odds-chip">Ghana 0.0%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 23, 2026</td>
+              <td>
+                <span class="fixture-team">Panama</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Croatia</span>
+              </td>
+              <td>
+                <span class="odds-chip">Panama 18.9%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Croatia 65.1%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 27, 2026</td>
+              <td>
+                <span class="fixture-team">Panama</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">England</span>
+              </td>
+              <td>
+                <span class="odds-chip">Panama 8.2%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">England 75.8%</span>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>June 27, 2026</td>
+              <td>
+                <span class="fixture-team">Croatia</span>
+                <span class="fixture-v">v</span>
+                <span class="fixture-team">Ghana</span>
+              </td>
+              <td>
+                <span class="odds-chip">Croatia 82.8%</span>
+                <span class="odds-chip draw-pick">Draw 16.0%</span>
+                <span class="odds-chip">Ghana 1.2%</span>
+              </td>
+            </tr>
+            
+            </tbody>
+          </table>
         </section>
         
       </div>
