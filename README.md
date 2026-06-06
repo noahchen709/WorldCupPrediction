@@ -7,6 +7,7 @@ This repo intentionally does not include a full prediction model yet. It provide
 - A project structure for modeling, simulation, data, and dashboard work
 - A real-data ingestion script for World Football Elo ratings
 - A working dashboard prototype showing estimated champion likelihoods
+- An Elo Monte Carlo using the actual 2026 World Cup groups and knockout bracket
 - Lightweight Python stubs for the future model pipeline
 
 ## Project Layout
@@ -107,6 +108,8 @@ This writes:
 - `reports/monte_carlo_report.html`
 
 The HTML report is designed as a print-friendly snapshot that can be exported to PDF from a browser.
+
+The Monte Carlo uses the official 48-team 2026 field, 12 groups of four, the top two teams from each group plus the eight best third-place teams, and the official match-numbered knockout path from the Round of 32 to the final. Match strength still comes from World Football Elo ratings.
 
 ## Modeling Roadmap
 

@@ -1,489 +1,489 @@
 {
-  "generatedAt": "2026-06-06T16:04:24.809625+00:00",
+  "generatedAt": "2026-06-06T16:16:11.000865+00:00",
   "iterations": 10000,
   "fieldSize": 48,
   "seed": 2026,
-  "method": "Elo expected result + draw curve + simplified 48-team Monte Carlo",
+  "method": "Elo expected result + draw curve + official 2026 groups and knockout bracket",
   "results": [
     {
       "team": "Spain",
       "rank": 1,
       "elo": 2155.0,
-      "champion_probability": 0.3513,
-      "final_probability": 0.5394,
-      "semifinal_probability": 0.7097,
-      "quarterfinal_probability": 0.8423,
-      "round_of_16_probability": 0.9303
+      "champion_probability": 0.2862,
+      "final_probability": 0.4129,
+      "semifinal_probability": 0.5471,
+      "quarterfinal_probability": 0.6523,
+      "round_of_16_probability": 0.8338
     },
     {
       "team": "Argentina",
       "rank": 2,
       "elo": 2113.0,
-      "champion_probability": 0.219,
-      "final_probability": 0.3979,
-      "semifinal_probability": 0.5939,
-      "quarterfinal_probability": 0.7693,
-      "round_of_16_probability": 0.9025
+      "champion_probability": 0.1921,
+      "final_probability": 0.3214,
+      "semifinal_probability": 0.4558,
+      "quarterfinal_probability": 0.6131,
+      "round_of_16_probability": 0.7321
     },
     {
       "team": "France",
       "rank": 3,
       "elo": 2062.0,
-      "champion_probability": 0.133,
-      "final_probability": 0.2656,
-      "semifinal_probability": 0.4782,
-      "quarterfinal_probability": 0.6919,
-      "round_of_16_probability": 0.8628
+      "champion_probability": 0.1147,
+      "final_probability": 0.2086,
+      "semifinal_probability": 0.3986,
+      "quarterfinal_probability": 0.5653,
+      "round_of_16_probability": 0.7981
     },
     {
       "team": "England",
       "rank": 4,
       "elo": 2020.0,
-      "champion_probability": 0.0699,
-      "final_probability": 0.1667,
-      "semifinal_probability": 0.3603,
-      "quarterfinal_probability": 0.5881,
-      "round_of_16_probability": 0.8169
-    },
-    {
-      "team": "Brazil",
-      "rank": 5,
-      "elo": 1988.0,
-      "champion_probability": 0.0428,
-      "final_probability": 0.1158,
-      "semifinal_probability": 0.2833,
-      "quarterfinal_probability": 0.5176,
-      "round_of_16_probability": 0.7775
+      "champion_probability": 0.075,
+      "final_probability": 0.1575,
+      "semifinal_probability": 0.2974,
+      "quarterfinal_probability": 0.4873,
+      "round_of_16_probability": 0.7246
     },
     {
       "team": "Portugal",
       "rank": 6,
       "elo": 1984.0,
-      "champion_probability": 0.0411,
-      "final_probability": 0.1063,
-      "semifinal_probability": 0.2571,
-      "quarterfinal_probability": 0.4953,
-      "round_of_16_probability": 0.7625
+      "champion_probability": 0.0482,
+      "final_probability": 0.1064,
+      "semifinal_probability": 0.201,
+      "quarterfinal_probability": 0.3994,
+      "round_of_16_probability": 0.6727
+    },
+    {
+      "team": "Brazil",
+      "rank": 5,
+      "elo": 1988.0,
+      "champion_probability": 0.044,
+      "final_probability": 0.1014,
+      "semifinal_probability": 0.2183,
+      "quarterfinal_probability": 0.3835,
+      "round_of_16_probability": 0.6281
     },
     {
       "team": "Colombia",
       "rank": 7,
       "elo": 1977.0,
-      "champion_probability": 0.0363,
-      "final_probability": 0.0942,
-      "semifinal_probability": 0.2296,
-      "quarterfinal_probability": 0.4662,
-      "round_of_16_probability": 0.7445
+      "champion_probability": 0.0371,
+      "final_probability": 0.0872,
+      "semifinal_probability": 0.1635,
+      "quarterfinal_probability": 0.3246,
+      "round_of_16_probability": 0.6264
     },
     {
       "team": "Netherlands",
       "rank": 8,
       "elo": 1944.0,
-      "champion_probability": 0.0184,
-      "final_probability": 0.0553,
-      "semifinal_probability": 0.1597,
-      "quarterfinal_probability": 0.39,
-      "round_of_16_probability": 0.6907
+      "champion_probability": 0.0301,
+      "final_probability": 0.069,
+      "semifinal_probability": 0.1804,
+      "quarterfinal_probability": 0.3747,
+      "round_of_16_probability": 0.5789
     },
     {
       "team": "Ecuador",
       "rank": 9,
       "elo": 1935.0,
-      "champion_probability": 0.0148,
-      "final_probability": 0.0442,
-      "semifinal_probability": 0.1394,
-      "quarterfinal_probability": 0.3552,
-      "round_of_16_probability": 0.6676
+      "champion_probability": 0.0248,
+      "final_probability": 0.0636,
+      "semifinal_probability": 0.1616,
+      "quarterfinal_probability": 0.2961,
+      "round_of_16_probability": 0.6346
     },
     {
       "team": "Germany",
       "rank": 10,
       "elo": 1925.0,
-      "champion_probability": 0.0113,
-      "final_probability": 0.0371,
-      "semifinal_probability": 0.1143,
-      "quarterfinal_probability": 0.3206,
-      "round_of_16_probability": 0.6332
+      "champion_probability": 0.0171,
+      "final_probability": 0.0459,
+      "semifinal_probability": 0.1366,
+      "quarterfinal_probability": 0.2664,
+      "round_of_16_probability": 0.5772
     },
     {
       "team": "Norway",
       "rank": 11,
       "elo": 1917.0,
-      "champion_probability": 0.0109,
-      "final_probability": 0.0309,
-      "semifinal_probability": 0.1056,
-      "quarterfinal_probability": 0.2978,
-      "round_of_16_probability": 0.6064
-    },
-    {
-      "team": "Croatia",
-      "rank": 12,
-      "elo": 1908.0,
-      "champion_probability": 0.0087,
-      "final_probability": 0.0264,
-      "semifinal_probability": 0.0869,
-      "quarterfinal_probability": 0.2592,
-      "round_of_16_probability": 0.569
-    },
-    {
-      "team": "Turkey",
-      "rank": 13,
-      "elo": 1906.0,
-      "champion_probability": 0.0081,
-      "final_probability": 0.023,
-      "semifinal_probability": 0.0751,
-      "quarterfinal_probability": 0.2319,
-      "round_of_16_probability": 0.5311
+      "champion_probability": 0.0163,
+      "final_probability": 0.0471,
+      "semifinal_probability": 0.1251,
+      "quarterfinal_probability": 0.2585,
+      "round_of_16_probability": 0.5127
     },
     {
       "team": "Japan",
       "rank": 13,
       "elo": 1906.0,
-      "champion_probability": 0.0069,
-      "final_probability": 0.0198,
-      "semifinal_probability": 0.0755,
-      "quarterfinal_probability": 0.2438,
-      "round_of_16_probability": 0.5522
+      "champion_probability": 0.0158,
+      "final_probability": 0.0409,
+      "semifinal_probability": 0.1153,
+      "quarterfinal_probability": 0.2663,
+      "round_of_16_probability": 0.4853
+    },
+    {
+      "team": "Turkey",
+      "rank": 13,
+      "elo": 1906.0,
+      "champion_probability": 0.0142,
+      "final_probability": 0.0455,
+      "semifinal_probability": 0.1072,
+      "quarterfinal_probability": 0.3135,
+      "round_of_16_probability": 0.6101
+    },
+    {
+      "team": "Croatia",
+      "rank": 12,
+      "elo": 1908.0,
+      "champion_probability": 0.0141,
+      "final_probability": 0.0415,
+      "semifinal_probability": 0.0996,
+      "quarterfinal_probability": 0.1997,
+      "round_of_16_probability": 0.4868
     },
     {
       "team": "Switzerland",
       "rank": 15,
       "elo": 1894.0,
-      "champion_probability": 0.0049,
-      "final_probability": 0.0154,
-      "semifinal_probability": 0.0557,
-      "quarterfinal_probability": 0.2039,
-      "round_of_16_probability": 0.4974
-    },
-    {
-      "team": "Uruguay",
-      "rank": 16,
-      "elo": 1892.0,
-      "champion_probability": 0.0046,
-      "final_probability": 0.0119,
-      "semifinal_probability": 0.0501,
-      "quarterfinal_probability": 0.1864,
-      "round_of_16_probability": 0.4776
+      "champion_probability": 0.0131,
+      "final_probability": 0.0403,
+      "semifinal_probability": 0.1072,
+      "quarterfinal_probability": 0.3052,
+      "round_of_16_probability": 0.6818
     },
     {
       "team": "Belgium",
       "rank": 17,
       "elo": 1888.0,
-      "champion_probability": 0.004,
-      "final_probability": 0.0098,
-      "semifinal_probability": 0.0399,
-      "quarterfinal_probability": 0.165,
-      "round_of_16_probability": 0.4563
+      "champion_probability": 0.0117,
+      "final_probability": 0.0377,
+      "semifinal_probability": 0.091,
+      "quarterfinal_probability": 0.3061,
+      "round_of_16_probability": 0.6196
+    },
+    {
+      "team": "Uruguay",
+      "rank": 16,
+      "elo": 1892.0,
+      "champion_probability": 0.011,
+      "final_probability": 0.0347,
+      "semifinal_probability": 0.0807,
+      "quarterfinal_probability": 0.1677,
+      "round_of_16_probability": 0.3024
     },
     {
       "team": "Mexico",
       "rank": 18,
       "elo": 1875.0,
-      "champion_probability": 0.0033,
-      "final_probability": 0.0086,
-      "semifinal_probability": 0.0359,
-      "quarterfinal_probability": 0.1488,
-      "round_of_16_probability": 0.4342
+      "champion_probability": 0.0108,
+      "final_probability": 0.0311,
+      "semifinal_probability": 0.0965,
+      "quarterfinal_probability": 0.2471,
+      "round_of_16_probability": 0.5818
     },
     {
       "team": "Senegal",
       "rank": 19,
       "elo": 1867.0,
-      "champion_probability": 0.0028,
-      "final_probability": 0.0078,
-      "semifinal_probability": 0.0301,
-      "quarterfinal_probability": 0.1287,
-      "round_of_16_probability": 0.3971
-    },
-    {
-      "team": "Denmark",
-      "rank": 20,
-      "elo": 1864.0,
-      "champion_probability": 0.0019,
-      "final_probability": 0.0057,
-      "semifinal_probability": 0.0257,
-      "quarterfinal_probability": 0.1202,
-      "round_of_16_probability": 0.389
-    },
-    {
-      "team": "Italy",
-      "rank": 21,
-      "elo": 1859.0,
-      "champion_probability": 0.0014,
-      "final_probability": 0.0046,
-      "semifinal_probability": 0.0221,
-      "quarterfinal_probability": 0.1068,
-      "round_of_16_probability": 0.3708
+      "champion_probability": 0.0057,
+      "final_probability": 0.0198,
+      "semifinal_probability": 0.0647,
+      "quarterfinal_probability": 0.1831,
+      "round_of_16_probability": 0.415
     },
     {
       "team": "Paraguay",
       "rank": 22,
       "elo": 1833.0,
-      "champion_probability": 0.0008,
-      "final_probability": 0.003,
-      "semifinal_probability": 0.0149,
-      "quarterfinal_probability": 0.0768,
-      "round_of_16_probability": 0.3091
+      "champion_probability": 0.0043,
+      "final_probability": 0.0155,
+      "semifinal_probability": 0.0435,
+      "quarterfinal_probability": 0.1538,
+      "round_of_16_probability": 0.4343
     },
     {
       "team": "Austria",
       "rank": 23,
       "elo": 1830.0,
-      "champion_probability": 0.0008,
-      "final_probability": 0.0021,
-      "semifinal_probability": 0.0119,
-      "quarterfinal_probability": 0.0654,
-      "round_of_16_probability": 0.2969
-    },
-    {
-      "team": "Morocco",
-      "rank": 24,
-      "elo": 1824.0,
-      "champion_probability": 0.0008,
-      "final_probability": 0.0018,
-      "semifinal_probability": 0.0108,
-      "quarterfinal_probability": 0.0617,
-      "round_of_16_probability": 0.2913
-    },
-    {
-      "team": "Ukraine",
-      "rank": 26,
-      "elo": 1785.0,
-      "champion_probability": 0.0004,
-      "final_probability": 0.0007,
-      "semifinal_probability": 0.0036,
-      "quarterfinal_probability": 0.0329,
-      "round_of_16_probability": 0.1934
-    },
-    {
-      "team": "Scotland",
-      "rank": 29,
-      "elo": 1770.0,
-      "champion_probability": 0.0004,
-      "final_probability": 0.0006,
-      "semifinal_probability": 0.0035,
-      "quarterfinal_probability": 0.0198,
-      "round_of_16_probability": 0.1482
+      "champion_probability": 0.0024,
+      "final_probability": 0.0093,
+      "semifinal_probability": 0.0276,
+      "quarterfinal_probability": 0.0828,
+      "round_of_16_probability": 0.2033
     },
     {
       "team": "Canada",
       "rank": 25,
       "elo": 1788.0,
-      "champion_probability": 0.0003,
-      "final_probability": 0.0008,
-      "semifinal_probability": 0.0048,
-      "quarterfinal_probability": 0.0374,
-      "round_of_16_probability": 0.2002
+      "champion_probability": 0.0022,
+      "final_probability": 0.0113,
+      "semifinal_probability": 0.0456,
+      "quarterfinal_probability": 0.1757,
+      "round_of_16_probability": 0.5038
     },
     {
-      "team": "Nigeria",
-      "rank": 29,
-      "elo": 1770.0,
-      "champion_probability": 0.0002,
-      "final_probability": 0.0008,
-      "semifinal_probability": 0.0029,
-      "quarterfinal_probability": 0.0182,
-      "round_of_16_probability": 0.145
-    },
-    {
-      "team": "Russia",
-      "rank": 29,
-      "elo": 1770.0,
-      "champion_probability": 0.0002,
-      "final_probability": 0.0005,
-      "semifinal_probability": 0.0021,
-      "quarterfinal_probability": 0.0185,
-      "round_of_16_probability": 0.14
-    },
-    {
-      "team": "Greece",
-      "rank": 34,
-      "elo": 1754.0,
-      "champion_probability": 0.0002,
-      "final_probability": 0.0002,
-      "semifinal_probability": 0.0021,
-      "quarterfinal_probability": 0.0126,
-      "round_of_16_probability": 0.099
+      "team": "Morocco",
+      "rank": 24,
+      "elo": 1824.0,
+      "champion_probability": 0.0022,
+      "final_probability": 0.0129,
+      "semifinal_probability": 0.0542,
+      "quarterfinal_probability": 0.1519,
+      "round_of_16_probability": 0.336
     },
     {
       "team": "Iran",
       "rank": 28,
       "elo": 1772.0,
-      "champion_probability": 0.0001,
-      "final_probability": 0.0008,
-      "semifinal_probability": 0.0028,
-      "quarterfinal_probability": 0.0223,
-      "round_of_16_probability": 0.1588
-    },
-    {
-      "team": "Algeria",
-      "rank": 32,
-      "elo": 1760.0,
-      "champion_probability": 0.0001,
-      "final_probability": 0.0002,
-      "semifinal_probability": 0.0016,
-      "quarterfinal_probability": 0.014,
-      "round_of_16_probability": 0.1151
+      "champion_probability": 0.0012,
+      "final_probability": 0.0069,
+      "semifinal_probability": 0.0244,
+      "quarterfinal_probability": 0.1005,
+      "round_of_16_probability": 0.3719
     },
     {
       "team": "South Korea",
       "rank": 33,
       "elo": 1758.0,
-      "champion_probability": 0.0001,
-      "final_probability": 0.0002,
-      "semifinal_probability": 0.0016,
-      "quarterfinal_probability": 0.0134,
-      "round_of_16_probability": 0.112
+      "champion_probability": 0.001,
+      "final_probability": 0.0049,
+      "semifinal_probability": 0.0252,
+      "quarterfinal_probability": 0.119,
+      "round_of_16_probability": 0.375
     },
     {
-      "team": "Venezuela",
-      "rank": 39,
-      "elo": 1727.0,
-      "champion_probability": 0.0001,
-      "final_probability": 0.0001,
-      "semifinal_probability": 0.0006,
-      "quarterfinal_probability": 0.0048,
-      "round_of_16_probability": 0.0471
-    },
-    {
-      "team": "Hungary",
-      "rank": 45,
-      "elo": 1707.0,
-      "champion_probability": 0.0001,
-      "final_probability": 0.0001,
-      "semifinal_probability": 0.0006,
-      "quarterfinal_probability": 0.0018,
-      "round_of_16_probability": 0.0207
+      "team": "Scotland",
+      "rank": 29,
+      "elo": 1770.0,
+      "champion_probability": 0.001,
+      "final_probability": 0.0053,
+      "semifinal_probability": 0.0252,
+      "quarterfinal_probability": 0.0937,
+      "round_of_16_probability": 0.2588
     },
     {
       "team": "Australia",
       "rank": 27,
       "elo": 1774.0,
-      "champion_probability": 0.0,
-      "final_probability": 0.0009,
-      "semifinal_probability": 0.0034,
-      "quarterfinal_probability": 0.027,
-      "round_of_16_probability": 0.1771
+      "champion_probability": 0.001,
+      "final_probability": 0.0045,
+      "semifinal_probability": 0.0178,
+      "quarterfinal_probability": 0.0707,
+      "round_of_16_probability": 0.2596
     },
     {
       "team": "Czechia",
       "rank": 35,
       "elo": 1740.0,
-      "champion_probability": 0.0,
-      "final_probability": 0.0001,
-      "semifinal_probability": 0.0009,
-      "quarterfinal_probability": 0.0085,
-      "round_of_16_probability": 0.0767
-    },
-    {
-      "team": "Serbia",
-      "rank": 36,
-      "elo": 1734.0,
-      "champion_probability": 0.0,
-      "final_probability": 0.0001,
-      "semifinal_probability": 0.0007,
-      "quarterfinal_probability": 0.0054,
-      "round_of_16_probability": 0.0611
+      "champion_probability": 0.0007,
+      "final_probability": 0.004,
+      "semifinal_probability": 0.0206,
+      "quarterfinal_probability": 0.0958,
+      "round_of_16_probability": 0.3206
     },
     {
       "team": "Panama",
       "rank": 36,
       "elo": 1734.0,
-      "champion_probability": 0.0,
-      "final_probability": 0.0003,
-      "semifinal_probability": 0.0009,
-      "quarterfinal_probability": 0.0064,
-      "round_of_16_probability": 0.0658
+      "champion_probability": 0.0005,
+      "final_probability": 0.0024,
+      "semifinal_probability": 0.0132,
+      "quarterfinal_probability": 0.052,
+      "round_of_16_probability": 0.1638
     },
     {
       "team": "United States",
       "rank": 38,
       "elo": 1733.0,
+      "champion_probability": 0.0004,
+      "final_probability": 0.0021,
+      "semifinal_probability": 0.0084,
+      "quarterfinal_probability": 0.0363,
+      "round_of_16_probability": 0.1522
+    },
+    {
+      "team": "Algeria",
+      "rank": 32,
+      "elo": 1760.0,
+      "champion_probability": 0.0004,
+      "final_probability": 0.0027,
+      "semifinal_probability": 0.0113,
+      "quarterfinal_probability": 0.0499,
+      "round_of_16_probability": 0.151
+    },
+    {
+      "team": "Sweden",
+      "rank": 42,
+      "elo": 1712.0,
+      "champion_probability": 0.0003,
+      "final_probability": 0.0013,
+      "semifinal_probability": 0.0074,
+      "quarterfinal_probability": 0.0387,
+      "round_of_16_probability": 0.1415
+    },
+    {
+      "team": "Egypt",
+      "rank": 47,
+      "elo": 1699.0,
+      "champion_probability": 0.0003,
+      "final_probability": 0.0015,
+      "semifinal_probability": 0.0087,
+      "quarterfinal_probability": 0.0424,
+      "round_of_16_probability": 0.2007
+    },
+    {
+      "team": "DR Congo",
+      "rank": 54,
+      "elo": 1661.0,
+      "champion_probability": 0.0001,
+      "final_probability": 0.0002,
+      "semifinal_probability": 0.0017,
+      "quarterfinal_probability": 0.0089,
+      "round_of_16_probability": 0.0389
+    },
+    {
+      "team": "South Africa",
+      "rank": 80,
+      "elo": 1518.0,
       "champion_probability": 0.0,
       "final_probability": 0.0,
-      "semifinal_probability": 0.0004,
-      "quarterfinal_probability": 0.0052,
-      "round_of_16_probability": 0.0595
+      "semifinal_probability": 0.0001,
+      "quarterfinal_probability": 0.0019,
+      "round_of_16_probability": 0.017
+    },
+    {
+      "team": "Qatar",
+      "rank": 97,
+      "elo": 1423.0,
+      "champion_probability": 0.0,
+      "final_probability": 0.0,
+      "semifinal_probability": 0.0,
+      "quarterfinal_probability": 0.0004,
+      "round_of_16_probability": 0.006
+    },
+    {
+      "team": "Bosnia and Herzegovina",
+      "rank": 65,
+      "elo": 1591.0,
+      "champion_probability": 0.0,
+      "final_probability": 0.0002,
+      "semifinal_probability": 0.0018,
+      "quarterfinal_probability": 0.0149,
+      "round_of_16_probability": 0.0945
+    },
+    {
+      "team": "Haiti",
+      "rank": 73,
+      "elo": 1548.0,
+      "champion_probability": 0.0,
+      "final_probability": 0.0,
+      "semifinal_probability": 0.0003,
+      "quarterfinal_probability": 0.0009,
+      "round_of_16_probability": 0.0097
+    },
+    {
+      "team": "Cura\u00e7ao",
+      "rank": 90,
+      "elo": 1433.0,
+      "champion_probability": 0.0,
+      "final_probability": 0.0,
+      "semifinal_probability": 0.0,
+      "quarterfinal_probability": 0.0,
+      "round_of_16_probability": 0.0016
+    },
+    {
+      "team": "Ivory Coast",
+      "rank": 49,
+      "elo": 1695.0,
+      "champion_probability": 0.0,
+      "final_probability": 0.0009,
+      "semifinal_probability": 0.0063,
+      "quarterfinal_probability": 0.0413,
+      "round_of_16_probability": 0.1739
+    },
+    {
+      "team": "Tunisia",
+      "rank": 58,
+      "elo": 1633.0,
+      "champion_probability": 0.0,
+      "final_probability": 0.0,
+      "semifinal_probability": 0.0008,
+      "quarterfinal_probability": 0.0073,
+      "round_of_16_probability": 0.039
+    },
+    {
+      "team": "New Zealand",
+      "rank": 72,
+      "elo": 1563.0,
+      "champion_probability": 0.0,
+      "final_probability": 0.0001,
+      "semifinal_probability": 0.0002,
+      "quarterfinal_probability": 0.002,
+      "round_of_16_probability": 0.0268
+    },
+    {
+      "team": "Saudi Arabia",
+      "rank": 70,
+      "elo": 1569.0,
+      "champion_probability": 0.0,
+      "final_probability": 0.0,
+      "semifinal_probability": 0.0002,
+      "quarterfinal_probability": 0.0027,
+      "round_of_16_probability": 0.0167
+    },
+    {
+      "team": "Cape Verde",
+      "rank": 68,
+      "elo": 1576.0,
+      "champion_probability": 0.0,
+      "final_probability": 0.0001,
+      "semifinal_probability": 0.0002,
+      "quarterfinal_probability": 0.0037,
+      "round_of_16_probability": 0.0237
+    },
+    {
+      "team": "Iraq",
+      "rank": 61,
+      "elo": 1618.0,
+      "champion_probability": 0.0,
+      "final_probability": 0.0,
+      "semifinal_probability": 0.0002,
+      "quarterfinal_probability": 0.0032,
+      "round_of_16_probability": 0.0168
+    },
+    {
+      "team": "Jordan",
+      "rank": 51,
+      "elo": 1685.0,
+      "champion_probability": 0.0,
+      "final_probability": 0.0001,
+      "semifinal_probability": 0.0018,
+      "quarterfinal_probability": 0.0131,
+      "round_of_16_probability": 0.0513
     },
     {
       "team": "Uzbekistan",
       "rank": 40,
       "elo": 1718.0,
       "champion_probability": 0.0,
-      "final_probability": 0.0001,
-      "semifinal_probability": 0.0004,
-      "quarterfinal_probability": 0.0042,
-      "round_of_16_probability": 0.0413
+      "final_probability": 0.0013,
+      "semifinal_probability": 0.0057,
+      "quarterfinal_probability": 0.0264,
+      "round_of_16_probability": 0.1067
     },
     {
-      "team": "Kosovo",
-      "rank": 41,
-      "elo": 1714.0,
-      "champion_probability": 0.0,
-      "final_probability": 0.0,
-      "semifinal_probability": 0.0003,
-      "quarterfinal_probability": 0.0029,
-      "round_of_16_probability": 0.0362
-    },
-    {
-      "team": "Sweden",
-      "rank": 42,
-      "elo": 1712.0,
-      "champion_probability": 0.0,
-      "final_probability": 0.0001,
-      "semifinal_probability": 0.0003,
-      "quarterfinal_probability": 0.0019,
-      "round_of_16_probability": 0.029
-    },
-    {
-      "team": "Poland",
-      "rank": 43,
-      "elo": 1710.0,
-      "champion_probability": 0.0,
-      "final_probability": 0.0,
-      "semifinal_probability": 0.0005,
-      "quarterfinal_probability": 0.0036,
-      "round_of_16_probability": 0.0287
-    },
-    {
-      "team": "Chile",
-      "rank": 43,
-      "elo": 1710.0,
-      "champion_probability": 0.0,
-      "final_probability": 0.0001,
-      "semifinal_probability": 0.0001,
-      "quarterfinal_probability": 0.002,
-      "round_of_16_probability": 0.0269
-    },
-    {
-      "team": "Peru",
-      "rank": 46,
-      "elo": 1701.0,
-      "champion_probability": 0.0,
-      "final_probability": 0.0,
-      "semifinal_probability": 0.0001,
-      "quarterfinal_probability": 0.0015,
-      "round_of_16_probability": 0.0192
-    },
-    {
-      "team": "Egypt",
-      "rank": 47,
-      "elo": 1699.0,
-      "champion_probability": 0.0,
-      "final_probability": 0.0,
-      "semifinal_probability": 0.0001,
-      "quarterfinal_probability": 0.0013,
-      "round_of_16_probability": 0.0154
-    },
-    {
-      "team": "Ireland",
-      "rank": 47,
-      "elo": 1699.0,
+      "team": "Ghana",
+      "rank": 81,
+      "elo": 1510.0,
       "champion_probability": 0.0,
       "final_probability": 0.0,
       "semifinal_probability": 0.0,
-      "quarterfinal_probability": 0.0015,
-      "round_of_16_probability": 0.0167
+      "quarterfinal_probability": 0.0002,
+      "round_of_16_probability": 0.0029
     }
   ]
 }
