@@ -199,10 +199,23 @@
       "oneYearRatingChange": 82
     },
     {
+      "name": "Belgium",
+      "code": "BE",
+      "confederation": "UEFA",
+      "rank": 16,
+      "elo": 1893,
+      "rating": 1893,
+      "attack": 1957.02,
+      "defense": 1838.83,
+      "matches": 878,
+      "ratingChange": 0,
+      "oneYearRatingChange": 57
+    },
+    {
       "name": "Uruguay",
       "code": "UY",
       "confederation": "CONMEBOL",
-      "rank": 16,
+      "rank": 17,
       "elo": 1892,
       "rating": 1892,
       "attack": 1947.3,
@@ -210,19 +223,6 @@
       "matches": 1019,
       "ratingChange": 0,
       "oneYearRatingChange": 3
-    },
-    {
-      "name": "Belgium",
-      "code": "BE",
-      "confederation": "UEFA",
-      "rank": 17,
-      "elo": 1888,
-      "rating": 1888,
-      "attack": 1951.89,
-      "defense": 1833.76,
-      "matches": 877,
-      "ratingChange": 0,
-      "oneYearRatingChange": 52
     },
     {
       "name": "Mexico",

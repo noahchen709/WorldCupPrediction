@@ -1,4 +1,5 @@
 import random
+from collections import Counter, defaultdict
 from dataclasses import dataclass
 from itertools import combinations
 
@@ -63,6 +64,14 @@ KNOCKOUT_ROUNDS: tuple[tuple[tuple[int, int, int], ...], ...] = (
     ((104, 101, 102),),
 )
 
+MATCH_ROUNDS = {
+    **{match_number: "Round of 32" for match_number, _, _ in ROUND_OF_32_MATCHES},
+    **{match_number: "Round of 16" for match_number, _, _ in KNOCKOUT_ROUNDS[0]},
+    **{match_number: "Quarter-finals" for match_number, _, _ in KNOCKOUT_ROUNDS[1]},
+    **{match_number: "Semi-finals" for match_number, _, _ in KNOCKOUT_ROUNDS[2]},
+    **{match_number: "Final" for match_number, _, _ in KNOCKOUT_ROUNDS[3]},
+}
+
 
 @dataclass
 class SimTeam:
@@ -87,6 +96,14 @@ class TournamentSimulationResult:
     semifinal_probability: float
     quarterfinal_probability: float
     round_of_16_probability: float
+
+
+@dataclass(frozen=True)
+class BracketMatchSimulationResult:
+    match: int
+    round: str
+    entrant_probabilities: list[dict]
+    matchup_probabilities: list[dict]
 
 
 def make_official_2026_groups(teams: list[TeamRecord]) -> dict[str, list[TeamRecord]]:
@@ -246,31 +263,85 @@ def simulate_official_knockout(
 ) -> tuple[
     dict[str, list[TeamRecord]],
     TeamRecord,
+    dict[int, tuple[TeamRecord, TeamRecord, TeamRecord]],
 ]:
-    winners = {
-        match_number: sample_knockout_winner(team_a, team_b, rng)
-        for match_number, (team_a, team_b) in round_of_32_matches.items()
-    }
+    match_results = {}
+    winners = {}
+    for match_number, (team_a, team_b) in round_of_32_matches.items():
+        winner = sample_knockout_winner(team_a, team_b, rng)
+        winners[match_number] = winner
+        match_results[match_number] = (team_a, team_b, winner)
+
     round_winners = {"r16": list(winners.values())}
 
     round_names = ("qf", "sf", "final", "champion")
     for round_name, round_matches in zip(round_names, KNOCKOUT_ROUNDS):
         for match_number, left_match, right_match in round_matches:
-            winners[match_number] = sample_knockout_winner(
-                winners[left_match],
-                winners[right_match],
-                rng,
-            )
+            team_a = winners[left_match]
+            team_b = winners[right_match]
+            winner = sample_knockout_winner(team_a, team_b, rng)
+            winners[match_number] = winner
+            match_results[match_number] = (team_a, team_b, winner)
         round_winners[round_name] = [winners[match_number] for match_number, _, _ in round_matches]
 
-    return round_winners, winners[104]
+    return round_winners, winners[104], match_results
 
 
-def simulate_tournament(
+def summarize_bracket_matches(
+    entrant_counts: dict[int, Counter],
+    win_counts: dict[int, Counter],
+    matchup_counts: dict[int, Counter],
+    matchup_win_counts: dict[int, Counter],
+    iterations: int,
+    top_matchups: int = 5,
+) -> list[BracketMatchSimulationResult]:
+    results = []
+    for match_number in sorted(MATCH_ROUNDS):
+        entrants = [
+            {
+                "team": team,
+                "appearance_probability": count / iterations,
+                "win_probability": win_counts[match_number][team] / iterations,
+                "conditional_win_probability": (
+                    win_counts[match_number][team] / count
+                    if count
+                    else 0
+                ),
+            }
+            for team, count in entrant_counts[match_number].most_common()
+        ]
+        matchups = []
+        for matchup, count in matchup_counts[match_number].most_common(top_matchups):
+            team_a, team_b = matchup
+            wins = matchup_win_counts[match_number][matchup]
+            team_a_wins = wins.get(team_a, 0)
+            team_b_wins = wins.get(team_b, 0)
+            matchups.append(
+                {
+                    "teams": [team_a, team_b],
+                    "probability": count / iterations,
+                    "team_win_probabilities": {
+                        team_a: team_a_wins / count if count else 0,
+                        team_b: team_b_wins / count if count else 0,
+                    },
+                }
+            )
+        results.append(
+            BracketMatchSimulationResult(
+                match=match_number,
+                round=MATCH_ROUNDS[match_number],
+                entrant_probabilities=entrants,
+                matchup_probabilities=matchups,
+            )
+        )
+    return results
+
+
+def simulate_tournament_with_bracket(
     teams: list[TeamRecord],
     iterations: int = 10_000,
     seed: int = 2026,
-) -> list[TournamentSimulationResult]:
+) -> tuple[list[TournamentSimulationResult], list[BracketMatchSimulationResult]]:
     rng = random.Random(seed)
     groups = make_official_2026_groups(teams)
     field = [team for group in groups.values() for team in group]
@@ -278,22 +349,33 @@ def simulate_tournament(
         team.team: {"r32": 0, "r16": 0, "qf": 0, "sf": 0, "final": 0, "champion": 0}
         for team in field
     }
+    entrant_counts = {match_number: Counter() for match_number in MATCH_ROUNDS}
+    win_counts = {match_number: Counter() for match_number in MATCH_ROUNDS}
+    matchup_counts = {match_number: Counter() for match_number in MATCH_ROUNDS}
+    matchup_win_counts = defaultdict(lambda: defaultdict(Counter))
 
     for _ in range(iterations):
         round_of_32_matches, round_of_32 = qualify_official_round_of_32(groups, rng)
         for team in round_of_32:
             counts[team.team]["r32"] += 1
 
-        round_winners, champion = simulate_official_knockout(round_of_32_matches, rng)
+        round_winners, champion, match_results = simulate_official_knockout(round_of_32_matches, rng)
         for round_name, winners in round_winners.items():
             for team in winners:
                 counts[team.team][round_name] += 1
+        for match_number, (team_a, team_b, winner) in match_results.items():
+            matchup = tuple(sorted((team_a.team, team_b.team)))
+            entrant_counts[match_number][team_a.team] += 1
+            entrant_counts[match_number][team_b.team] += 1
+            win_counts[match_number][winner.team] += 1
+            matchup_counts[match_number][matchup] += 1
+            matchup_win_counts[match_number][matchup][winner.team] += 1
 
-    results = []
+    team_results = []
     records = {team.team: team for team in field}
     for team_name, team_counts in counts.items():
         team = records[team_name]
-        results.append(
+        team_results.append(
             TournamentSimulationResult(
                 team=team.team,
                 rank=team.rank,
@@ -306,4 +388,23 @@ def simulate_tournament(
             )
         )
 
-    return sorted(results, key=lambda item: item.champion_probability, reverse=True)
+    bracket_results = summarize_bracket_matches(
+        entrant_counts,
+        win_counts,
+        matchup_counts,
+        matchup_win_counts,
+        iterations,
+    )
+    return (
+        sorted(team_results, key=lambda item: item.champion_probability, reverse=True),
+        bracket_results,
+    )
+
+
+def simulate_tournament(
+    teams: list[TeamRecord],
+    iterations: int = 10_000,
+    seed: int = 2026,
+) -> list[TournamentSimulationResult]:
+    results, _ = simulate_tournament_with_bracket(teams, iterations=iterations, seed=seed)
+    return results

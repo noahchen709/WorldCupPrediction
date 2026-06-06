@@ -106,6 +106,7 @@ This writes:
 - `reports/monte_carlo_report.html`
 
 The HTML report is designed as a print-friendly snapshot that can be exported to PDF from a browser.
+It includes the official groups, a probabilistic match-numbered knockout bracket, and simulation probability table. The JSON output also includes `tournamentStructure` and `bracketProbabilities` blocks for programmatic bracket rendering.
 
 The Monte Carlo uses the official 48-team 2026 field, 12 groups of four, the top two teams from each group plus the eight best third-place teams, and the official match-numbered knockout path from the Round of 32 to the final. Match strength still comes from World Football Elo ratings.
 
