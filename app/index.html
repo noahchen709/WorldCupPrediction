@@ -37,55 +37,116 @@
         </article>
       </section>
 
-      <section class="dashboard-grid">
-        <section class="panel panel-wide" aria-labelledby="winner-heading">
+      <nav class="tabs" aria-label="Report sections">
+        <button class="tab-button active" type="button" data-tab="finish" aria-selected="true">
+          Finish Probabilities
+        </button>
+        <button class="tab-button" type="button" data-tab="groups" aria-selected="false">
+          Group Matches
+        </button>
+        <button class="tab-button" type="button" data-tab="backtest" aria-selected="false">
+          Backtest
+        </button>
+      </nav>
+
+      <section id="finish-tab" class="tab-panel active" data-tab-panel="finish">
+        <section class="report-summary" id="finish-summary" aria-label="Finish probability summary"></section>
+
+        <section class="dashboard-grid">
+          <section class="panel panel-wide" aria-labelledby="winner-heading">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Tournament simulation</p>
+                <h2 id="winner-heading">Likely Winners</h2>
+              </div>
+              <label class="select-label">
+                Region
+                <select id="region-filter">
+                  <option value="all">All</option>
+                  <option value="UEFA">UEFA</option>
+                  <option value="CONMEBOL">CONMEBOL</option>
+                  <option value="CONCACAF">CONCACAF</option>
+                  <option value="CAF">CAF</option>
+                  <option value="AFC">AFC</option>
+                </select>
+              </label>
+            </div>
+            <div id="winner-bars" class="bars" aria-live="polite"></div>
+          </section>
+
+          <section class="panel" aria-labelledby="finish-table-heading">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">All stages</p>
+                <h2 id="finish-table-heading">Progression</h2>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="report-table compact-table">
+                <thead>
+                  <tr>
+                    <th>Team</th>
+                    <th>Win</th>
+                    <th>Final</th>
+                    <th>Semi</th>
+                    <th>Quarter</th>
+                    <th>R16</th>
+                  </tr>
+                </thead>
+                <tbody id="finish-table-body">
+                  <tr>
+                    <td colspan="6">Loading finish probabilities</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </section>
+
+      <section id="groups-tab" class="tab-panel" data-tab-panel="groups">
+        <section class="panel report-section" aria-labelledby="groups-heading">
           <div class="panel-heading">
             <div>
-          <p class="eyebrow">Tournament simulation</p>
-          <h2 id="winner-heading">Likely Winners</h2>
+              <p class="eyebrow">Group stage</p>
+              <h2 id="groups-heading">Match Win/Draw/Loss</h2>
             </div>
-            <label class="select-label">
-              Region
-              <select id="region-filter">
-                <option value="all">All</option>
-                <option value="UEFA">UEFA</option>
-                <option value="CONMEBOL">CONMEBOL</option>
-                <option value="CONCACAF">CONCACAF</option>
-                <option value="CAF">CAF</option>
-                <option value="AFC">AFC</option>
-              </select>
-            </label>
+            <span id="group-match-status" class="panel-status">Loading</span>
           </div>
-          <div id="winner-bars" class="bars" aria-live="polite"></div>
+          <div id="group-matches-grid" class="group-matches-grid"></div>
         </section>
+      </section>
 
-        <section class="panel" aria-labelledby="model-heading">
-          <p class="eyebrow">Pipeline</p>
-          <h2 id="model-heading">Model Components</h2>
-          <ol class="pipeline">
-            <li>
-              <span>Team strength</span>
-              <small>Rating blend placeholder</small>
-            </li>
-            <li>
-              <span>Win/draw/loss</span>
-              <small>Calibrated probabilities next</small>
-            </li>
-            <li>
-              <span>Scoreline</span>
-              <small>xG and Poisson family model</small>
-            </li>
-            <li>
-              <span>Tournament simulation</span>
-              <small>Group and knockout Monte Carlo</small>
-            </li>
-          </ol>
-        </section>
-
-        <section class="panel" aria-labelledby="match-heading">
-          <p class="eyebrow">Match prototype</p>
-          <h2 id="match-heading">Match W/D/L</h2>
-          <div id="match-card" class="match-card"></div>
+      <section id="backtest-tab" class="tab-panel" data-tab-panel="backtest">
+        <section class="panel" aria-labelledby="backtest-heading">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Historical validation</p>
+              <h2 id="backtest-heading">2022 World Cup Backtest</h2>
+            </div>
+            <span id="backtest-status" class="panel-status">Loading</span>
+          </div>
+          <div id="backtest-summary" class="report-summary" aria-live="polite"></div>
+          <div class="table-wrap">
+            <table class="report-table">
+              <thead>
+                <tr>
+                  <th>Model Rank</th>
+                  <th>Team</th>
+                  <th>Actual Finish</th>
+                  <th>Champion</th>
+                  <th>Final</th>
+                  <th>Semi</th>
+                  <th>Quarter</th>
+                </tr>
+              </thead>
+              <tbody id="backtest-table-body">
+                <tr>
+                  <td colspan="7">Loading backtest results</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
       </section>
     </main>

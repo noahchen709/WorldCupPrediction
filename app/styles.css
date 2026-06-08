@@ -35,7 +35,8 @@ body {
 .topbar,
 .panel-heading,
 .summary-grid,
-.dashboard-grid {
+.dashboard-grid,
+.tabs {
   display: grid;
   gap: 16px;
 }
@@ -97,7 +98,8 @@ h2 {
 }
 
 .metric,
-.panel {
+.panel,
+.tab-button {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
@@ -113,7 +115,11 @@ h2 {
 .metric small,
 .pipeline small,
 .team-meta,
-.prob-label {
+.prob-label,
+.panel-status,
+.report-stat span,
+.report-stat small,
+.report-table small {
   color: var(--muted);
 }
 
@@ -135,12 +141,46 @@ h2 {
   align-items: start;
 }
 
+.tabs {
+  grid-template-columns: repeat(3, max-content);
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.tab-button {
+  min-height: 42px;
+  padding: 0 16px;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 850;
+}
+
+.tab-button.active {
+  border-color: #b6c2d4;
+  color: var(--ink);
+  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.06);
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: grid;
+  gap: 18px;
+}
+
 .panel {
   padding: 18px;
 }
 
 .panel-wide {
   grid-row: span 2;
+}
+
+.panel-full {
+  grid-column: 1 / -1;
 }
 
 .panel-heading {
@@ -155,6 +195,13 @@ h2 {
   color: var(--muted);
   font-size: 0.78rem;
   font-weight: 800;
+}
+
+.panel-status {
+  align-self: center;
+  font-size: 0.82rem;
+  font-weight: 850;
+  text-align: right;
 }
 
 select {
@@ -262,6 +309,148 @@ select {
   font-size: 1.25rem;
 }
 
+.report-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--line);
+}
+
+.report-stat {
+  display: grid;
+  gap: 5px;
+  min-height: 104px;
+  padding: 14px;
+  background: #fff;
+}
+
+.report-stat span,
+.report-stat small {
+  font-size: 0.78rem;
+}
+
+.report-stat strong {
+  font-size: 1.2rem;
+}
+
+.report-section {
+  box-shadow: none;
+}
+
+.groups-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.group-matches-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.group-card {
+  min-height: 132px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fafbfc;
+}
+
+.group-card h3 {
+  margin: 0 0 8px;
+  font-size: 0.92rem;
+}
+
+.group-card ol {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 20px;
+  color: #344054;
+  font-size: 0.86rem;
+}
+
+.group-match-card {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.group-match-card h3 {
+  margin: 0;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.92rem;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 14px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.empty-state code {
+  color: var(--ink);
+  font-size: 0.84rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.report-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.report-table th,
+.report-table td {
+  padding: 11px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  vertical-align: middle;
+}
+
+.report-table th {
+  background: #f3f5f8;
+  color: #344054;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.report-table:not(.compact-table):not(.match-table) th:nth-child(2),
+.report-table:not(.compact-table):not(.match-table) td:nth-child(2),
+.report-table:not(.compact-table):not(.match-table) th:nth-child(3),
+.report-table:not(.compact-table):not(.match-table) td:nth-child(3),
+.compact-table th:first-child,
+.compact-table td:first-child,
+.match-table th:first-child,
+.match-table td:first-child {
+  text-align: left;
+}
+
+.report-table tbody tr.actual-champion {
+  background: #f7fbfa;
+}
+
+.table-team {
+  display: block;
+  font-weight: 850;
+}
+
+.report-table small {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.76rem;
+}
+
 @media (max-width: 820px) {
   .shell {
     width: min(100% - 20px, 720px);
@@ -271,7 +460,8 @@ select {
   .topbar,
   .summary-grid,
   .dashboard-grid,
-  .panel-heading {
+  .panel-heading,
+  .tabs {
     grid-template-columns: 1fr;
   }
 
@@ -285,6 +475,15 @@ select {
   }
 
   .probability {
+    text-align: left;
+  }
+
+  .report-summary,
+  .groups-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-status {
     text-align: left;
   }
 }
