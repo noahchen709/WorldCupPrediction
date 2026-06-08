@@ -121,7 +121,7 @@ This replays the 2022 FIFA World Cup format using pre-tournament Elo ratings fro
 - `reports/world-cup-2022_backtest.csv`
 - `reports/world-cup-2022_backtest.json`
 
-The summary reports the model's top pick, the actual champion's predicted probability and rank, and how much probability mass the model assigned to the actual finalists, semifinalists, and quarterfinalists.
+The summary reports the model's top pick, the actual champion's predicted probability and rank, and how much probability mass the model assigned to the actual finalists, semifinalists, and quarterfinalists. It also includes evaluation metrics: champion log loss, Brier scores for champion and stage-progression events, Round of 16 qualification Brier score, average stage error, top-pick accuracy, and calibration buckets.
 
 ## Modeling Roadmap
 

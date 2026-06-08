@@ -51,6 +51,11 @@ function formatPercent(value) {
   return `${(value * 100).toFixed(1)}%`;
 }
 
+function formatDecimal(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number.toFixed(3) : "n/a";
+}
+
 function formatStage(stage) {
   const labels = {
     champion: "Champion",
@@ -243,6 +248,7 @@ function renderGroupStageMatches() {
 function renderBacktest() {
   const status = document.querySelector("#backtest-status");
   const summaryContainer = document.querySelector("#backtest-summary");
+  const calibrationContainer = document.querySelector("#backtest-calibration");
   const tableBody = document.querySelector("#backtest-table-body");
 
   if (!backtestResults) {
@@ -253,11 +259,13 @@ function renderBacktest() {
         to generate the historical comparison.
       </div>
     `;
+    calibrationContainer.innerHTML = "";
     tableBody.innerHTML = `<tr><td colspan="7">No backtest report found</td></tr>`;
     return;
   }
 
   const { summary, teams: backtestTeams } = backtestResults;
+  const calibrationBins = summary.calibration_bins || [];
   status.textContent = `${summary.iterations.toLocaleString()} simulations`;
   summaryContainer.innerHTML = `
       <div class="report-stat">
@@ -276,11 +284,67 @@ function renderBacktest() {
       <small>Total probability assigned to Argentina and France reaching the final</small>
     </div>
     <div class="report-stat">
+      <span>Champion Log Loss</span>
+      <strong>${formatDecimal(summary.champion_log_loss)}</strong>
+      <small>Lower is better; punishes confident misses</small>
+    </div>
+    <div class="report-stat">
+      <span>Stage Brier</span>
+      <strong>${formatDecimal(summary.stage_brier_score)}</strong>
+      <small>Average probability error across finish events</small>
+    </div>
+    <div class="report-stat">
+      <span>Round of 16 Brier</span>
+      <strong>${formatDecimal(summary.round_of_16_brier_score)}</strong>
+      <small>Qualification probability accuracy</small>
+    </div>
+    <div class="report-stat">
+      <span>Stage Error</span>
+      <strong>${formatDecimal(summary.stage_score_mae)}</strong>
+      <small>Average finish-stage distance</small>
+    </div>
+    <div class="report-stat">
+      <span>Calibration Error</span>
+      <strong>${formatDecimal(summary.calibration_error)}</strong>
+      <small>Gap between predicted and observed rates</small>
+    </div>
+    <div class="report-stat">
       <span>Ratings Snapshot</span>
       <strong>${summary.as_of}</strong>
       <small>Pre-tournament Elo input</small>
     </div>
   `;
+
+  if (calibrationBins.length) {
+    calibrationContainer.innerHTML = `
+        <div class="calibration-panel">
+          <div class="calibration-heading">
+            <span>Calibration Buckets</span>
+            <small>Predicted probability vs observed frequency</small>
+          </div>
+          <div class="calibration-grid">
+            ${calibrationBins
+              .map((bin) => {
+                const predicted = Math.max(0, Math.min(1, bin.average_probability));
+                const observed = Math.max(0, Math.min(1, bin.observed_frequency));
+                return `
+                  <div class="calibration-bin">
+                    <span>${formatPercent(bin.lower)}-${formatPercent(bin.upper)}</span>
+                    <div class="calibration-bars" aria-hidden="true">
+                      <i class="predicted" style="height: ${predicted * 100}%"></i>
+                      <i class="observed" style="height: ${observed * 100}%"></i>
+                    </div>
+                    <small>${formatPercent(predicted)} / ${formatPercent(observed)}</small>
+                  </div>
+                `;
+              })
+              .join("")}
+          </div>
+        </div>
+      `;
+  } else {
+    calibrationContainer.innerHTML = "";
+  }
 
   tableBody.innerHTML = backtestTeams
     .slice(0, 16)

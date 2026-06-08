@@ -55,4 +55,13 @@ def test_world_cup_2022_backtest_ranks_actual_champion() -> None:
     assert result.summary.actual_champion_probability > 0
     assert result.summary.actual_champion_rank <= 4
     assert result.summary.top_pick in ratings
+    assert result.summary.champion_log_loss > 0
+    assert 0 <= result.summary.champion_brier_score <= 1
+    assert 0 <= result.summary.round_of_16_brier_score <= 1
+    assert 0 <= result.summary.stage_brier_score <= 1
+    assert result.summary.stage_score_mae >= 0
+    assert result.summary.top_pick_accuracy in {0.0, 1.0}
+    assert 0 <= result.summary.calibration_error <= 1
+    assert len(result.summary.calibration_bins) == 5
+    assert sum(bin.count for bin in result.summary.calibration_bins) == len(result.teams) * 5
     assert len(result.teams) == 32

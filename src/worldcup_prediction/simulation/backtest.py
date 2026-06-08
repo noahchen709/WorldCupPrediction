@@ -1,3 +1,4 @@
+import math
 import random
 from dataclasses import dataclass
 
@@ -27,6 +28,16 @@ class BacktestTeamResult:
 
 
 @dataclass(frozen=True)
+class CalibrationBin:
+    lower: float
+    upper: float
+    count: int
+    average_probability: float
+    observed_frequency: float
+    brier_score: float
+
+
+@dataclass(frozen=True)
 class BacktestSummary:
     tournament: str
     as_of: str
@@ -41,6 +52,17 @@ class BacktestSummary:
     finalist_probability_total: float
     semifinalist_probability_total: float
     quarterfinalist_probability_total: float
+    champion_log_loss: float
+    champion_brier_score: float
+    round_of_16_brier_score: float
+    finalist_brier_score: float
+    semifinalist_brier_score: float
+    quarterfinalist_brier_score: float
+    stage_brier_score: float
+    stage_score_mae: float
+    top_pick_accuracy: float
+    calibration_error: float
+    calibration_bins: list[CalibrationBin]
 
 
 @dataclass(frozen=True)
@@ -74,6 +96,14 @@ STAGE_ORDER = {
     "runner_up": 4,
     "champion": 5,
 }
+
+STAGE_PROBABILITY_FIELDS = (
+    ("round_of_16", "round_of_16_probability"),
+    ("quarterfinal", "quarterfinal_probability"),
+    ("semifinal", "semifinal_probability"),
+    ("runner_up", "final_probability"),
+    ("champion", "champion_probability"),
+)
 
 
 WORLD_CUP_2022 = HistoricalTournament(
@@ -261,6 +291,93 @@ def probability_total(
     )
 
 
+def actual_reached(tournament: HistoricalTournament, team: str, minimum_stage: str) -> int:
+    return int(STAGE_ORDER[actual_stage(tournament, team)] >= STAGE_ORDER[minimum_stage])
+
+
+def brier_score(
+    results: list[BacktestTeamResult],
+    tournament: HistoricalTournament,
+    minimum_stage: str,
+    probability_field: str,
+) -> float:
+    return sum(
+        (getattr(result, probability_field) - actual_reached(tournament, result.team, minimum_stage)) ** 2
+        for result in results
+    ) / len(results)
+
+
+def stage_brier_score(results: list[BacktestTeamResult], tournament: HistoricalTournament) -> float:
+    event_count = len(results) * len(STAGE_PROBABILITY_FIELDS)
+    return sum(
+        (getattr(result, probability_field) - actual_reached(tournament, result.team, minimum_stage)) ** 2
+        for result in results
+        for minimum_stage, probability_field in STAGE_PROBABILITY_FIELDS
+    ) / event_count
+
+
+def expected_stage_score(result: BacktestTeamResult) -> float:
+    return sum(getattr(result, probability_field) for _, probability_field in STAGE_PROBABILITY_FIELDS)
+
+
+def stage_score_mae(results: list[BacktestTeamResult], tournament: HistoricalTournament) -> float:
+    return sum(
+        abs(expected_stage_score(result) - STAGE_ORDER[actual_stage(tournament, result.team)])
+        for result in results
+    ) / len(results)
+
+
+def calibration_bins(
+    results: list[BacktestTeamResult],
+    tournament: HistoricalTournament,
+    bin_count: int = 5,
+) -> list[CalibrationBin]:
+    bins = [[] for _ in range(bin_count)]
+    for result in results:
+        for minimum_stage, probability_field in STAGE_PROBABILITY_FIELDS:
+            probability = getattr(result, probability_field)
+            outcome = actual_reached(tournament, result.team, minimum_stage)
+            bin_index = min(int(probability * bin_count), bin_count - 1)
+            bins[bin_index].append((probability, outcome))
+
+    summaries = []
+    for index, values in enumerate(bins):
+        lower = index / bin_count
+        upper = (index + 1) / bin_count
+        if values:
+            average_probability = sum(probability for probability, _ in values) / len(values)
+            observed_frequency = sum(outcome for _, outcome in values) / len(values)
+            bin_brier_score = sum(
+                (probability - outcome) ** 2
+                for probability, outcome in values
+            ) / len(values)
+        else:
+            average_probability = 0.0
+            observed_frequency = 0.0
+            bin_brier_score = 0.0
+        summaries.append(
+            CalibrationBin(
+                lower=lower,
+                upper=upper,
+                count=len(values),
+                average_probability=average_probability,
+                observed_frequency=observed_frequency,
+                brier_score=bin_brier_score,
+            )
+        )
+    return summaries
+
+
+def calibration_error(bins: list[CalibrationBin]) -> float:
+    total = sum(bin.count for bin in bins)
+    if total == 0:
+        return 0.0
+    return sum(
+        abs(bin.average_probability - bin.observed_frequency) * bin.count
+        for bin in bins
+    ) / total
+
+
 def run_backtest(
     tournament: HistoricalTournament,
     teams: list[TeamRecord],
@@ -308,6 +425,7 @@ def run_backtest(
     champion = next(team for team, stage in tournament.actual_finish.items() if stage == "champion")
     champion_result = next(result for result in team_results if result.team == champion)
     top_pick = team_results[0]
+    bins = calibration_bins(team_results, tournament)
 
     summary = BacktestSummary(
         tournament=tournament.name,
@@ -338,5 +456,41 @@ def run_backtest(
             "quarterfinal",
             "quarterfinal_probability",
         ),
+        champion_log_loss=-math.log(max(champion_result.champion_probability, 1e-15)),
+        champion_brier_score=brier_score(
+            team_results,
+            tournament,
+            "champion",
+            "champion_probability",
+        ),
+        round_of_16_brier_score=brier_score(
+            team_results,
+            tournament,
+            "round_of_16",
+            "round_of_16_probability",
+        ),
+        finalist_brier_score=brier_score(
+            team_results,
+            tournament,
+            "runner_up",
+            "final_probability",
+        ),
+        semifinalist_brier_score=brier_score(
+            team_results,
+            tournament,
+            "semifinal",
+            "semifinal_probability",
+        ),
+        quarterfinalist_brier_score=brier_score(
+            team_results,
+            tournament,
+            "quarterfinal",
+            "quarterfinal_probability",
+        ),
+        stage_brier_score=stage_brier_score(team_results, tournament),
+        stage_score_mae=stage_score_mae(team_results, tournament),
+        top_pick_accuracy=float(top_pick.actual_stage == "champion"),
+        calibration_error=calibration_error(bins),
+        calibration_bins=bins,
     )
     return BacktestResult(summary=summary, teams=team_results)

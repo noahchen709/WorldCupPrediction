@@ -100,6 +100,9 @@ def main() -> None:
         f"{percent(summary.actual_champion_probability)} "
         f"(model rank #{summary.actual_champion_rank})"
     )
+    print(f"Champion log loss: {summary.champion_log_loss:.3f}")
+    print(f"Stage Brier score: {summary.stage_brier_score:.3f}")
+    print(f"Calibration error: {summary.calibration_error:.3f}")
     print(f"Actual finalist probability mass: {percent(summary.finalist_probability_total)}")
     print(f"Wrote: {csv_path}")
     print(f"Wrote: {json_path}")
