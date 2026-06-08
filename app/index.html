@@ -52,12 +52,11 @@
       <section id="finish-tab" class="tab-panel active" data-tab-panel="finish">
         <section class="report-summary" id="finish-summary" aria-label="Finish probability summary"></section>
 
-        <section class="dashboard-grid">
-          <section class="panel panel-wide" aria-labelledby="winner-heading">
+        <section class="panel" aria-labelledby="finish-table-heading">
             <div class="panel-heading">
               <div>
-                <p class="eyebrow">Tournament simulation</p>
-                <h2 id="winner-heading">Likely Winners</h2>
+              <p class="eyebrow">Finish probabilities</p>
+              <h2 id="finish-table-heading">Stage Progression</h2>
               </div>
               <label class="select-label">
                 Region
@@ -71,20 +70,11 @@
                 </select>
               </label>
             </div>
-            <div id="winner-bars" class="bars" aria-live="polite"></div>
-          </section>
-
-          <section class="panel" aria-labelledby="finish-table-heading">
-            <div class="panel-heading">
-              <div>
-                <p class="eyebrow">All stages</p>
-                <h2 id="finish-table-heading">Progression</h2>
-              </div>
-            </div>
             <div class="table-wrap">
-              <table class="report-table compact-table">
+            <table class="report-table finish-table">
                 <thead>
                   <tr>
+                  <th>Rank</th>
                     <th>Team</th>
                     <th>Win</th>
                     <th>Final</th>
@@ -95,13 +85,12 @@
                 </thead>
                 <tbody id="finish-table-body">
                   <tr>
-                    <td colspan="6">Loading finish probabilities</td>
+                  <td colspan="7">Loading finish probabilities</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </section>
-        </section>
       </section>
 
       <section id="groups-tab" class="tab-panel" data-tab-panel="groups">

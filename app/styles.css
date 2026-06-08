@@ -115,7 +115,6 @@ h2 {
 .metric small,
 .pipeline small,
 .team-meta,
-.prob-label,
 .panel-status,
 .report-stat span,
 .report-stat small,
@@ -275,40 +274,6 @@ select {
   font-weight: 850;
 }
 
-.match-card {
-  display: grid;
-  gap: 14px;
-  margin-top: 16px;
-}
-
-.versus {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  font-size: 1.1rem;
-  font-weight: 900;
-}
-
-.prob-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-.prob-box {
-  min-height: 72px;
-  padding: 10px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: #fafbfc;
-}
-
-.prob-box strong {
-  display: block;
-  margin-top: 8px;
-  font-size: 1.25rem;
-}
-
 .report-summary {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -405,7 +370,7 @@ select {
 
 .report-table {
   width: 100%;
-  min-width: 760px;
+  min-width: 920px;
   border-collapse: collapse;
   font-size: 0.88rem;
 }
@@ -425,14 +390,20 @@ select {
   text-transform: uppercase;
 }
 
-.report-table:not(.compact-table):not(.match-table) th:nth-child(2),
-.report-table:not(.compact-table):not(.match-table) td:nth-child(2),
-.report-table:not(.compact-table):not(.match-table) th:nth-child(3),
-.report-table:not(.compact-table):not(.match-table) td:nth-child(3),
-.compact-table th:first-child,
-.compact-table td:first-child,
+.report-table:not(.finish-table):not(.match-table) th:nth-child(2),
+.report-table:not(.finish-table):not(.match-table) td:nth-child(2),
+.report-table:not(.finish-table):not(.match-table) th:nth-child(3),
+.report-table:not(.finish-table):not(.match-table) td:nth-child(3),
+.finish-table th:nth-child(2),
+.finish-table td:nth-child(2),
 .match-table th:first-child,
 .match-table td:first-child {
+  text-align: left;
+}
+
+.finish-table th:first-child,
+.finish-table td:first-child {
+  width: 64px;
   text-align: left;
 }
 

@@ -19,6 +19,10 @@ function normalizedTeams(region = "all") {
           ...team,
           name: result.team,
           probability: result.champion_probability,
+          final_probability: result.final_probability,
+          semifinal_probability: result.semifinal_probability,
+          quarterfinal_probability: result.quarterfinal_probability,
+          round_of_16_probability: result.round_of_16_probability,
           rank: result.rank,
           elo: result.elo,
           confederation: team?.confederation || "Other",
@@ -69,32 +73,36 @@ function escapeHtml(value) {
 }
 
 function renderBars(region) {
+  renderFinishTable(region);
+}
+
+function renderFinishTable(region = "all") {
   const ranked = normalizedTeams(region);
-  const bars = document.querySelector("#winner-bars");
+  const tableBody = document.querySelector("#finish-table-body");
 
   if (!ranked.length) {
-    bars.innerHTML = `<div class="team-row">No rating data loaded</div>`;
+    tableBody.innerHTML = `<tr><td colspan="7">No finish probability data loaded</td></tr>`;
     document.querySelector("#top-team").textContent = "No data";
     document.querySelector("#top-team-detail").textContent = "Serve the project locally and refresh Elo data";
     document.querySelector("#best-strength").textContent = "No data";
     return;
   }
 
-  const maxProbability = Math.max(...ranked.map((team) => team.probability));
-  bars.innerHTML = ranked
-    .map((team) => {
-      const width = (team.probability / maxProbability) * 100;
+  tableBody.innerHTML = ranked
+    .map((team, index) => {
       return `
-        <div class="team-row">
-          <div>
-            <div class="team-name">${team.name}</div>
-            <div class="team-meta">${team.confederation} · Elo ${team.elo || team.rating} · Rank ${team.rank || "n/a"}</div>
-          </div>
-          <div class="track" aria-hidden="true">
-            <div class="fill" style="width: ${width}%"></div>
-          </div>
-          <div class="probability">${formatPercent(team.probability)}</div>
-        </div>
+        <tr>
+          <td>${index + 1}</td>
+          <td>
+            <span class="table-team">${escapeHtml(team.name)}</span>
+            <small>${escapeHtml(team.confederation)} · Elo ${team.elo || team.rating} · Rank ${team.rank || "n/a"}</small>
+          </td>
+          <td>${formatPercent(team.probability)}</td>
+          <td>${formatPercent(team.final_probability || 0)}</td>
+          <td>${formatPercent(team.semifinal_probability || 0)}</td>
+          <td>${formatPercent(team.quarterfinal_probability || 0)}</td>
+          <td>${formatPercent(team.round_of_16_probability || 0)}</td>
+        </tr>
       `;
     })
     .join("");
@@ -123,40 +131,8 @@ function predictMatch(home, away) {
   return { homeWin, draw, awayWin };
 }
 
-function renderMatchCard() {
-  if (teams.length < 2) {
-    document.querySelector("#match-card").innerHTML = "";
-    return;
-  }
-
-  const home = teams.find((team) => team.name === "Brazil") || teams[0];
-  const away = teams.find((team) => team.name === "France") || teams[1];
-  const probabilities = predictMatch(home, away);
-  document.querySelector("#match-card").innerHTML = `
-    <div class="versus">
-      <span>${home.name}</span>
-      <span>${away.name}</span>
-    </div>
-    <div class="prob-grid">
-      <div class="prob-box">
-        <span class="prob-label">${home.name}</span>
-        <strong>${formatPercent(probabilities.homeWin)}</strong>
-      </div>
-      <div class="prob-box">
-        <span class="prob-label">Draw</span>
-        <strong>${formatPercent(probabilities.draw)}</strong>
-      </div>
-      <div class="prob-box">
-        <span class="prob-label">${away.name}</span>
-        <strong>${formatPercent(probabilities.awayWin)}</strong>
-      </div>
-    </div>
-  `;
-}
-
 function renderFinishReport() {
   const summaryContainer = document.querySelector("#finish-summary");
-  const tableBody = document.querySelector("#finish-table-body");
 
   if (!simulationReport) {
     summaryContainer.innerHTML = `
@@ -165,7 +141,8 @@ function renderFinishReport() {
         to generate the Monte Carlo report.
       </div>
     `;
-    tableBody.innerHTML = `<tr><td colspan="6">No finish probability report found</td></tr>`;
+    document.querySelector("#finish-table-body").innerHTML =
+      `<tr><td colspan="7">No finish probability report found</td></tr>`;
     return;
   }
 
@@ -192,24 +169,6 @@ function renderFinishReport() {
       <small>${escapeHtml(simulationReport.method)}</small>
     </div>
   `;
-
-  tableBody.innerHTML = (simulationReport.results || [])
-    .map((team) => {
-      return `
-        <tr>
-          <td>
-            <span class="table-team">${escapeHtml(team.team)}</span>
-            <small>Elo ${team.elo.toFixed(0)} · Rank ${team.rank || "n/a"}</small>
-          </td>
-          <td>${formatPercent(team.champion_probability)}</td>
-          <td>${formatPercent(team.final_probability)}</td>
-          <td>${formatPercent(team.semifinal_probability)}</td>
-          <td>${formatPercent(team.quarterfinal_probability)}</td>
-          <td>${formatPercent(team.round_of_16_probability)}</td>
-        </tr>
-      `;
-    })
-    .join("");
 }
 
 function renderGroupStageMatches() {
