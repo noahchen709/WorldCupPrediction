@@ -110,6 +110,19 @@ It includes the official groups, a probabilistic match-numbered knockout bracket
 
 The Monte Carlo uses the official 48-team 2026 field, 12 groups of four, the top two teams from each group plus the eight best third-place teams, and the official match-numbered knockout path from the Round of 32 to the final. Match strength still comes from World Football Elo ratings.
 
+## Run Historical Backtest
+
+```bash
+PYTHONPATH=src python3 scripts/run_backtest.py --tournament world-cup-2022 --iterations 10000
+```
+
+This replays the 2022 FIFA World Cup format using pre-tournament Elo ratings from November 19, 2022, then compares the simulated probabilities with the actual finish. It writes:
+
+- `reports/world-cup-2022_backtest.csv`
+- `reports/world-cup-2022_backtest.json`
+
+The summary reports the model's top pick, the actual champion's predicted probability and rank, and how much probability mass the model assigned to the actual finalists, semifinalists, and quarterfinalists.
+
 ## Modeling Roadmap
 
 1. **Team strength model**
