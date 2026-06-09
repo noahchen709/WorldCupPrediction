@@ -66,8 +66,8 @@ def write_json(result, tournament, path, method_comparisons=None, xg_result=None
     if xg_result is not None:
         payload["xgEloAdjusted"] = {
             "method": (
-                "Monte Carlo using recent team scoring history as an expected-goals proxy, "
-                "adjusted for opponent Elo difference while retaining the fitted draw rate"
+                "Monte Carlo using recency-weighted team scoring history as an expected-goals "
+                "proxy, adjusted for opponent Elo difference while retaining the fitted draw rate"
             ),
             "summary": asdict(xg_result.summary),
             "teams": [asdict(team) for team in xg_result.teams],

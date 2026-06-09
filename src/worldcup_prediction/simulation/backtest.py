@@ -13,6 +13,7 @@ ELO_GOAL_ADJUSTMENT_SCALE = 650.0
 GOAL_RATE_FLOOR = 0.15
 GOAL_RATE_CEILING = 4.5
 DEFAULT_HISTORY_YEARS = 4
+RECENCY_HALF_LIFE_DAYS = 548.0
 
 
 @dataclass(frozen=True)
@@ -249,6 +250,7 @@ def build_expected_goals_model(
     teams: list[TeamRecord],
     tournament: HistoricalTournament,
     history_years: int = DEFAULT_HISTORY_YEARS,
+    recency_half_life_days: float = RECENCY_HALF_LIFE_DAYS,
     raw_data_dir: Path = RAW_DATA_DIR,
 ) -> ExpectedGoalsModel:
     tournament_date = date.fromisoformat(tournament.as_of)
@@ -260,35 +262,58 @@ def build_expected_goals_model(
     )
     field = {team.team for team in teams}
     totals = {
-        team_name: {"matches": 0, "for": 0.0, "against": 0.0}
+        team_name: {"matches": 0, "weight": 0.0, "for": 0.0, "against": 0.0}
         for team_name in field
     }
 
     all_goals = 0
     all_team_matches = 0
+    if recency_half_life_days <= 0:
+        raise ValueError("recency_half_life_days must be greater than zero")
+
     for match in matches:
         all_goals += match.goals_a + match.goals_b
         all_team_matches += 2
+        age_days = max(0, (tournament_date - match.played_on).days)
+        recency_weight = 0.5 ** (age_days / recency_half_life_days)
         for_name = match.team_a
         against_name = match.team_b
         if for_name in totals:
             gap = match.rating_a - match.rating_b
             totals[for_name]["matches"] += 1
-            totals[for_name]["for"] += match.goals_a * math.exp(-gap / ELO_GOAL_ADJUSTMENT_SCALE)
-            totals[for_name]["against"] += match.goals_b * math.exp(gap / ELO_GOAL_ADJUSTMENT_SCALE)
+            totals[for_name]["weight"] += recency_weight
+            totals[for_name]["for"] += (
+                recency_weight
+                * match.goals_a
+                * math.exp(-gap / ELO_GOAL_ADJUSTMENT_SCALE)
+            )
+            totals[for_name]["against"] += (
+                recency_weight
+                * match.goals_b
+                * math.exp(gap / ELO_GOAL_ADJUSTMENT_SCALE)
+            )
         if against_name in totals:
             gap = match.rating_b - match.rating_a
             totals[against_name]["matches"] += 1
-            totals[against_name]["for"] += match.goals_b * math.exp(-gap / ELO_GOAL_ADJUSTMENT_SCALE)
-            totals[against_name]["against"] += match.goals_a * math.exp(gap / ELO_GOAL_ADJUSTMENT_SCALE)
+            totals[against_name]["weight"] += recency_weight
+            totals[against_name]["for"] += (
+                recency_weight
+                * match.goals_b
+                * math.exp(-gap / ELO_GOAL_ADJUSTMENT_SCALE)
+            )
+            totals[against_name]["against"] += (
+                recency_weight
+                * match.goals_a
+                * math.exp(gap / ELO_GOAL_ADJUSTMENT_SCALE)
+            )
 
     average_goals = all_goals / all_team_matches if all_team_matches else 1.25
     profiles = {}
     for team in teams:
         row = totals[team.team]
-        if row["matches"]:
-            adjusted_for = row["for"] / row["matches"]
-            adjusted_against = row["against"] / row["matches"]
+        if row["weight"]:
+            adjusted_for = row["for"] / row["weight"]
+            adjusted_against = row["against"] / row["weight"]
         else:
             adjusted_for = average_goals
             adjusted_against = average_goals

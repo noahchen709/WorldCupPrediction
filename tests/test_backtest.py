@@ -1,6 +1,8 @@
 from worldcup_prediction.data_loader import TeamRecord
 from worldcup_prediction.simulation.backtest import (
     WORLD_CUP_2022,
+    HistoricalTournament,
+    build_expected_goals_model,
     compare_backtest_methods,
     run_backtest,
 )
@@ -130,3 +132,47 @@ def test_world_cup_2022_backtest_compares_xg_history_method() -> None:
     assert [row.model for row in comparisons] == ["elo", "xg_elo_adjusted"]
     assert all(row.actual_champion_probability >= 0 for row in comparisons)
     assert xg_result.summary.actual_champion == "Argentina"
+
+
+def test_xg_history_model_weights_recent_games_more_heavily(tmp_path) -> None:
+    raw_dir = tmp_path
+    (raw_dir / "elo_team_names.tsv").write_text("AA	Alpha\nBB	Beta\n", encoding="utf-8")
+    (raw_dir / "elo_results_2021.tsv").write_text(
+        "\n".join(
+            [
+                "2021\t01\t01\tAA\tBB\t0\t4\tF\t\t0\t1500\t1500\t0\t0\t0\t0",
+                "2021\t12\t15\tAA\tBB\t4\t0\tF\t\t0\t1500\t1500\t0\t0\t0\t0",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    tournament = HistoricalTournament(
+        name="Fixture",
+        as_of="2022-01-01",
+        source="test",
+        groups=(("A", ("Alpha", "Beta")),),
+        actual_finish={},
+    )
+    teams = [
+        TeamRecord("Alpha", "", 1500, 1500, 1500, 1500),
+        TeamRecord("Beta", "", 1500, 1500, 1500, 1500),
+    ]
+
+    recency_weighted = build_expected_goals_model(
+        teams,
+        tournament,
+        history_years=1,
+        recency_half_life_days=90,
+        raw_data_dir=raw_dir,
+    )
+    unweighted_like = build_expected_goals_model(
+        teams,
+        tournament,
+        history_years=1,
+        recency_half_life_days=100_000,
+        raw_data_dir=raw_dir,
+    )
+
+    assert recency_weighted.profiles["Alpha"].adjusted_goals_for > 3
+    assert unweighted_like.profiles["Alpha"].adjusted_goals_for < 2.1
