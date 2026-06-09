@@ -3,6 +3,7 @@ from worldcup_prediction.simulation.backtest import (
     HISTORICAL_TOURNAMENTS,
     WORLD_CUP_2022,
     HistoricalTournament,
+    XGModelConfig,
     build_expected_goals_model,
     compare_backtest_methods,
     load_historical_team_ratings,
@@ -199,3 +200,54 @@ def test_xg_history_model_weights_recent_games_more_heavily(tmp_path) -> None:
 
     assert recency_weighted.profiles["Alpha"].adjusted_goals_for > 3
     assert unweighted_like.profiles["Alpha"].adjusted_goals_for < 2.1
+
+
+def test_xg_history_model_downweights_friendlies(tmp_path) -> None:
+    raw_dir = tmp_path
+    (raw_dir / "elo_team_names.tsv").write_text("AA\tAlpha\nBB\tBeta\n", encoding="utf-8")
+    (raw_dir / "elo_results_2021.tsv").write_text(
+        "\n".join(
+            [
+                "2021\t06\t01\tAA\tBB\t6\t0\tF\t\t0\t1500\t1500\t0\t0\t0\t0",
+                "2021\t06\t02\tAA\tBB\t0\t2\tWQ\t\t0\t1500\t1500\t0\t0\t0\t0",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    tournament = HistoricalTournament(
+        name="Fixture",
+        as_of="2022-01-01",
+        source="test",
+        groups=(("A", ("Alpha", "Beta")),),
+        actual_finish={},
+    )
+    teams = [
+        TeamRecord("Alpha", "", 1500, 1500, 1500, 1500),
+        TeamRecord("Beta", "", 1500, 1500, 1500, 1500),
+    ]
+
+    neutral_match_types = build_expected_goals_model(
+        teams,
+        tournament,
+        config=XGModelConfig(
+            history_years=1,
+            recency_half_life_days=100_000,
+            elo_goal_adjustment_scale=650,
+            match_type_weights={"F": 1, "WQ": 1},
+        ),
+        raw_data_dir=raw_dir,
+    )
+    weighted_match_types = build_expected_goals_model(
+        teams,
+        tournament,
+        config=XGModelConfig(
+            history_years=1,
+            recency_half_life_days=100_000,
+            elo_goal_adjustment_scale=650,
+        ),
+        raw_data_dir=raw_dir,
+    )
+
+    assert neutral_match_types.profiles["Alpha"].adjusted_goals_for > 2.9
+    assert weighted_match_types.profiles["Alpha"].adjusted_goals_for < 2

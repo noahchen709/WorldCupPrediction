@@ -87,6 +87,7 @@ def evaluate_config(
         "history_years": config.history_years,
         "recency_half_life_days": config.recency_half_life_days,
         "elo_goal_adjustment_scale": config.elo_goal_adjustment_scale,
+        "match_type_weights": config.match_type_weights,
     }
     for key in (
         "champion_log_loss",

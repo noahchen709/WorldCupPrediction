@@ -1,6 +1,6 @@
 import math
 import random
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 
@@ -14,6 +14,20 @@ GOAL_RATE_FLOOR = 0.15
 GOAL_RATE_CEILING = 4.5
 DEFAULT_HISTORY_YEARS = 4
 RECENCY_HALF_LIFE_DAYS = 500.0
+DEFAULT_MATCH_TYPE_WEIGHTS = {
+    "F": 0.35,
+    "FT": 0.45,
+    "FQ": 0.65,
+    "WQ": 0.85,
+    "WC": 1.35,
+    "AR": 1.25,
+    "AM": 1.25,
+    "EU": 1.25,
+    "GC": 1.25,
+    "NL": 1.10,
+    "UNL": 1.10,
+    "CNL": 1.10,
+}
 
 
 @dataclass(frozen=True)
@@ -21,6 +35,9 @@ class XGModelConfig:
     history_years: int = DEFAULT_HISTORY_YEARS
     recency_half_life_days: float = RECENCY_HALF_LIFE_DAYS
     elo_goal_adjustment_scale: float = ELO_GOAL_ADJUSTMENT_SCALE
+    match_type_weights: dict[str, float] = field(
+        default_factory=lambda: dict(DEFAULT_MATCH_TYPE_WEIGHTS)
+    )
 
 
 @dataclass(frozen=True)
@@ -122,6 +139,7 @@ class HistoricalMatch:
     team_b: str
     goals_a: int
     goals_b: int
+    match_type: str
     rating_a: float
     rating_b: float
 
@@ -326,11 +344,16 @@ def parse_historical_matches(
                     team_b=team_b,
                     goals_a=int(fields[5]),
                     goals_b=int(fields[6]),
+                    match_type=fields[7],
                     rating_a=float(fields[10]),
                     rating_b=float(fields[11]),
                 )
             )
     return matches
+
+
+def match_type_weight(match_type: str, config: XGModelConfig) -> float:
+    return config.match_type_weights.get(match_type, 1.0)
 
 
 def parse_rating_delta(value: str) -> float:
@@ -433,39 +456,42 @@ def build_expected_goals_model(
         raise ValueError("recency_half_life_days must be greater than zero")
     if config.elo_goal_adjustment_scale <= 0:
         raise ValueError("elo_goal_adjustment_scale must be greater than zero")
+    if any(weight <= 0 for weight in config.match_type_weights.values()):
+        raise ValueError("match_type_weights must be greater than zero")
 
     for match in matches:
-        all_goals += match.goals_a + match.goals_b
-        all_team_matches += 2
         age_days = max(0, (tournament_date - match.played_on).days)
         recency_weight = 0.5 ** (age_days / config.recency_half_life_days)
+        effective_weight = recency_weight * match_type_weight(match.match_type, config)
+        all_goals += effective_weight * (match.goals_a + match.goals_b)
+        all_team_matches += 2 * effective_weight
         for_name = match.team_a
         against_name = match.team_b
         if for_name in totals:
             gap = match.rating_a - match.rating_b
             totals[for_name]["matches"] += 1
-            totals[for_name]["weight"] += recency_weight
+            totals[for_name]["weight"] += effective_weight
             totals[for_name]["for"] += (
-                recency_weight
+                effective_weight
                 * match.goals_a
                 * math.exp(-gap / config.elo_goal_adjustment_scale)
             )
             totals[for_name]["against"] += (
-                recency_weight
+                effective_weight
                 * match.goals_b
                 * math.exp(gap / config.elo_goal_adjustment_scale)
             )
         if against_name in totals:
             gap = match.rating_b - match.rating_a
             totals[against_name]["matches"] += 1
-            totals[against_name]["weight"] += recency_weight
+            totals[against_name]["weight"] += effective_weight
             totals[against_name]["for"] += (
-                recency_weight
+                effective_weight
                 * match.goals_b
                 * math.exp(-gap / config.elo_goal_adjustment_scale)
             )
             totals[against_name]["against"] += (
-                recency_weight
+                effective_weight
                 * match.goals_a
                 * math.exp(gap / config.elo_goal_adjustment_scale)
             )

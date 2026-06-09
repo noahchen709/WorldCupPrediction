@@ -77,8 +77,9 @@ def write_json(
             xg_config = XGModelConfig()
         payload["xgEloAdjusted"] = {
             "method": (
-                "Monte Carlo using recency-weighted team scoring history as an expected-goals "
-                "proxy, adjusted for opponent Elo difference while retaining the fitted draw rate"
+                "Monte Carlo using recency- and match-importance-weighted team scoring history "
+                "as an expected-goals proxy, adjusted for opponent Elo difference while retaining "
+                "the fitted draw rate"
             ),
             "config": asdict(xg_config),
             "summary": asdict(xg_result.summary),

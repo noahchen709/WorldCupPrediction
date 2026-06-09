@@ -319,8 +319,8 @@ def write_json(
         "seed": seed,
         "ratingsAsOf": ratings_as_of,
         "method": (
-            "Tuned xG/Elo-adjusted Monte Carlo using recency-weighted scoring history, "
-            "fitted Elo draw curve, official 2026 groups and knockout bracket"
+            "Tuned xG/Elo-adjusted Monte Carlo using recency- and match-importance-weighted "
+            "scoring history, fitted Elo draw curve, official 2026 groups and knockout bracket"
         ),
         "xgConfig": xg_model.config.__dict__,
         "tournamentStructure": tournament_structure(records_by_name, xg_model),
@@ -715,7 +715,7 @@ def write_html_report(
       </div>
     </section>
     <p class="note">
-      Method: tuned xG/Elo-adjusted Monte Carlo using recency-weighted scoring history, opponent Elo adjustment, and the fitted Elo draw curve. Official 2026 groups plus the match-numbered knockout bracket are simulated. Host advantage is not applied until fixture venue countries are available. The model does not yet encode exact venues, injuries, live squad news, or FIFA disciplinary tie-breakers in full detail.
+      Method: tuned xG/Elo-adjusted Monte Carlo using recency- and match-importance-weighted scoring history, opponent Elo adjustment, and the fitted Elo draw curve. Official 2026 groups plus the match-numbered knockout bracket are simulated. Host advantage is not applied until fixture venue countries are available. The model does not yet encode exact venues, injuries, live squad news, or FIFA disciplinary tie-breakers in full detail.
     </p>
     <script>
       const tabButtons = Array.from(document.querySelectorAll(".tab-button"));
