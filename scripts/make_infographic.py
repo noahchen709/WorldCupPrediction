@@ -35,34 +35,37 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 REPORTS_DIR = PROJECT_ROOT / "reports"
 DATA_DIR = PROJECT_ROOT / "data"
 
-# Editorial sports palette: dark, grounded, and less template-like.
-PAPER = "#101715"
-CARD = "#f7f2e7"
-CARD_ALT = "#e9dfcf"
-INK = "#171d1b"
-INK2 = "#46514d"
-MUTED = "#8d9b92"
-LINE = "#d0c3ad"
-ACCENT = "#0f7656"
-ACCENT_INK = "#063f31"
-ACCENT_SOFT = "#d7e5dc"
-CLAY = "#c64e2f"
-GOLD = "#d7a932"
-TEAL = "#2d8fa4"
-PAPER_LINE = "#25332e"
+# Publication palette: cleaner, cooler, and less earthy.
+PAPER = "#e8edf0"
+CARD = "#f9faf7"
+CARD_ALT = "#edf1ec"
+INK = "#13213a"
+INK2 = "#4b5968"
+MUTED = "#7b8994"
+LINE = "#cbd4d9"
+ACCENT = "#167a7f"
+ACCENT_INK = "#0e565a"
+ACCENT_SOFT = "#dcebec"
+PANEL_HEAD = "#1b2e4b"
+CLAY = "#d65a3a"
+GOLD = "#b98922"
+TEAL = "#3b88c3"
+PAPER_LINE = "#d6dde1"
 
 # Categorical palette for confederations (muted, warm, non-clashing).
 CONF_COLORS = {
-    "UEFA": "#0f7656",
-    "CONMEBOL": "#c64e2f",
-    "CAF": "#d7a932",
-    "CONCACAF": "#2d8fa4",
-    "AFC": "#7566a5",
-    "OFC": "#77a869",
-    "Other": "#9b9488",
+    "UEFA": "#167a7f",
+    "CONMEBOL": "#d65a3a",
+    "CAF": "#b98922",
+    "CONCACAF": "#3b88c3",
+    "AFC": "#7464a8",
+    "OFC": "#5f9d78",
+    "Other": "#88919a",
 }
 
-PAGE_W, PAGE_H = 9.0, 12.0  # inches (portrait poster)
+# 4:5 portrait works well for LinkedIn feeds/carousels and still drops neatly
+# into research reports as a full-page figure plate.
+PAGE_W, PAGE_H = 9.0, 11.25
 
 
 def resolve_font(candidates: list[str], fallback: str) -> str:
@@ -115,7 +118,7 @@ def new_page() -> plt.Figure:
         plt.Rectangle((0.026, 0.026), 0.948, 0.948, transform=fig.transFigure,
                       facecolor="none", edgecolor=PAPER_LINE, linewidth=1.0, zorder=-8)
     )
-    # Quiet pitch/grid lines give the pages texture without using decorative blobs.
+    # Quiet pitch/grid lines give the pages texture without looking decorative.
     for yy in (0.20, 0.50, 0.80):
         fig.add_artist(
             plt.Line2D([0.03, 0.97], [yy, yy], transform=fig.transFigure,
@@ -137,9 +140,9 @@ def panel(fig, x, y, w, h, *, facecolor=CARD, edgecolor=LINE, lw=1.0, radius=0.0
         h,
         boxstyle=f"round,pad=0,rounding_size={radius}",
         transform=fig.transFigure,
-        facecolor="#070b0a",
+        facecolor="#81909a",
         edgecolor="none",
-        alpha=0.18,
+        alpha=0.12,
         mutation_aspect=PAGE_W / PAGE_H,
         zorder=-1,
         clip_on=False,
@@ -162,23 +165,27 @@ def panel(fig, x, y, w, h, *, facecolor=CARD, edgecolor=LINE, lw=1.0, radius=0.0
     return box
 
 
-def header(fig, eyebrow: str, title: str, subtitle: str) -> None:
-    fig.text(0.06, 0.948, eyebrow.upper(), color=GOLD, fontsize=9.8,
+def header(fig, eyebrow: str, title: str, subtitle: str, kicker: str) -> None:
+    fig.text(0.06, 0.948, eyebrow.upper(), color=GOLD, fontsize=9.6,
              fontweight="bold", family=SANS)
-    fig.text(0.06, 0.912, title, color="#f8f0df", fontsize=27, family=SERIF, fontweight="bold",
+    fig.text(0.06, 0.912, title, color=INK, fontsize=26, family=SERIF, fontweight="bold",
              va="top")
-    fig.text(0.06, 0.868, subtitle, color="#c5d0c5", fontsize=10.2, family=SANS, va="top")
-    line = plt.Line2D([0.06, 0.94], [0.844, 0.844], transform=fig.transFigure,
-                      color=GOLD, lw=1.6)
+    fig.text(0.06, 0.868, subtitle, color=INK2, fontsize=10.0, family=SANS, va="top")
+    fig.text(0.94, 0.906, kicker.upper(), color=INK2, fontsize=7.2, family=SANS,
+             fontweight="bold", ha="right", va="top", linespacing=1.35)
+    line = plt.Line2D([0.06, 0.94], [0.832, 0.832], transform=fig.transFigure,
+                      color=GOLD, lw=1.1, alpha=0.85)
     fig.add_artist(line)
     fig.add_artist(plt.Line2D([0.82, 0.94], [0.948, 0.948], transform=fig.transFigure,
                               color=TEAL, lw=5.0, solid_capstyle="butt"))
 
 
-def footer(fig, text: str) -> None:
-    fig.text(0.06, 0.035, text, color="#b8c5bb", fontsize=8.2, family=SANS, va="center")
-    fig.text(0.94, 0.035, "github.com/worldcup-quant", color="#b8c5bb", fontsize=8.2,
-             family=SANS, va="center", ha="right")
+def footer(fig, text: str, page: str) -> None:
+    fig.text(0.06, 0.037, text, color=INK2, fontsize=7.8, family=SANS, va="center")
+    fig.text(0.50, 0.037, "WORLD CUP FORECAST 2026", color=GOLD, fontsize=7.4,
+             family=SANS, va="center", ha="center", fontweight="bold")
+    fig.text(0.94, 0.037, page, color=INK2, fontsize=7.8, family=SANS,
+             va="center", ha="right", fontweight="bold")
 
 
 def axes_in(fig, x, y, w, h):
@@ -204,7 +211,7 @@ def kpi_strip(fig, results, meta, generated) -> None:
         ("Simulations", f"{meta['iterations']:,}", f"as of {generated}"),
     ]
     x0, w, gap = 0.06, 0.2025, 0.0167
-    y, h = 0.744, 0.086
+    y, h = 0.724, 0.086
     for i, (label, value, note) in enumerate(cells):
         x = x0 + i * (w + gap)
         panel(fig, x, y, w, h)
@@ -220,16 +227,21 @@ def kpi_strip(fig, results, meta, generated) -> None:
 
 
 def champion_bars(fig, results, top_n=14) -> None:
-    x, y, w, h = 0.06, 0.345, 0.88, 0.374
+    x, y, w, h = 0.06, 0.335, 0.88, 0.365
     panel(fig, x, y, w, h)
     fig.patches.append(
         plt.Rectangle((x, y + h - 0.070), w, 0.070, transform=fig.transFigure,
-                      facecolor=INK, edgecolor="none", zorder=1)
+                      facecolor=PANEL_HEAD, edgecolor="none", zorder=1)
     )
-    fig.text(x + 0.025, y + h - 0.023, "Who lifts the trophy?", color="#f8f0df", fontsize=15,
+    fig.text(x + 0.025, y + h - 0.023, "Who lifts the trophy?", color=CARD, fontsize=15,
              family=SERIF, fontweight="bold", va="top")
     fig.text(x + 0.025, y + h - 0.052, "Estimated probability of winning the 2026 World Cup",
-             color="#b8c5bb", fontsize=9.2, va="top")
+             color="#d7e0e6", fontsize=9.2, va="top")
+    top3 = sum(r["champion_probability"] for r in results[:3])
+    fig.text(x + w - 0.030, y + h - 0.025, pct(top3), color=GOLD, fontsize=14.5,
+             family=SERIF, fontweight="bold", ha="right", va="top")
+    fig.text(x + w - 0.030, y + h - 0.052, "title share of top three", color="#d7e0e6",
+             fontsize=7.6, ha="right", va="top", fontweight="bold")
 
     ax = axes_in(fig, x + 0.235, y + 0.035, w - 0.30, h - 0.125)
     teams = [r["team"] for r in results[:top_n]][::-1]
@@ -252,7 +264,7 @@ def champion_bars(fig, results, top_n=14) -> None:
 
 
 def confederation_donut(fig, results, conf_by_team) -> None:
-    x, y, w, h = 0.06, 0.085, 0.42, 0.235
+    x, y, w, h = 0.06, 0.078, 0.42, 0.230
     panel(fig, x, y, w, h)
     fig.text(x + 0.025, y + h - 0.026, "Title geography", color=INK, fontsize=13,
              family=SERIF, fontweight="bold", va="top")
@@ -290,7 +302,7 @@ def confederation_donut(fig, results, conf_by_team) -> None:
 
 
 def favourite_funnel(fig, results) -> None:
-    x, y, w, h = 0.52, 0.085, 0.42, 0.235
+    x, y, w, h = 0.52, 0.078, 0.42, 0.230
     panel(fig, x, y, w, h)
     fav = results[0]
     fig.text(x + 0.025, y + h - 0.026, f"{fav['team']}'s survival curve", color=INK, fontsize=13,
@@ -326,12 +338,13 @@ def render_page1(fig, results, meta, conf_by_team, generated) -> None:
         "Who Wins the World Cup?",
         "A Monte Carlo simulation of the 48-team tournament, driven by World Football Elo "
         "ratings\nand xG-adjusted match outcomes.",
+        f"{meta['iterations']:,} simulations\n48-team tournament",
     )
     kpi_strip(fig, results, meta, generated)
     champion_bars(fig, results)
     confederation_donut(fig, results, conf_by_team)
     favourite_funnel(fig, results)
-    footer(fig, f"Source: eloratings.net · {meta['iterations']:,} simulations · generated {generated}")
+    footer(fig, f"Source: eloratings.net · generated {generated}", "01 / 03")
 
 
 # --------------------------------------------------------------------------- #
@@ -341,24 +354,28 @@ def _blend(t: float) -> tuple:
     """Blend paper -> accent green for a sequential heatmap cell."""
     import matplotlib.colors as mcolors
 
-    c0 = mcolors.to_rgb("#e7dfcf")
-    c1 = mcolors.to_rgb("#0f7656")
+    c0 = mcolors.to_rgb("#e7edf0")
+    c1 = mcolors.to_rgb(ACCENT)
     t = max(0.0, min(1.0, t)) ** 0.7
     return tuple(c0[i] + (c1[i] - c0[i]) * t for i in range(3))
 
 
 def progression_matrix(fig, results, top_n=14) -> None:
-    x, y, w, h = 0.06, 0.46, 0.88, 0.39
+    x, y, w, h = 0.06, 0.455, 0.88, 0.385
     panel(fig, x, y, w, h)
     fig.patches.append(
         plt.Rectangle((x, y + h - 0.067), w, 0.067, transform=fig.transFigure,
-                      facecolor=INK, edgecolor="none", zorder=1)
+                      facecolor=PANEL_HEAD, edgecolor="none", zorder=1)
     )
-    fig.text(x + 0.025, y + h - 0.024, "Knockout pressure map", color="#f8f0df",
+    fig.text(x + 0.025, y + h - 0.024, "Knockout pressure map", color=CARD,
              fontsize=15, family=SERIF, fontweight="bold", va="top")
     fig.text(x + 0.025, y + h - 0.052,
              "Probability of reaching each stage. Darker means more likely.",
-             color="#b8c5bb", fontsize=9.2, va="top")
+             color="#d7e0e6", fontsize=9.2, va="top")
+    fig.text(x + w - 0.030, y + h - 0.027, "SURVIVAL", color=GOLD, fontsize=8.0,
+             ha="right", va="top", fontweight="bold")
+    fig.text(x + w - 0.030, y + h - 0.049, "round-by-round odds", color="#d7e0e6",
+             fontsize=7.3, ha="right", va="top", fontweight="bold")
 
     cols = [
         ("Round of 16", "round_of_16_probability"),
@@ -399,7 +416,7 @@ def progression_matrix(fig, results, top_n=14) -> None:
 
 
 def group_favourites(fig, structure, results) -> None:
-    x, y, w, h = 0.06, 0.085, 0.88, 0.345
+    x, y, w, h = 0.06, 0.078, 0.88, 0.340
     panel(fig, x, y, w, h)
     fig.text(x + 0.025, y + h - 0.026, "Group favourites", color=INK, fontsize=15,
              family=SERIF, fontweight="bold", va="top")
@@ -431,7 +448,7 @@ def group_favourites(fig, structure, results) -> None:
                           transform=fig.transFigure, facecolor=ACCENT_INK, edgecolor="none",
                           zorder=2)
         )
-        fig.text(cx + 0.016, cy + cell_h - 0.014, f"GROUP {group['group']}", color="#f8f0df",
+        fig.text(cx + 0.016, cy + cell_h - 0.014, f"GROUP {group['group']}", color=CARD,
                  fontsize=7.1, fontweight="bold", va="center", zorder=3)
 
         ranked = sorted(
@@ -449,7 +466,7 @@ def group_favourites(fig, structure, results) -> None:
                      va="center", ha="right", fontweight="bold")
             fig.patches.append(
                 plt.Rectangle((cx + 0.016, yy - 0.012), cell_w - 0.056, 0.005,
-                              transform=fig.transFigure, facecolor="#d8cbb8",
+                              transform=fig.transFigure, facecolor=LINE,
                               edgecolor="none", zorder=2)
             )
             fig.patches.append(
@@ -467,27 +484,32 @@ def render_page2(fig, results, structure, meta, generated) -> None:
         "The Path Through the Bracket",
         "Each team's chance of surviving to the round of 16, quarter-finals, semi-finals, "
         "final and title.",
+        "Stage survival\nTop 14 teams",
     )
     progression_matrix(fig, results)
     group_favourites(fig, structure, results)
-    footer(fig, f"Source: eloratings.net · {meta['iterations']:,} simulations · generated {generated}")
+    footer(fig, f"Source: eloratings.net · {meta['iterations']:,} simulations", "02 / 03")
 
 
 # --------------------------------------------------------------------------- #
 # Page 3 - model credibility / backtests
 # --------------------------------------------------------------------------- #
 def backtest_panel(fig, tournaments) -> None:
-    x, y, w, h = 0.06, 0.40, 0.88, 0.45
+    x, y, w, h = 0.06, 0.395, 0.88, 0.445
     panel(fig, x, y, w, h)
     fig.patches.append(
         plt.Rectangle((x, y + h - 0.070), w, 0.070, transform=fig.transFigure,
-                      facecolor=INK, edgecolor="none", zorder=1)
+                      facecolor=PANEL_HEAD, edgecolor="none", zorder=1)
     )
-    fig.text(x + 0.025, y + h - 0.024, "Backtested under pressure", color="#f8f0df",
+    fig.text(x + 0.025, y + h - 0.024, "Backtested under pressure", color=CARD,
              fontsize=15, family=SERIF, fontweight="bold", va="top")
     fig.text(x + 0.025, y + h - 0.052,
              "Re-running the model with pre-tournament ratings only — no hindsight.",
-             color="#b8c5bb", fontsize=9.2, va="top")
+             color="#d7e0e6", fontsize=9.2, va="top")
+    fig.text(x + w - 0.030, y + h - 0.027, "3 TOURNAMENTS", color=GOLD, fontsize=8.0,
+             ha="right", va="top", fontweight="bold")
+    fig.text(x + w - 0.030, y + h - 0.049, "2014 · 2018 · 2022", color="#d7e0e6",
+             fontsize=7.3, ha="right", va="top", fontweight="bold")
 
     rows = []
     for t in tournaments:
@@ -530,7 +552,7 @@ def backtest_panel(fig, tournaments) -> None:
         if i % 2 == 0:
             fig.patches.append(
                 plt.Rectangle((x + 0.025, cy - row_h * 0.34), w - 0.05, row_h * 0.68,
-                              transform=fig.transFigure, facecolor="#efe6d7",
+                              transform=fig.transFigure, facecolor=ACCENT_SOFT,
                               edgecolor="none", zorder=1)
             )
         fig.text(x + 0.04, cy, name, color=INK, fontsize=11, family=SERIF,
@@ -547,7 +569,7 @@ def backtest_panel(fig, tournaments) -> None:
 
 
 def takeaways_panel(fig, tournaments) -> None:
-    x, y, w, h = 0.06, 0.085, 0.88, 0.285
+    x, y, w, h = 0.06, 0.078, 0.88, 0.280
     panel(fig, x, y, w, h)
     fig.text(x + 0.025, y + h - 0.026, "Receipts", color=INK, fontsize=14,
              family=SERIF, fontweight="bold", va="top")
@@ -584,11 +606,12 @@ def render_page3(fig, backtests, meta, generated) -> None:
         "Does the Model Actually Work?",
         "Backtests replay each past tournament from its pre-tournament ratings and score the "
         "forecast.",
+        "Historical replay\nNo hindsight",
     )
     tournaments = backtests.get("tournaments", [])
     backtest_panel(fig, tournaments)
     takeaways_panel(fig, tournaments)
-    footer(fig, "Backtests use Elo ratings frozen the day before each tournament kicked off.")
+    footer(fig, "Source: pre-tournament Elo ratings", "03 / 03")
 
 
 # --------------------------------------------------------------------------- #
