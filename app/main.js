@@ -233,11 +233,93 @@ function renderMetricRow(label, key, values, lowerIsBetter = true) {
   `;
 }
 
+function renderComparisonCell(value, baseline, lowerIsBetter = true) {
+  return `
+    <td>
+      ${formatDecimal(value, 5)}
+      <small>${metricDelta(value, baseline, lowerIsBetter)}</small>
+    </td>
+  `;
+}
+
+function renderBacktestMethodRows(values) {
+  const [elo, xg] = values;
+  if (!elo || !xg) {
+    return "";
+  }
+  return `
+    <tr>
+      <td>Top Pick</td>
+      <td>${escapeHtml(elo.top_pick)}</td>
+      <td>${escapeHtml(xg.top_pick)}</td>
+    </tr>
+    <tr>
+      <td>Actual Champion</td>
+      <td>${formatPercent(elo.actual_champion_probability)}</td>
+      <td>${formatPercent(xg.actual_champion_probability)}</td>
+    </tr>
+    <tr>
+      <td>Champion Log Loss</td>
+      <td>${formatDecimal(elo.champion_log_loss, 5)}</td>
+      ${renderComparisonCell(xg.champion_log_loss, elo.champion_log_loss)}
+    </tr>
+    <tr>
+      <td>Round of 16 Brier</td>
+      <td>${formatDecimal(elo.round_of_16_brier_score, 5)}</td>
+      ${renderComparisonCell(xg.round_of_16_brier_score, elo.round_of_16_brier_score)}
+    </tr>
+    <tr>
+      <td>Stage Brier</td>
+      <td>${formatDecimal(elo.stage_brier_score, 5)}</td>
+      ${renderComparisonCell(xg.stage_brier_score, elo.stage_brier_score)}
+    </tr>
+    <tr>
+      <td>Stage Error</td>
+      <td>${formatDecimal(elo.stage_score_mae, 5)}</td>
+      ${renderComparisonCell(xg.stage_score_mae, elo.stage_score_mae)}
+    </tr>
+    <tr>
+      <td>Calibration Error</td>
+      <td>${formatDecimal(elo.calibration_error, 5)}</td>
+      ${renderComparisonCell(xg.calibration_error, elo.calibration_error)}
+    </tr>
+  `;
+}
+
 function renderDrawModelComparison() {
   const container = document.querySelector("#backtest-draw-comparison");
   if (!container) {
     return;
   }
+  const backtestMethodComparison = backtestResults?.methodComparison;
+  const tournamentHeading = backtestMethodComparison
+    ? "2022 Method Backtest"
+    : "2022 Tournament Backtest";
+  const tournamentHeader = backtestMethodComparison
+    ? `
+              <tr>
+                <th>Metric</th>
+                <th>Elo</th>
+                <th>xG/Elo-adjusted</th>
+              </tr>
+            `
+    : `
+              <tr>
+                <th>Metric</th>
+                <th>Old</th>
+                <th>Fitted</th>
+                <th>Delta</th>
+              </tr>
+            `;
+  const tournamentRows = backtestMethodComparison
+    ? renderBacktestMethodRows(backtestMethodComparison)
+    : `
+              ${renderMetricRow("Champion Log Loss", "championLogLoss", drawModelComparison.tournamentBacktest)}
+              ${renderMetricRow("Round of 16 Brier", "roundOf16Brier", drawModelComparison.tournamentBacktest)}
+              ${renderMetricRow("Stage Brier", "stageBrier", drawModelComparison.tournamentBacktest)}
+              ${renderMetricRow("Stage Error", "stageError", drawModelComparison.tournamentBacktest)}
+              ${renderMetricRow("Calibration Error", "calibrationError", drawModelComparison.tournamentBacktest)}
+            `;
 
   container.innerHTML = `
     <section class="comparison-panel" aria-labelledby="draw-comparison-heading">
@@ -269,22 +351,13 @@ function renderDrawModelComparison() {
           </table>
         </div>
         <div class="comparison-table-wrap">
-          <h3>2022 Tournament Backtest</h3>
+          <h3>${tournamentHeading}</h3>
           <table class="comparison-table">
             <thead>
-              <tr>
-                <th>Metric</th>
-                <th>Old</th>
-                <th>Fitted</th>
-                <th>Delta</th>
-              </tr>
+              ${tournamentHeader}
             </thead>
             <tbody>
-              ${renderMetricRow("Champion Log Loss", "championLogLoss", drawModelComparison.tournamentBacktest)}
-              ${renderMetricRow("Round of 16 Brier", "roundOf16Brier", drawModelComparison.tournamentBacktest)}
-              ${renderMetricRow("Stage Brier", "stageBrier", drawModelComparison.tournamentBacktest)}
-              ${renderMetricRow("Stage Error", "stageError", drawModelComparison.tournamentBacktest)}
-              ${renderMetricRow("Calibration Error", "calibrationError", drawModelComparison.tournamentBacktest)}
+              ${tournamentRows}
             </tbody>
           </table>
         </div>

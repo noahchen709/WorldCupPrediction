@@ -1,9 +1,18 @@
 import math
 import random
 from dataclasses import dataclass
+from datetime import date
+from pathlib import Path
 
+from worldcup_prediction.config import RAW_DATA_DIR
 from worldcup_prediction.data_loader import TeamRecord
-from worldcup_prediction.models.elo import elo_win_draw_loss
+from worldcup_prediction.models.elo import elo_win_draw_loss, estimate_draw_probability
+
+
+ELO_GOAL_ADJUSTMENT_SCALE = 650.0
+GOAL_RATE_FLOOR = 0.15
+GOAL_RATE_CEILING = 4.5
+DEFAULT_HISTORY_YEARS = 4
 
 
 @dataclass(frozen=True)
@@ -69,6 +78,43 @@ class BacktestSummary:
 class BacktestResult:
     summary: BacktestSummary
     teams: list[BacktestTeamResult]
+
+
+@dataclass(frozen=True)
+class MethodComparison:
+    model: str
+    top_pick: str
+    actual_champion_probability: float
+    champion_log_loss: float
+    round_of_16_brier_score: float
+    stage_brier_score: float
+    stage_score_mae: float
+    calibration_error: float
+
+
+@dataclass(frozen=True)
+class TeamExpectedGoalsProfile:
+    team: str
+    matches: int
+    adjusted_goals_for: float
+    adjusted_goals_against: float
+
+
+@dataclass(frozen=True)
+class ExpectedGoalsModel:
+    profiles: dict[str, TeamExpectedGoalsProfile]
+    average_goals: float
+
+
+@dataclass(frozen=True)
+class HistoricalMatch:
+    played_on: date
+    team_a: str
+    team_b: str
+    goals_a: int
+    goals_b: int
+    rating_a: float
+    rating_b: float
 
 
 ROUND_OF_16_MATCHES: tuple[tuple[int, tuple[str, int], tuple[str, int]], ...] = (
@@ -148,11 +194,227 @@ HISTORICAL_TOURNAMENTS = {
 }
 
 
+def parse_team_code_names(path: Path = RAW_DATA_DIR / "elo_team_names.tsv") -> dict[str, str]:
+    code_names = {}
+    if not path.exists():
+        return code_names
+
+    for line in path.read_text(encoding="utf-8").splitlines():
+        fields = line.split("\t")
+        if len(fields) >= 2:
+            code_names[fields[0]] = fields[1]
+    return code_names
+
+
+def parse_historical_matches(
+    start_year: int,
+    end_year: int,
+    as_of: date,
+    raw_data_dir: Path = RAW_DATA_DIR,
+) -> list[HistoricalMatch]:
+    code_names = parse_team_code_names(raw_data_dir / "elo_team_names.tsv")
+    matches = []
+    for year in range(start_year, end_year + 1):
+        path = raw_data_dir / f"elo_results_{year}.tsv"
+        if not path.exists():
+            continue
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            fields = line.split("\t")
+            if len(fields) < 12:
+                continue
+            played_on = date(int(fields[0]), int(fields[1]), int(fields[2]))
+            if played_on >= as_of:
+                continue
+            team_a = code_names.get(fields[3])
+            team_b = code_names.get(fields[4])
+            if not team_a or not team_b:
+                continue
+            matches.append(
+                HistoricalMatch(
+                    played_on=played_on,
+                    team_a=team_a,
+                    team_b=team_b,
+                    goals_a=int(fields[5]),
+                    goals_b=int(fields[6]),
+                    rating_a=float(fields[10]),
+                    rating_b=float(fields[11]),
+                )
+            )
+    return matches
+
+
+def build_expected_goals_model(
+    teams: list[TeamRecord],
+    tournament: HistoricalTournament,
+    history_years: int = DEFAULT_HISTORY_YEARS,
+    raw_data_dir: Path = RAW_DATA_DIR,
+) -> ExpectedGoalsModel:
+    tournament_date = date.fromisoformat(tournament.as_of)
+    matches = parse_historical_matches(
+        tournament_date.year - history_years,
+        tournament_date.year,
+        tournament_date,
+        raw_data_dir=raw_data_dir,
+    )
+    field = {team.team for team in teams}
+    totals = {
+        team_name: {"matches": 0, "for": 0.0, "against": 0.0}
+        for team_name in field
+    }
+
+    all_goals = 0
+    all_team_matches = 0
+    for match in matches:
+        all_goals += match.goals_a + match.goals_b
+        all_team_matches += 2
+        for_name = match.team_a
+        against_name = match.team_b
+        if for_name in totals:
+            gap = match.rating_a - match.rating_b
+            totals[for_name]["matches"] += 1
+            totals[for_name]["for"] += match.goals_a * math.exp(-gap / ELO_GOAL_ADJUSTMENT_SCALE)
+            totals[for_name]["against"] += match.goals_b * math.exp(gap / ELO_GOAL_ADJUSTMENT_SCALE)
+        if against_name in totals:
+            gap = match.rating_b - match.rating_a
+            totals[against_name]["matches"] += 1
+            totals[against_name]["for"] += match.goals_b * math.exp(-gap / ELO_GOAL_ADJUSTMENT_SCALE)
+            totals[against_name]["against"] += match.goals_a * math.exp(gap / ELO_GOAL_ADJUSTMENT_SCALE)
+
+    average_goals = all_goals / all_team_matches if all_team_matches else 1.25
+    profiles = {}
+    for team in teams:
+        row = totals[team.team]
+        if row["matches"]:
+            adjusted_for = row["for"] / row["matches"]
+            adjusted_against = row["against"] / row["matches"]
+        else:
+            adjusted_for = average_goals
+            adjusted_against = average_goals
+        profiles[team.team] = TeamExpectedGoalsProfile(
+            team=team.team,
+            matches=row["matches"],
+            adjusted_goals_for=max(GOAL_RATE_FLOOR, adjusted_for),
+            adjusted_goals_against=max(GOAL_RATE_FLOOR, adjusted_against),
+        )
+    return ExpectedGoalsModel(profiles=profiles, average_goals=average_goals)
+
+
+def clamp_goal_rate(value: float) -> float:
+    return min(GOAL_RATE_CEILING, max(GOAL_RATE_FLOOR, value))
+
+
+def expected_goal_rates(
+    team_a: TeamRecord,
+    team_b: TeamRecord,
+    model: ExpectedGoalsModel,
+) -> tuple[float, float]:
+    profile_a = model.profiles[team_a.team]
+    profile_b = model.profiles[team_b.team]
+    matchup_factor = math.exp((team_a.rating - team_b.rating) / ELO_GOAL_ADJUSTMENT_SCALE)
+    goals_a = math.sqrt(profile_a.adjusted_goals_for * profile_b.adjusted_goals_against) * matchup_factor
+    goals_b = math.sqrt(profile_b.adjusted_goals_for * profile_a.adjusted_goals_against) / matchup_factor
+    return clamp_goal_rate(goals_a), clamp_goal_rate(goals_b)
+
+
+def poisson_probabilities(lam: float, max_goals: int = 10) -> list[float]:
+    probabilities = [math.exp(-lam)]
+    for goals in range(1, max_goals + 1):
+        probabilities.append(probabilities[-1] * lam / goals)
+    return probabilities
+
+
+def poisson_win_draw_loss(goals_a: float, goals_b: float) -> tuple[float, float, float]:
+    probabilities_a = poisson_probabilities(goals_a)
+    probabilities_b = poisson_probabilities(goals_b)
+    win = 0.0
+    draw = 0.0
+    loss = 0.0
+    for score_a, probability_a in enumerate(probabilities_a):
+        for score_b, probability_b in enumerate(probabilities_b):
+            probability = probability_a * probability_b
+            if score_a > score_b:
+                win += probability
+            elif score_a == score_b:
+                draw += probability
+            else:
+                loss += probability
+    total = win + draw + loss
+    return win / total, draw / total, loss / total
+
+
+def xg_win_draw_loss(
+    team_a: TeamRecord,
+    team_b: TeamRecord,
+    model: ExpectedGoalsModel,
+    allow_draw: bool = True,
+) -> tuple[float, float, float]:
+    goals_a, goals_b = expected_goal_rates(team_a, team_b, model)
+    poisson_win, poisson_draw, poisson_loss = poisson_win_draw_loss(goals_a, goals_b)
+    decisive = poisson_win + poisson_loss
+    if decisive <= 0:
+        non_draw_win = 0.5
+    else:
+        non_draw_win = poisson_win / decisive
+
+    if not allow_draw:
+        return non_draw_win, 0.0, 1 - non_draw_win
+
+    draw = estimate_draw_probability(team_a.rating, team_b.rating)
+    win = (1 - draw) * non_draw_win
+    loss = 1 - win - draw
+    return win, draw, loss
+
+
+def sample_poisson_score(lam: float, rng: random.Random) -> int:
+    threshold = math.exp(-lam)
+    probability = threshold
+    cumulative = probability
+    roll = rng.random()
+    goals = 0
+    while roll > cumulative and goals < 12:
+        goals += 1
+        probability *= lam / goals
+        cumulative += probability
+    return goals
+
+
+def sample_xg_regulation_result(
+    team_a: TeamRecord,
+    team_b: TeamRecord,
+    rng: random.Random,
+    model: ExpectedGoalsModel,
+) -> tuple[int, int]:
+    win, draw, _ = xg_win_draw_loss(team_a, team_b, model, allow_draw=True)
+    roll = rng.random()
+    goals_a, goals_b = expected_goal_rates(team_a, team_b, model)
+    if roll < draw:
+        drawn_goals = max(0, round((sample_poisson_score(goals_a, rng) + sample_poisson_score(goals_b, rng)) / 2))
+        return drawn_goals, drawn_goals
+    if roll < draw + win:
+        score_a = sample_poisson_score(goals_a, rng)
+        score_b = sample_poisson_score(goals_b, rng)
+        if score_a <= score_b:
+            score_a = score_b + 1
+        return score_a, score_b
+
+    score_a = sample_poisson_score(goals_a, rng)
+    score_b = sample_poisson_score(goals_b, rng)
+    if score_b <= score_a:
+        score_b = score_a + 1
+    return score_a, score_b
+
+
 def sample_regulation_result(
     team_a: TeamRecord,
     team_b: TeamRecord,
     rng: random.Random,
+    xg_model: ExpectedGoalsModel | None = None,
 ) -> tuple[int, int]:
+    if xg_model is not None:
+        return sample_xg_regulation_result(team_a, team_b, rng, xg_model)
+
     win, draw, _ = elo_win_draw_loss(team_a.rating, team_b.rating, allow_draw=True)
     roll = rng.random()
     if roll < win:
@@ -162,12 +424,25 @@ def sample_regulation_result(
     return 0, 1
 
 
-def sample_knockout_winner(team_a: TeamRecord, team_b: TeamRecord, rng: random.Random) -> TeamRecord:
+def sample_knockout_winner(
+    team_a: TeamRecord,
+    team_b: TeamRecord,
+    rng: random.Random,
+    xg_model: ExpectedGoalsModel | None = None,
+) -> TeamRecord:
+    if xg_model is not None:
+        win, _, _ = xg_win_draw_loss(team_a, team_b, xg_model, allow_draw=False)
+        return team_a if rng.random() < win else team_b
+
     win, _, _ = elo_win_draw_loss(team_a.rating, team_b.rating, allow_draw=False)
     return team_a if rng.random() < win else team_b
 
 
-def simulate_group(group: list[TeamRecord], rng: random.Random) -> list[TeamRecord]:
+def simulate_group(
+    group: list[TeamRecord],
+    rng: random.Random,
+    xg_model: ExpectedGoalsModel | None = None,
+) -> list[TeamRecord]:
     table = {
         team.team: {
             "record": team,
@@ -180,7 +455,7 @@ def simulate_group(group: list[TeamRecord], rng: random.Random) -> list[TeamReco
     }
     for index, team_a in enumerate(group):
         for team_b in group[index + 1 :]:
-            goals_a, goals_b = sample_regulation_result(team_a, team_b, rng)
+            goals_a, goals_b = sample_regulation_result(team_a, team_b, rng, xg_model)
             row_a = table[team_a.team]
             row_b = table[team_b.team]
             row_a["goals_for"] += goals_a
@@ -237,9 +512,10 @@ def make_groups(
 def qualify_round_of_16(
     groups: dict[str, list[TeamRecord]],
     rng: random.Random,
+    xg_model: ExpectedGoalsModel | None = None,
 ) -> dict[int, tuple[TeamRecord, TeamRecord]]:
     group_tables = {
-        group_name: simulate_group(group, rng)
+        group_name: simulate_group(group, rng, xg_model)
         for group_name, group in groups.items()
     }
     return {
@@ -255,10 +531,11 @@ def qualify_round_of_16(
 def simulate_knockout(
     round_of_16_matches: dict[int, tuple[TeamRecord, TeamRecord]],
     rng: random.Random,
+    xg_model: ExpectedGoalsModel | None = None,
 ) -> tuple[dict[str, list[TeamRecord]], TeamRecord]:
     winners = {}
     for match_number, (team_a, team_b) in round_of_16_matches.items():
-        winners[match_number] = sample_knockout_winner(team_a, team_b, rng)
+        winners[match_number] = sample_knockout_winner(team_a, team_b, rng, xg_model)
 
     round_winners = {"qf": list(winners.values())}
     for round_name, round_matches in zip(("sf", "final", "champion"), KNOCKOUT_ROUNDS_32_TEAM):
@@ -267,6 +544,7 @@ def simulate_knockout(
                 winners[left_match],
                 winners[right_match],
                 rng,
+                xg_model,
             )
         round_winners[round_name] = [winners[match_number] for match_number, _, _ in round_matches]
 
@@ -378,22 +656,78 @@ def calibration_error(bins: list[CalibrationBin]) -> float:
     ) / total
 
 
+def method_comparison(model: str, result: BacktestResult) -> MethodComparison:
+    summary = result.summary
+    return MethodComparison(
+        model=model,
+        top_pick=summary.top_pick,
+        actual_champion_probability=summary.actual_champion_probability,
+        champion_log_loss=summary.champion_log_loss,
+        round_of_16_brier_score=summary.round_of_16_brier_score,
+        stage_brier_score=summary.stage_brier_score,
+        stage_score_mae=summary.stage_score_mae,
+        calibration_error=summary.calibration_error,
+    )
+
+
+def compare_backtest_methods(
+    tournament: HistoricalTournament,
+    teams: list[TeamRecord],
+    iterations: int = 10_000,
+    seed: int = 2022,
+) -> tuple[BacktestResult, BacktestResult, list[MethodComparison]]:
+    groups = make_groups(tournament, teams)
+    field = [team for group in groups.values() for team in group]
+    xg_model = build_expected_goals_model(field, tournament)
+    elo_result = run_backtest(
+        tournament,
+        teams,
+        iterations=iterations,
+        seed=seed,
+        method="elo",
+    )
+    xg_result = run_backtest(
+        tournament,
+        teams,
+        iterations=iterations,
+        seed=seed,
+        method="xg",
+        xg_model=xg_model,
+    )
+    return (
+        elo_result,
+        xg_result,
+        [
+            method_comparison("elo", elo_result),
+            method_comparison("xg_elo_adjusted", xg_result),
+        ],
+    )
+
+
 def run_backtest(
     tournament: HistoricalTournament,
     teams: list[TeamRecord],
     iterations: int = 10_000,
     seed: int = 2022,
+    method: str = "elo",
+    xg_model: ExpectedGoalsModel | None = None,
 ) -> BacktestResult:
+    if method not in {"elo", "xg"}:
+        raise ValueError("method must be 'elo' or 'xg'")
+
     rng = random.Random(seed)
     groups = make_groups(tournament, teams)
     field = [team for group in groups.values() for team in group]
+    if method == "xg" and xg_model is None:
+        xg_model = build_expected_goals_model(field, tournament)
+
     counts = {
         team.team: {"r16": 0, "qf": 0, "sf": 0, "final": 0, "champion": 0}
         for team in field
     }
 
     for _ in range(iterations):
-        round_of_16_matches = qualify_round_of_16(groups, rng)
+        round_of_16_matches = qualify_round_of_16(groups, rng, xg_model)
         round_of_16 = {
             team.team
             for match in round_of_16_matches.values()
@@ -402,7 +736,7 @@ def run_backtest(
         for team_name in round_of_16:
             counts[team_name]["r16"] += 1
 
-        round_winners, _ = simulate_knockout(round_of_16_matches, rng)
+        round_winners, _ = simulate_knockout(round_of_16_matches, rng, xg_model)
         for round_name, winners in round_winners.items():
             for team in winners:
                 counts[team.team][round_name] += 1
