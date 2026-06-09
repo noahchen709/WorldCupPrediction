@@ -251,3 +251,49 @@ def test_xg_history_model_downweights_friendlies(tmp_path) -> None:
 
     assert neutral_match_types.profiles["Alpha"].adjusted_goals_for > 2.9
     assert weighted_match_types.profiles["Alpha"].adjusted_goals_for < 2
+
+
+def test_xg_history_model_normalizes_attack_by_opponent_elo(tmp_path) -> None:
+    raw_dir = tmp_path
+    (raw_dir / "elo_team_names.tsv").write_text(
+        "AA\tAlpha\nBB\tBeta\nGG\tGamma\n",
+        encoding="utf-8",
+    )
+    (raw_dir / "elo_results_2021.tsv").write_text(
+        "\n".join(
+            [
+                "2021\t06\t01\tAA\tBB\t2\t0\tWQ\t\t0\t1800\t1600\t0\t0\t0\t0",
+                "2021\t06\t02\tGG\tBB\t2\t0\tWQ\t\t0\t1400\t1600\t0\t0\t0\t0",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    tournament = HistoricalTournament(
+        name="Fixture",
+        as_of="2022-01-01",
+        source="test",
+        groups=(("A", ("Alpha", "Beta", "Gamma")),),
+        actual_finish={},
+    )
+    teams = [
+        TeamRecord("Alpha", "", 1800, 1800, 1800, 1800),
+        TeamRecord("Beta", "", 1600, 1600, 1600, 1600),
+        TeamRecord("Gamma", "", 1400, 1400, 1400, 1400),
+    ]
+
+    model = build_expected_goals_model(
+        teams,
+        tournament,
+        config=XGModelConfig(
+            history_years=1,
+            recency_half_life_days=100_000,
+            elo_goal_adjustment_scale=650,
+            match_type_weights={"WQ": 1},
+        ),
+        raw_data_dir=raw_dir,
+    )
+
+    assert model.profiles["Alpha"].adjusted_goals_for == (
+        model.profiles["Gamma"].adjusted_goals_for
+    )

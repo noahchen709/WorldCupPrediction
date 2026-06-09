@@ -129,6 +129,7 @@ class TeamExpectedGoalsProfile:
 class ExpectedGoalsModel:
     profiles: dict[str, TeamExpectedGoalsProfile]
     average_goals: float
+    average_rating: float
     config: XGModelConfig
 
 
@@ -452,6 +453,8 @@ def build_expected_goals_model(
 
     all_goals = 0
     all_team_matches = 0
+    weighted_rating_total = 0.0
+    weighted_rating_count = 0.0
     if config.recency_half_life_days <= 0:
         raise ValueError("recency_half_life_days must be greater than zero")
     if config.elo_goal_adjustment_scale <= 0:
@@ -459,41 +462,63 @@ def build_expected_goals_model(
     if any(weight <= 0 for weight in config.match_type_weights.values()):
         raise ValueError("match_type_weights must be greater than zero")
 
+    weighted_matches = []
     for match in matches:
         age_days = max(0, (tournament_date - match.played_on).days)
         recency_weight = 0.5 ** (age_days / config.recency_half_life_days)
         effective_weight = recency_weight * match_type_weight(match.match_type, config)
+        weighted_matches.append((match, effective_weight))
         all_goals += effective_weight * (match.goals_a + match.goals_b)
         all_team_matches += 2 * effective_weight
+        weighted_rating_total += effective_weight * (match.rating_a + match.rating_b)
+        weighted_rating_count += 2 * effective_weight
+
+    average_rating = (
+        weighted_rating_total / weighted_rating_count
+        if weighted_rating_count
+        else sum(team.rating for team in teams) / len(teams)
+    )
+
+    for match, effective_weight in weighted_matches:
         for_name = match.team_a
         against_name = match.team_b
         if for_name in totals:
-            gap = match.rating_a - match.rating_b
             totals[for_name]["matches"] += 1
             totals[for_name]["weight"] += effective_weight
             totals[for_name]["for"] += (
                 effective_weight
                 * match.goals_a
-                * math.exp(-gap / config.elo_goal_adjustment_scale)
+                * math.exp(
+                    (match.rating_b - average_rating)
+                    / config.elo_goal_adjustment_scale
+                )
             )
             totals[for_name]["against"] += (
                 effective_weight
                 * match.goals_b
-                * math.exp(gap / config.elo_goal_adjustment_scale)
+                * math.exp(
+                    (average_rating - match.rating_b)
+                    / config.elo_goal_adjustment_scale
+                )
             )
         if against_name in totals:
-            gap = match.rating_b - match.rating_a
             totals[against_name]["matches"] += 1
             totals[against_name]["weight"] += effective_weight
             totals[against_name]["for"] += (
                 effective_weight
                 * match.goals_b
-                * math.exp(-gap / config.elo_goal_adjustment_scale)
+                * math.exp(
+                    (match.rating_a - average_rating)
+                    / config.elo_goal_adjustment_scale
+                )
             )
             totals[against_name]["against"] += (
                 effective_weight
                 * match.goals_a
-                * math.exp(gap / config.elo_goal_adjustment_scale)
+                * math.exp(
+                    (average_rating - match.rating_a)
+                    / config.elo_goal_adjustment_scale
+                )
             )
 
     average_goals = all_goals / all_team_matches if all_team_matches else 1.25
@@ -515,6 +540,7 @@ def build_expected_goals_model(
     return ExpectedGoalsModel(
         profiles=profiles,
         average_goals=average_goals,
+        average_rating=average_rating,
         config=config,
     )
 
@@ -530,11 +556,20 @@ def expected_goal_rates(
 ) -> tuple[float, float]:
     profile_a = model.profiles[team_a.team]
     profile_b = model.profiles[team_b.team]
-    matchup_factor = math.exp(
-        (team_a.rating - team_b.rating) / model.config.elo_goal_adjustment_scale
+    attack_a = profile_a.adjusted_goals_for * math.exp(
+        (model.average_rating - team_b.rating) / model.config.elo_goal_adjustment_scale
     )
-    goals_a = math.sqrt(profile_a.adjusted_goals_for * profile_b.adjusted_goals_against) * matchup_factor
-    goals_b = math.sqrt(profile_b.adjusted_goals_for * profile_a.adjusted_goals_against) / matchup_factor
+    defense_b = profile_b.adjusted_goals_against * math.exp(
+        (team_a.rating - model.average_rating) / model.config.elo_goal_adjustment_scale
+    )
+    attack_b = profile_b.adjusted_goals_for * math.exp(
+        (model.average_rating - team_a.rating) / model.config.elo_goal_adjustment_scale
+    )
+    defense_a = profile_a.adjusted_goals_against * math.exp(
+        (team_b.rating - model.average_rating) / model.config.elo_goal_adjustment_scale
+    )
+    goals_a = math.sqrt(attack_a * defense_b)
+    goals_b = math.sqrt(attack_b * defense_a)
     return clamp_goal_rate(goals_a), clamp_goal_rate(goals_b)
 
 
