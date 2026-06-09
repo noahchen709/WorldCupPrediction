@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-09T01:35:37.042394+00:00",
+  "generatedAt": "2026-06-09T12:12:51.789595+00:00",
   "iterations": 10000,
   "teamCount": 48,
   "seed": 2026,
@@ -1244,9 +1244,9 @@
         },
         {
           "team": "Egypt",
-          "appearance_probability": 0.121,
+          "appearance_probability": 0.1211,
           "win_probability": 0.0164,
-          "conditional_win_probability": 0.13553719008264462
+          "conditional_win_probability": 0.13542526837324526
         },
         {
           "team": "Australia",
@@ -1292,9 +1292,9 @@
         },
         {
           "team": "Cape Verde",
-          "appearance_probability": 0.0401,
+          "appearance_probability": 0.04,
           "win_probability": 0.0038,
-          "conditional_win_probability": 0.09476309226932668
+          "conditional_win_probability": 0.095
         },
         {
           "team": "Turkey",
@@ -1310,9 +1310,9 @@
         },
         {
           "team": "Saudi Arabia",
-          "appearance_probability": 0.0305,
+          "appearance_probability": 0.0303,
           "win_probability": 0.0024,
-          "conditional_win_probability": 0.07868852459016394
+          "conditional_win_probability": 0.07920792079207921
         },
         {
           "team": "Belgium",
@@ -1334,15 +1334,15 @@
         },
         {
           "team": "Haiti",
-          "appearance_probability": 0.017,
+          "appearance_probability": 0.0171,
           "win_probability": 0.0011,
-          "conditional_win_probability": 0.06470588235294118
+          "conditional_win_probability": 0.06432748538011696
         },
         {
           "team": "Uruguay",
-          "appearance_probability": 0.0144,
+          "appearance_probability": 0.0145,
           "win_probability": 0.0048,
-          "conditional_win_probability": 0.3333333333333333
+          "conditional_win_probability": 0.3310344827586207
         },
         {
           "team": "Brazil",
@@ -1386,10 +1386,10 @@
             "Egypt",
             "France"
           ],
-          "probability": 0.0906,
+          "probability": 0.0907,
           "team_win_probabilities": {
-            "Egypt": 0.09823399558498896,
-            "France": 0.9017660044150111
+            "Egypt": 0.09812568908489526,
+            "France": 0.9018743109151047
           }
         },
         {
@@ -1545,8 +1545,8 @@
         {
           "team": "Mexico",
           "appearance_probability": 0.6705,
-          "win_probability": 0.4044,
-          "conditional_win_probability": 0.6031319910514541
+          "win_probability": 0.4043,
+          "conditional_win_probability": 0.6029828486204325
         },
         {
           "team": "Scotland",
@@ -1557,20 +1557,20 @@
         {
           "team": "South Korea",
           "appearance_probability": 0.1838,
-          "win_probability": 0.085,
-          "conditional_win_probability": 0.4624591947769314
+          "win_probability": 0.0851,
+          "conditional_win_probability": 0.4630032644178455
         },
         {
           "team": "Senegal",
-          "appearance_probability": 0.1613,
-          "win_probability": 0.0855,
-          "conditional_win_probability": 0.5300681959082455
+          "appearance_probability": 0.1614,
+          "win_probability": 0.0856,
+          "conditional_win_probability": 0.530359355638166
         },
         {
           "team": "Czechia",
           "appearance_probability": 0.1382,
-          "win_probability": 0.061,
-          "conditional_win_probability": 0.44138929088277856
+          "win_probability": 0.0609,
+          "conditional_win_probability": 0.4406657018813314
         },
         {
           "team": "Ivory Coast",
@@ -1586,9 +1586,9 @@
         },
         {
           "team": "Norway",
-          "appearance_probability": 0.0726,
-          "win_probability": 0.0463,
-          "conditional_win_probability": 0.6377410468319559
+          "appearance_probability": 0.0727,
+          "win_probability": 0.0464,
+          "conditional_win_probability": 0.6382393397524071
         },
         {
           "team": "Sweden",
@@ -1598,15 +1598,15 @@
         },
         {
           "team": "Cape Verde",
-          "appearance_probability": 0.0387,
+          "appearance_probability": 0.0386,
           "win_probability": 0.0073,
-          "conditional_win_probability": 0.18863049095607234
+          "conditional_win_probability": 0.18911917098445596
         },
         {
           "team": "Saudi Arabia",
-          "appearance_probability": 0.0305,
+          "appearance_probability": 0.0306,
           "win_probability": 0.0062,
-          "conditional_win_probability": 0.20327868852459016
+          "conditional_win_probability": 0.20261437908496732
         },
         {
           "team": "Germany",
@@ -1622,9 +1622,9 @@
         },
         {
           "team": "Haiti",
-          "appearance_probability": 0.0266,
+          "appearance_probability": 0.0265,
           "win_probability": 0.004,
-          "conditional_win_probability": 0.15037593984962405
+          "conditional_win_probability": 0.1509433962264151
         },
         {
           "team": "Ecuador",
@@ -1682,8 +1682,8 @@
         },
         {
           "team": "Spain",
-          "appearance_probability": 0.0005,
-          "win_probability": 0.0005,
+          "appearance_probability": 0.0004,
+          "win_probability": 0.0004,
           "conditional_win_probability": 1.0
         }
       ],
@@ -1704,10 +1704,10 @@
             "Mexico",
             "Senegal"
           ],
-          "probability": 0.1085,
+          "probability": 0.1086,
           "team_win_probabilities": {
-            "Mexico": 0.5400921658986175,
-            "Senegal": 0.4599078341013825
+            "Mexico": 0.5395948434622467,
+            "Senegal": 0.4604051565377532
           }
         },
         {
@@ -1958,9 +1958,9 @@
         },
         {
           "team": "Bosnia and Herzegovina",
-          "appearance_probability": 0.2535,
+          "appearance_probability": 0.2536,
           "win_probability": 0.0456,
-          "conditional_win_probability": 0.17988165680473372
+          "conditional_win_probability": 0.17981072555205047
         },
         {
           "team": "Paraguay",
@@ -2018,9 +2018,9 @@
         },
         {
           "team": "Norway",
-          "appearance_probability": 0.041,
+          "appearance_probability": 0.0409,
           "win_probability": 0.0225,
-          "conditional_win_probability": 0.5487804878048781
+          "conditional_win_probability": 0.5501222493887531
         },
         {
           "team": "Jordan",
@@ -2101,10 +2101,10 @@
             "Bosnia and Herzegovina",
             "Turkey"
           ],
-          "probability": 0.1483,
+          "probability": 0.1484,
           "team_win_probabilities": {
-            "Bosnia and Herzegovina": 0.12879298718813217,
-            "Turkey": 0.8712070128118679
+            "Bosnia and Herzegovina": 0.12870619946091644,
+            "Turkey": 0.8712938005390836
           }
         },
         {
@@ -2201,9 +2201,9 @@
         },
         {
           "team": "Senegal",
-          "appearance_probability": 0.0661,
+          "appearance_probability": 0.066,
           "win_probability": 0.032,
-          "conditional_win_probability": 0.48411497730711045
+          "conditional_win_probability": 0.48484848484848486
         },
         {
           "team": "South Africa",
@@ -2231,9 +2231,9 @@
         },
         {
           "team": "Saudi Arabia",
-          "appearance_probability": 0.0384,
+          "appearance_probability": 0.0386,
           "win_probability": 0.0073,
-          "conditional_win_probability": 0.19010416666666666
+          "conditional_win_probability": 0.18911917098445596
         },
         {
           "team": "Norway",
@@ -2243,9 +2243,9 @@
         },
         {
           "team": "Jordan",
-          "appearance_probability": 0.032,
+          "appearance_probability": 0.0319,
           "win_probability": 0.0091,
-          "conditional_win_probability": 0.284375
+          "conditional_win_probability": 0.2852664576802508
         },
         {
           "team": "Uruguay",
@@ -2477,48 +2477,48 @@
       "entrantProbabilities": [
         {
           "team": "Spain",
-          "appearance_probability": 0.9077,
-          "win_probability": 0.7839,
-          "conditional_win_probability": 0.8636113253277514
+          "appearance_probability": 0.9091,
+          "win_probability": 0.7869,
+          "conditional_win_probability": 0.8655813441865582
         },
         {
           "team": "Austria",
           "appearance_probability": 0.5636,
-          "win_probability": 0.0878,
-          "conditional_win_probability": 0.15578424414478353
+          "win_probability": 0.0871,
+          "conditional_win_probability": 0.15454222853087296
         },
         {
           "team": "Algeria",
           "appearance_probability": 0.2463,
-          "win_probability": 0.0278,
-          "conditional_win_probability": 0.11287048315062931
+          "win_probability": 0.0271,
+          "conditional_win_probability": 0.11002842062525375
         },
         {
           "team": "Jordan",
           "appearance_probability": 0.1073,
-          "win_probability": 0.0087,
-          "conditional_win_probability": 0.08108108108108109
+          "win_probability": 0.0085,
+          "conditional_win_probability": 0.07921714818266543
         },
         {
           "team": "Uruguay",
-          "appearance_probability": 0.0908,
-          "win_probability": 0.055,
-          "conditional_win_probability": 0.6057268722466961
+          "appearance_probability": 0.0895,
+          "win_probability": 0.0542,
+          "conditional_win_probability": 0.605586592178771
         },
         {
           "team": "Argentina",
           "appearance_probability": 0.0828,
-          "win_probability": 0.0367,
-          "conditional_win_probability": 0.44323671497584544
-        },
-        {
-          "team": "Cape Verde",
-          "appearance_probability": 0.0008,
-          "win_probability": 0.0001,
-          "conditional_win_probability": 0.125
+          "win_probability": 0.0362,
+          "conditional_win_probability": 0.43719806763285024
         },
         {
           "team": "Saudi Arabia",
+          "appearance_probability": 0.0007,
+          "win_probability": 0.0,
+          "conditional_win_probability": 0.0
+        },
+        {
+          "team": "Cape Verde",
           "appearance_probability": 0.0007,
           "win_probability": 0.0,
           "conditional_win_probability": 0.0
@@ -2530,10 +2530,10 @@
             "Austria",
             "Spain"
           ],
-          "probability": 0.5152,
+          "probability": 0.5158,
           "team_win_probabilities": {
-            "Austria": 0.13121118012422361,
-            "Spain": 0.8687888198757764
+            "Austria": 0.130283055447848,
+            "Spain": 0.869716944552152
           }
         },
         {
@@ -2541,10 +2541,10 @@
             "Algeria",
             "Spain"
           ],
-          "probability": 0.2212,
+          "probability": 0.2216,
           "team_win_probabilities": {
-            "Algeria": 0.08725135623869801,
-            "Spain": 0.9127486437613019
+            "Algeria": 0.08438628158844766,
+            "Spain": 0.9156137184115524
           }
         },
         {
@@ -2552,10 +2552,10 @@
             "Jordan",
             "Spain"
           ],
-          "probability": 0.0969,
+          "probability": 0.0973,
           "team_win_probabilities": {
-            "Jordan": 0.07327141382868937,
-            "Spain": 0.9267285861713106
+            "Jordan": 0.07194244604316546,
+            "Spain": 0.9280575539568345
           }
         },
         {
@@ -2565,8 +2565,8 @@
           ],
           "probability": 0.0744,
           "team_win_probabilities": {
-            "Argentina": 0.40053763440860213,
-            "Spain": 0.5994623655913979
+            "Argentina": 0.39381720430107525,
+            "Spain": 0.6061827956989247
           }
         },
         {
@@ -2574,10 +2574,10 @@
             "Austria",
             "Uruguay"
           ],
-          "probability": 0.0478,
+          "probability": 0.0473,
           "team_win_probabilities": {
-            "Austria": 0.4121338912133891,
-            "Uruguay": 0.5878661087866108
+            "Austria": 0.41014799154334036,
+            "Uruguay": 0.5898520084566596
           }
         }
       ]
@@ -2600,9 +2600,9 @@
         },
         {
           "team": "Egypt",
-          "appearance_probability": 0.2202,
+          "appearance_probability": 0.2201,
           "win_probability": 0.067,
-          "conditional_win_probability": 0.3042688465031789
+          "conditional_win_probability": 0.3044070876874148
         },
         {
           "team": "Iran",
@@ -2648,9 +2648,9 @@
         },
         {
           "team": "Jordan",
-          "appearance_probability": 0.0459,
+          "appearance_probability": 0.046,
           "win_probability": 0.0136,
-          "conditional_win_probability": 0.2962962962962963
+          "conditional_win_probability": 0.2956521739130435
         },
         {
           "team": "Austria",
@@ -2737,10 +2737,10 @@
             "Egypt",
             "Switzerland"
           ],
-          "probability": 0.1597,
+          "probability": 0.1596,
           "team_win_probabilities": {
-            "Egypt": 0.2654978083907326,
-            "Switzerland": 0.7345021916092673
+            "Egypt": 0.2656641604010025,
+            "Switzerland": 0.7343358395989975
           }
         },
         {
@@ -2796,20 +2796,20 @@
         {
           "team": "Argentina",
           "appearance_probability": 0.9014,
-          "win_probability": 0.6935,
-          "conditional_win_probability": 0.7693587752385178
+          "win_probability": 0.6934,
+          "conditional_win_probability": 0.7692478366984691
         },
         {
           "team": "Uruguay",
-          "appearance_probability": 0.8164,
-          "win_probability": 0.2123,
-          "conditional_win_probability": 0.2600440960313572
+          "appearance_probability": 0.8175,
+          "win_probability": 0.2125,
+          "conditional_win_probability": 0.2599388379204893
         },
         {
           "team": "Spain",
-          "appearance_probability": 0.0906,
-          "win_probability": 0.0527,
-          "conditional_win_probability": 0.5816777041942605
+          "appearance_probability": 0.0893,
+          "win_probability": 0.0525,
+          "conditional_win_probability": 0.5879059350503919
         },
         {
           "team": "Austria",
@@ -2819,15 +2819,15 @@
         },
         {
           "team": "Cape Verde",
-          "appearance_probability": 0.0496,
-          "win_probability": 0.0022,
-          "conditional_win_probability": 0.04435483870967742
+          "appearance_probability": 0.0499,
+          "win_probability": 0.0023,
+          "conditional_win_probability": 0.04609218436873747
         },
         {
           "team": "Saudi Arabia",
-          "appearance_probability": 0.0434,
+          "appearance_probability": 0.0433,
           "win_probability": 0.0016,
-          "conditional_win_probability": 0.03686635944700461
+          "conditional_win_probability": 0.03695150115473441
         },
         {
           "team": "Algeria",
@@ -2848,10 +2848,10 @@
             "Argentina",
             "Uruguay"
           ],
-          "probability": 0.7365,
+          "probability": 0.7376,
           "team_win_probabilities": {
-            "Argentina": 0.7807196198234895,
-            "Uruguay": 0.21928038017651053
+            "Argentina": 0.7807754880694143,
+            "Uruguay": 0.21922451193058567
           }
         },
         {
@@ -2859,10 +2859,10 @@
             "Argentina",
             "Spain"
           ],
-          "probability": 0.0809,
+          "probability": 0.0796,
           "team_win_probabilities": {
-            "Argentina": 0.4561186650185414,
-            "Spain": 0.5438813349814586
+            "Argentina": 0.44974874371859297,
+            "Spain": 0.550251256281407
           }
         },
         {
@@ -2881,10 +2881,10 @@
             "Argentina",
             "Cape Verde"
           ],
-          "probability": 0.0447,
+          "probability": 0.045,
           "team_win_probabilities": {
-            "Argentina": 0.9642058165548099,
-            "Cape Verde": 0.035794183445190156
+            "Argentina": 0.9622222222222222,
+            "Cape Verde": 0.03777777777777778
           }
         },
         {
@@ -2892,10 +2892,10 @@
             "Argentina",
             "Saudi Arabia"
           ],
-          "probability": 0.0393,
+          "probability": 0.0392,
           "team_win_probabilities": {
-            "Argentina": 0.9796437659033079,
-            "Saudi Arabia": 0.020356234096692113
+            "Argentina": 0.9795918367346939,
+            "Saudi Arabia": 0.02040816326530612
           }
         }
       ]
@@ -3816,14 +3816,14 @@
         {
           "team": "England",
           "appearance_probability": 0.5874,
-          "win_probability": 0.4348,
-          "conditional_win_probability": 0.7402110997616616
+          "win_probability": 0.4347,
+          "conditional_win_probability": 0.7400408580183861
         },
         {
           "team": "Mexico",
-          "appearance_probability": 0.4044,
+          "appearance_probability": 0.4043,
           "win_probability": 0.1583,
-          "conditional_win_probability": 0.39144411473788326
+          "conditional_win_probability": 0.3915409349492951
         },
         {
           "team": "Croatia",
@@ -3833,15 +3833,15 @@
         },
         {
           "team": "Senegal",
-          "appearance_probability": 0.112,
+          "appearance_probability": 0.1121,
           "win_probability": 0.0448,
-          "conditional_win_probability": 0.4
+          "conditional_win_probability": 0.39964317573595004
         },
         {
           "team": "South Korea",
-          "appearance_probability": 0.085,
+          "appearance_probability": 0.0851,
           "win_probability": 0.0223,
-          "conditional_win_probability": 0.26235294117647057
+          "conditional_win_probability": 0.2620446533490012
         },
         {
           "team": "Scotland",
@@ -3851,15 +3851,15 @@
         },
         {
           "team": "Norway",
-          "appearance_probability": 0.0629,
-          "win_probability": 0.0304,
-          "conditional_win_probability": 0.48330683624801274
+          "appearance_probability": 0.063,
+          "win_probability": 0.0305,
+          "conditional_win_probability": 0.48412698412698413
         },
         {
           "team": "Czechia",
-          "appearance_probability": 0.061,
+          "appearance_probability": 0.0609,
           "win_probability": 0.016,
-          "conditional_win_probability": 0.26229508196721313
+          "conditional_win_probability": 0.2627257799671593
         },
         {
           "team": "Uzbekistan",
@@ -4019,9 +4019,9 @@
         },
         {
           "team": "Spain",
-          "appearance_probability": 0.0005,
+          "appearance_probability": 0.0004,
           "win_probability": 0.0002,
-          "conditional_win_probability": 0.4
+          "conditional_win_probability": 0.5
         },
         {
           "team": "Ghana",
@@ -4047,10 +4047,10 @@
             "Croatia",
             "Mexico"
           ],
-          "probability": 0.0617,
+          "probability": 0.0616,
           "team_win_probabilities": {
-            "Croatia": 0.5316045380875203,
-            "Mexico": 0.4683954619124797
+            "Croatia": 0.5308441558441559,
+            "Mexico": 0.46915584415584416
           }
         },
         {
@@ -4069,10 +4069,10 @@
             "England",
             "South Korea"
           ],
-          "probability": 0.0492,
+          "probability": 0.0493,
           "team_win_probabilities": {
-            "England": 0.8313008130081301,
-            "South Korea": 0.16869918699186992
+            "England": 0.8316430020283976,
+            "South Korea": 0.16835699797160245
           }
         },
         {
@@ -4094,51 +4094,45 @@
       "entrantProbabilities": [
         {
           "team": "Spain",
-          "appearance_probability": 0.7839,
-          "win_probability": 0.6027,
-          "conditional_win_probability": 0.76884806735553
+          "appearance_probability": 0.7869,
+          "win_probability": 0.6066,
+          "conditional_win_probability": 0.7708730461303851
         },
         {
           "team": "Colombia",
           "appearance_probability": 0.3126,
-          "win_probability": 0.1045,
-          "conditional_win_probability": 0.3342930262316059
+          "win_probability": 0.1037,
+          "conditional_win_probability": 0.33173384516954574
         },
         {
           "team": "Croatia",
           "appearance_probability": 0.2799,
-          "win_probability": 0.0735,
-          "conditional_win_probability": 0.26259378349410506
+          "win_probability": 0.0728,
+          "conditional_win_probability": 0.2600928903179707
         },
         {
           "team": "Portugal",
           "appearance_probability": 0.2065,
-          "win_probability": 0.0773,
-          "conditional_win_probability": 0.37433414043583535
+          "win_probability": 0.0766,
+          "conditional_win_probability": 0.37094430992736077
         },
         {
           "team": "England",
           "appearance_probability": 0.1248,
-          "win_probability": 0.0475,
-          "conditional_win_probability": 0.38060897435897434
+          "win_probability": 0.047,
+          "conditional_win_probability": 0.3766025641025641
         },
         {
           "team": "Austria",
-          "appearance_probability": 0.0878,
-          "win_probability": 0.029,
-          "conditional_win_probability": 0.33029612756264237
+          "appearance_probability": 0.0871,
+          "win_probability": 0.0289,
+          "conditional_win_probability": 0.33180252583237657
         },
         {
           "team": "Uruguay",
-          "appearance_probability": 0.055,
-          "win_probability": 0.0225,
-          "conditional_win_probability": 0.4090909090909091
-        },
-        {
-          "team": "Argentina",
-          "appearance_probability": 0.0367,
-          "win_probability": 0.026,
-          "conditional_win_probability": 0.7084468664850136
+          "appearance_probability": 0.0542,
+          "win_probability": 0.0222,
+          "conditional_win_probability": 0.4095940959409594
         },
         {
           "team": "Panama",
@@ -4147,16 +4141,22 @@
           "conditional_win_probability": 0.1232876712328767
         },
         {
-          "team": "Algeria",
-          "appearance_probability": 0.0278,
-          "win_probability": 0.0059,
-          "conditional_win_probability": 0.21223021582733814
+          "team": "Argentina",
+          "appearance_probability": 0.0362,
+          "win_probability": 0.0255,
+          "conditional_win_probability": 0.7044198895027625
         },
         {
           "team": "Uzbekistan",
           "appearance_probability": 0.0274,
-          "win_probability": 0.0034,
-          "conditional_win_probability": 0.12408759124087591
+          "win_probability": 0.0033,
+          "conditional_win_probability": 0.12043795620437957
+        },
+        {
+          "team": "Algeria",
+          "appearance_probability": 0.0271,
+          "win_probability": 0.0058,
+          "conditional_win_probability": 0.2140221402214022
         },
         {
           "team": "DR Congo",
@@ -4166,19 +4166,13 @@
         },
         {
           "team": "Jordan",
-          "appearance_probability": 0.0087,
-          "win_probability": 0.0019,
-          "conditional_win_probability": 0.21839080459770116
+          "appearance_probability": 0.0085,
+          "win_probability": 0.0018,
+          "conditional_win_probability": 0.21176470588235294
         },
         {
           "team": "Ghana",
           "appearance_probability": 0.0011,
-          "win_probability": 0.0,
-          "conditional_win_probability": 0.0
-        },
-        {
-          "team": "Cape Verde",
-          "appearance_probability": 0.0001,
           "win_probability": 0.0,
           "conditional_win_probability": 0.0
         }
@@ -4189,10 +4183,10 @@
             "Colombia",
             "Spain"
           ],
-          "probability": 0.2453,
+          "probability": 0.2464,
           "team_win_probabilities": {
-            "Colombia": 0.24867509172441907,
-            "Spain": 0.751324908275581
+            "Colombia": 0.2471590909090909,
+            "Spain": 0.7528409090909091
           }
         },
         {
@@ -4200,10 +4194,10 @@
             "Croatia",
             "Spain"
           ],
-          "probability": 0.2205,
+          "probability": 0.221,
           "team_win_probabilities": {
-            "Croatia": 0.1800453514739229,
-            "Spain": 0.8199546485260771
+            "Croatia": 0.17692307692307693,
+            "Spain": 0.823076923076923
           }
         },
         {
@@ -4211,10 +4205,10 @@
             "Portugal",
             "Spain"
           ],
-          "probability": 0.1596,
+          "probability": 0.1604,
           "team_win_probabilities": {
-            "Portugal": 0.29448621553884713,
-            "Spain": 0.7055137844611529
+            "Portugal": 0.29301745635910226,
+            "Spain": 0.7069825436408977
           }
         },
         {
@@ -4222,10 +4216,10 @@
             "England",
             "Spain"
           ],
-          "probability": 0.0988,
+          "probability": 0.0992,
           "team_win_probabilities": {
-            "England": 0.2935222672064777,
-            "Spain": 0.7064777327935222
+            "England": 0.2913306451612903,
+            "Spain": 0.7086693548387096
           }
         },
         {
@@ -4233,10 +4227,10 @@
             "Panama",
             "Spain"
           ],
-          "probability": 0.0291,
+          "probability": 0.0292,
           "team_win_probabilities": {
-            "Panama": 0.06872852233676977,
-            "Spain": 0.9312714776632303
+            "Panama": 0.0684931506849315,
+            "Spain": 0.9315068493150684
           }
         }
       ]
@@ -4526,9 +4520,9 @@
       "entrantProbabilities": [
         {
           "team": "Argentina",
-          "appearance_probability": 0.6935,
-          "win_probability": 0.5855,
-          "conditional_win_probability": 0.8442682047584715
+          "appearance_probability": 0.6934,
+          "win_probability": 0.5853,
+          "conditional_win_probability": 0.8441015286991636
         },
         {
           "team": "Paraguay",
@@ -4538,9 +4532,9 @@
         },
         {
           "team": "Uruguay",
-          "appearance_probability": 0.2123,
-          "win_probability": 0.1266,
-          "conditional_win_probability": 0.5963259538389072
+          "appearance_probability": 0.2125,
+          "win_probability": 0.1269,
+          "conditional_win_probability": 0.5971764705882353
         },
         {
           "team": "Iran",
@@ -4580,9 +4574,9 @@
         },
         {
           "team": "Spain",
-          "appearance_probability": 0.0527,
-          "win_probability": 0.0471,
-          "conditional_win_probability": 0.8937381404174574
+          "appearance_probability": 0.0525,
+          "win_probability": 0.047,
+          "conditional_win_probability": 0.8952380952380953
         },
         {
           "team": "Austria",
@@ -4604,9 +4598,9 @@
         },
         {
           "team": "Cape Verde",
-          "appearance_probability": 0.0022,
+          "appearance_probability": 0.0023,
           "win_probability": 0.0006,
-          "conditional_win_probability": 0.2727272727272727
+          "conditional_win_probability": 0.2608695652173913
         },
         {
           "team": "Saudi Arabia",
@@ -4627,10 +4621,10 @@
             "Argentina",
             "Paraguay"
           ],
-          "probability": 0.1608,
+          "probability": 0.1607,
           "team_win_probabilities": {
-            "Argentina": 0.820273631840796,
-            "Paraguay": 0.17972636815920398
+            "Argentina": 0.8201617921593031,
+            "Paraguay": 0.17983820784069696
           }
         },
         {
@@ -4640,8 +4634,8 @@
           ],
           "probability": 0.1448,
           "team_win_probabilities": {
-            "Argentina": 0.886049723756906,
-            "Iran": 0.11395027624309392
+            "Argentina": 0.8853591160220995,
+            "Iran": 0.11464088397790055
           }
         },
         {
@@ -5237,57 +5231,57 @@
       "entrantProbabilities": [
         {
           "team": "Spain",
-          "appearance_probability": 0.6029,
-          "win_probability": 0.5101,
-          "conditional_win_probability": 0.84607729308343
+          "appearance_probability": 0.6068,
+          "win_probability": 0.5141,
+          "conditional_win_probability": 0.8472313777191826
         },
         {
           "team": "Belgium",
           "appearance_probability": 0.2703,
-          "win_probability": 0.0704,
-          "conditional_win_probability": 0.26045135035146133
+          "win_probability": 0.07,
+          "conditional_win_probability": 0.2589715131335553
         },
         {
           "team": "Turkey",
           "appearance_probability": 0.2572,
-          "win_probability": 0.078,
-          "conditional_win_probability": 0.30326594090202175
+          "win_probability": 0.0775,
+          "conditional_win_probability": 0.30132192846034217
         },
         {
           "team": "Colombia",
-          "appearance_probability": 0.1045,
-          "win_probability": 0.0681,
-          "conditional_win_probability": 0.6516746411483254
+          "appearance_probability": 0.1037,
+          "win_probability": 0.0676,
+          "conditional_win_probability": 0.6518804243008679
         },
         {
           "team": "Portugal",
-          "appearance_probability": 0.0773,
-          "win_probability": 0.0523,
-          "conditional_win_probability": 0.6765847347994826
+          "appearance_probability": 0.0766,
+          "win_probability": 0.0519,
+          "conditional_win_probability": 0.6775456919060052
         },
         {
           "team": "Paraguay",
           "appearance_probability": 0.0764,
-          "win_probability": 0.0143,
-          "conditional_win_probability": 0.18717277486910994
+          "win_probability": 0.0141,
+          "conditional_win_probability": 0.18455497382198952
         },
         {
           "team": "Croatia",
-          "appearance_probability": 0.0735,
-          "win_probability": 0.0429,
-          "conditional_win_probability": 0.5836734693877551
+          "appearance_probability": 0.0728,
+          "win_probability": 0.0425,
+          "conditional_win_probability": 0.5837912087912088
         },
         {
           "team": "Austria",
-          "appearance_probability": 0.0489,
-          "win_probability": 0.0168,
-          "conditional_win_probability": 0.34355828220858897
+          "appearance_probability": 0.0488,
+          "win_probability": 0.0167,
+          "conditional_win_probability": 0.3422131147540984
         },
         {
           "team": "England",
-          "appearance_probability": 0.0475,
-          "win_probability": 0.0338,
-          "conditional_win_probability": 0.7115789473684211
+          "appearance_probability": 0.047,
+          "win_probability": 0.0334,
+          "conditional_win_probability": 0.7106382978723405
         },
         {
           "team": "Iran",
@@ -5303,21 +5297,21 @@
         },
         {
           "team": "Algeria",
-          "appearance_probability": 0.0317,
+          "appearance_probability": 0.0316,
           "win_probability": 0.0076,
-          "conditional_win_probability": 0.23974763406940064
+          "conditional_win_probability": 0.24050632911392406
         },
         {
           "team": "Czechia",
           "appearance_probability": 0.0316,
-          "win_probability": 0.0048,
-          "conditional_win_probability": 0.1518987341772152
+          "win_probability": 0.0046,
+          "conditional_win_probability": 0.14556962025316456
         },
         {
           "team": "Argentina",
-          "appearance_probability": 0.0305,
-          "win_probability": 0.0229,
-          "conditional_win_probability": 0.7508196721311475
+          "appearance_probability": 0.03,
+          "win_probability": 0.0224,
+          "conditional_win_probability": 0.7466666666666667
         },
         {
           "team": "Australia",
@@ -5333,9 +5327,9 @@
         },
         {
           "team": "Uruguay",
-          "appearance_probability": 0.0259,
-          "win_probability": 0.0121,
-          "conditional_win_probability": 0.4671814671814672
+          "appearance_probability": 0.0256,
+          "win_probability": 0.0119,
+          "conditional_win_probability": 0.46484375
         },
         {
           "team": "South Korea",
@@ -5352,8 +5346,8 @@
         {
           "team": "Mexico",
           "appearance_probability": 0.0145,
-          "win_probability": 0.004,
-          "conditional_win_probability": 0.27586206896551724
+          "win_probability": 0.0039,
+          "conditional_win_probability": 0.2689655172413793
         },
         {
           "team": "Canada",
@@ -5411,9 +5405,9 @@
         },
         {
           "team": "Jordan",
-          "appearance_probability": 0.0082,
+          "appearance_probability": 0.0081,
           "win_probability": 0.001,
-          "conditional_win_probability": 0.12195121951219512
+          "conditional_win_probability": 0.12345679012345678
         },
         {
           "team": "Japan",
@@ -5435,9 +5429,9 @@
         },
         {
           "team": "Uzbekistan",
-          "appearance_probability": 0.0034,
-          "win_probability": 0.0009,
-          "conditional_win_probability": 0.2647058823529412
+          "appearance_probability": 0.0033,
+          "win_probability": 0.0008,
+          "conditional_win_probability": 0.24242424242424243
         },
         {
           "team": "Tunisia",
@@ -5494,10 +5488,10 @@
             "Belgium",
             "Spain"
           ],
-          "probability": 0.1608,
+          "probability": 0.1625,
           "team_win_probabilities": {
-            "Belgium": 0.1722636815920398,
-            "Spain": 0.8277363184079602
+            "Belgium": 0.17107692307692307,
+            "Spain": 0.8289230769230769
           }
         },
         {
@@ -5505,10 +5499,10 @@
             "Spain",
             "Turkey"
           ],
-          "probability": 0.1547,
+          "probability": 0.1556,
           "team_win_probabilities": {
-            "Spain": 0.8047834518422754,
-            "Turkey": 0.19521654815772463
+            "Spain": 0.8065552699228792,
+            "Turkey": 0.19344473007712082
           }
         },
         {
@@ -5516,10 +5510,10 @@
             "Paraguay",
             "Spain"
           ],
-          "probability": 0.0483,
+          "probability": 0.0485,
           "team_win_probabilities": {
-            "Paraguay": 0.10559006211180125,
-            "Spain": 0.8944099378881988
+            "Paraguay": 0.10309278350515463,
+            "Spain": 0.8969072164948454
           }
         },
         {
@@ -5527,21 +5521,21 @@
             "Belgium",
             "Colombia"
           ],
-          "probability": 0.0284,
+          "probability": 0.028,
           "team_win_probabilities": {
-            "Belgium": 0.3908450704225352,
-            "Colombia": 0.6091549295774648
+            "Belgium": 0.39285714285714285,
+            "Colombia": 0.6071428571428571
           }
         },
         {
           "teams": [
-            "Colombia",
-            "Turkey"
+            "Iran",
+            "Spain"
           ],
           "probability": 0.0259,
           "team_win_probabilities": {
-            "Colombia": 0.5907335907335908,
-            "Turkey": 0.4092664092664093
+            "Iran": 0.05405405405405406,
+            "Spain": 0.9459459459459459
           }
         }
       ]
@@ -5552,9 +5546,9 @@
       "entrantProbabilities": [
         {
           "team": "England",
-          "appearance_probability": 0.4348,
-          "win_probability": 0.2615,
-          "conditional_win_probability": 0.6014259429622815
+          "appearance_probability": 0.4347,
+          "win_probability": 0.2614,
+          "conditional_win_probability": 0.6013342535081666
         },
         {
           "team": "Brazil",
@@ -5570,9 +5564,9 @@
         },
         {
           "team": "Norway",
-          "appearance_probability": 0.1519,
-          "win_probability": 0.0709,
-          "conditional_win_probability": 0.46675444371296904
+          "appearance_probability": 0.152,
+          "win_probability": 0.071,
+          "conditional_win_probability": 0.46710526315789475
         },
         {
           "team": "Germany",
@@ -5761,10 +5755,10 @@
             "Brazil",
             "England"
           ],
-          "probability": 0.1234,
+          "probability": 0.1233,
           "team_win_probabilities": {
-            "Brazil": 0.46029173419773095,
-            "England": 0.539708265802269
+            "Brazil": 0.4606650446066504,
+            "England": 0.5393349553933495
           }
         },
         {
@@ -5819,9 +5813,9 @@
       "entrantProbabilities": [
         {
           "team": "Argentina",
-          "appearance_probability": 0.5872,
-          "win_probability": 0.4358,
-          "conditional_win_probability": 0.7421662125340599
+          "appearance_probability": 0.587,
+          "win_probability": 0.4357,
+          "conditional_win_probability": 0.7422487223168655
         },
         {
           "team": "Portugal",
@@ -5838,14 +5832,14 @@
         {
           "team": "Colombia",
           "appearance_probability": 0.206,
-          "win_probability": 0.0906,
-          "conditional_win_probability": 0.43980582524271844
+          "win_probability": 0.0904,
+          "conditional_win_probability": 0.4388349514563107
         },
         {
           "team": "Uruguay",
-          "appearance_probability": 0.1266,
-          "win_probability": 0.0598,
-          "conditional_win_probability": 0.47235387045813587
+          "appearance_probability": 0.1269,
+          "win_probability": 0.0601,
+          "conditional_win_probability": 0.4736012608353034
         },
         {
           "team": "Paraguay",
@@ -5867,9 +5861,9 @@
         },
         {
           "team": "Spain",
-          "appearance_probability": 0.0471,
+          "appearance_probability": 0.047,
           "win_probability": 0.0365,
-          "conditional_win_probability": 0.7749469214437368
+          "conditional_win_probability": 0.776595744680851
         },
         {
           "team": "Canada",
@@ -6052,10 +6046,10 @@
             "Argentina",
             "Portugal"
           ],
-          "probability": 0.1828,
+          "probability": 0.1827,
           "team_win_probabilities": {
-            "Argentina": 0.6821663019693655,
-            "Portugal": 0.31783369803063455
+            "Argentina": 0.6819923371647509,
+            "Portugal": 0.31800766283524906
           }
         },
         {
@@ -6063,10 +6057,10 @@
             "Argentina",
             "Switzerland"
           ],
-          "probability": 0.1266,
+          "probability": 0.1264,
           "team_win_probabilities": {
-            "Argentina": 0.7977883096366508,
-            "Switzerland": 0.20221169036334913
+            "Argentina": 0.7982594936708861,
+            "Switzerland": 0.20174050632911392
           }
         },
         {
@@ -6110,51 +6104,51 @@
       "entrantProbabilities": [
         {
           "team": "Spain",
-          "appearance_probability": 0.5104,
-          "win_probability": 0.3823,
-          "conditional_win_probability": 0.7490203761755486
+          "appearance_probability": 0.5144,
+          "win_probability": 0.3857,
+          "conditional_win_probability": 0.7498055987558321
         },
         {
           "team": "France",
           "appearance_probability": 0.3277,
-          "win_probability": 0.1704,
-          "conditional_win_probability": 0.5199877937137626
+          "win_probability": 0.1698,
+          "conditional_win_probability": 0.5181568507781508
         },
         {
           "team": "Netherlands",
           "appearance_probability": 0.1459,
-          "win_probability": 0.0541,
-          "conditional_win_probability": 0.3708019191226868
+          "win_probability": 0.054,
+          "conditional_win_probability": 0.3701165181631254
         },
         {
           "team": "Ecuador",
           "appearance_probability": 0.1133,
-          "win_probability": 0.0434,
-          "conditional_win_probability": 0.383053839364519
+          "win_probability": 0.0431,
+          "conditional_win_probability": 0.38040600176522504
         },
         {
           "team": "Turkey",
-          "appearance_probability": 0.0864,
-          "win_probability": 0.0393,
-          "conditional_win_probability": 0.4548611111111111
+          "appearance_probability": 0.0859,
+          "win_probability": 0.0391,
+          "conditional_win_probability": 0.4551804423748545
         },
         {
           "team": "Belgium",
-          "appearance_probability": 0.0733,
+          "appearance_probability": 0.0729,
           "win_probability": 0.0299,
-          "conditional_win_probability": 0.40791268758526605
+          "conditional_win_probability": 0.4101508916323731
         },
         {
           "team": "Colombia",
-          "appearance_probability": 0.0681,
-          "win_probability": 0.0384,
-          "conditional_win_probability": 0.5638766519823789
+          "appearance_probability": 0.0676,
+          "win_probability": 0.0381,
+          "conditional_win_probability": 0.5636094674556213
         },
         {
           "team": "Germany",
           "appearance_probability": 0.0674,
-          "win_probability": 0.0216,
-          "conditional_win_probability": 0.32047477744807124
+          "win_probability": 0.0215,
+          "conditional_win_probability": 0.3189910979228487
         },
         {
           "team": "Japan",
@@ -6164,9 +6158,9 @@
         },
         {
           "team": "Portugal",
-          "appearance_probability": 0.0523,
-          "win_probability": 0.0276,
-          "conditional_win_probability": 0.5277246653919694
+          "appearance_probability": 0.0519,
+          "win_probability": 0.0275,
+          "conditional_win_probability": 0.5298651252408478
         },
         {
           "team": "Brazil",
@@ -6176,9 +6170,9 @@
         },
         {
           "team": "Croatia",
-          "appearance_probability": 0.0429,
-          "win_probability": 0.0197,
-          "conditional_win_probability": 0.4592074592074592
+          "appearance_probability": 0.0425,
+          "win_probability": 0.0195,
+          "conditional_win_probability": 0.4588235294117647
         },
         {
           "team": "Morocco",
@@ -6194,45 +6188,45 @@
         },
         {
           "team": "England",
-          "appearance_probability": 0.0338,
-          "win_probability": 0.0195,
-          "conditional_win_probability": 0.5769230769230769
+          "appearance_probability": 0.0334,
+          "win_probability": 0.0191,
+          "conditional_win_probability": 0.5718562874251497
         },
         {
           "team": "Canada",
           "appearance_probability": 0.0329,
-          "win_probability": 0.0079,
-          "conditional_win_probability": 0.24012158054711247
+          "win_probability": 0.0078,
+          "conditional_win_probability": 0.23708206686930092
         },
         {
           "team": "Switzerland",
           "appearance_probability": 0.0327,
-          "win_probability": 0.011,
-          "conditional_win_probability": 0.3363914373088685
+          "win_probability": 0.0109,
+          "conditional_win_probability": 0.3333333333333333
         },
         {
           "team": "Mexico",
-          "appearance_probability": 0.0303,
+          "appearance_probability": 0.0302,
           "win_probability": 0.0107,
-          "conditional_win_probability": 0.35313531353135313
+          "conditional_win_probability": 0.3543046357615894
         },
         {
           "team": "Argentina",
-          "appearance_probability": 0.0229,
-          "win_probability": 0.0171,
-          "conditional_win_probability": 0.7467248908296943
+          "appearance_probability": 0.0224,
+          "win_probability": 0.0167,
+          "conditional_win_probability": 0.7455357142857143
         },
         {
           "team": "Senegal",
           "appearance_probability": 0.0222,
-          "win_probability": 0.0073,
-          "conditional_win_probability": 0.32882882882882886
+          "win_probability": 0.0072,
+          "conditional_win_probability": 0.32432432432432434
         },
         {
           "team": "Paraguay",
-          "appearance_probability": 0.0217,
-          "win_probability": 0.0076,
-          "conditional_win_probability": 0.35023041474654376
+          "appearance_probability": 0.0215,
+          "win_probability": 0.0075,
+          "conditional_win_probability": 0.3488372093023256
         },
         {
           "team": "South Korea",
@@ -6243,26 +6237,26 @@
         {
           "team": "Scotland",
           "appearance_probability": 0.0191,
-          "win_probability": 0.0043,
-          "conditional_win_probability": 0.225130890052356
+          "win_probability": 0.0042,
+          "conditional_win_probability": 0.2198952879581152
         },
         {
           "team": "Austria",
-          "appearance_probability": 0.0168,
-          "win_probability": 0.0049,
-          "conditional_win_probability": 0.2916666666666667
+          "appearance_probability": 0.0167,
+          "win_probability": 0.0048,
+          "conditional_win_probability": 0.2874251497005988
         },
         {
           "team": "Czechia",
-          "appearance_probability": 0.016,
+          "appearance_probability": 0.0158,
           "win_probability": 0.0032,
-          "conditional_win_probability": 0.2
+          "conditional_win_probability": 0.20253164556962025
         },
         {
           "team": "Uruguay",
-          "appearance_probability": 0.013,
+          "appearance_probability": 0.0128,
           "win_probability": 0.0049,
-          "conditional_win_probability": 0.3769230769230769
+          "conditional_win_probability": 0.3828125
         },
         {
           "team": "Australia",
@@ -6326,9 +6320,9 @@
         },
         {
           "team": "Uzbekistan",
-          "appearance_probability": 0.0009,
-          "win_probability": 0.0003,
-          "conditional_win_probability": 0.3333333333333333
+          "appearance_probability": 0.0008,
+          "win_probability": 0.0002,
+          "conditional_win_probability": 0.25
         },
         {
           "team": "South Africa",
@@ -6379,10 +6373,10 @@
             "France",
             "Spain"
           ],
-          "probability": 0.1649,
+          "probability": 0.1666,
           "team_win_probabilities": {
-            "France": 0.37234687689508794,
-            "Spain": 0.6276531231049121
+            "France": 0.3727490996398559,
+            "Spain": 0.6272509003601441
           }
         },
         {
@@ -6390,10 +6384,10 @@
             "Netherlands",
             "Spain"
           ],
-          "probability": 0.0726,
+          "probability": 0.0731,
           "team_win_probabilities": {
-            "Netherlands": 0.23553719008264462,
-            "Spain": 0.7644628099173554
+            "Netherlands": 0.23529411764705882,
+            "Spain": 0.7647058823529411
           }
         },
         {
@@ -6401,10 +6395,10 @@
             "Ecuador",
             "Spain"
           ],
-          "probability": 0.0522,
+          "probability": 0.0526,
           "team_win_probabilities": {
-            "Ecuador": 0.20306513409961685,
-            "Spain": 0.7969348659003831
+            "Ecuador": 0.19961977186311788,
+            "Spain": 0.8003802281368821
           }
         },
         {
@@ -6412,10 +6406,10 @@
             "Germany",
             "Spain"
           ],
-          "probability": 0.0363,
+          "probability": 0.0366,
           "team_win_probabilities": {
-            "Germany": 0.21763085399449036,
-            "Spain": 0.7823691460055097
+            "Germany": 0.21584699453551912,
+            "Spain": 0.7841530054644809
           }
         },
         {
@@ -6423,10 +6417,10 @@
             "Japan",
             "Spain"
           ],
-          "probability": 0.0286,
+          "probability": 0.0287,
           "team_win_probabilities": {
-            "Japan": 0.1993006993006993,
-            "Spain": 0.8006993006993007
+            "Japan": 0.1986062717770035,
+            "Spain": 0.8013937282229965
           }
         }
       ]
@@ -6437,21 +6431,21 @@
       "entrantProbabilities": [
         {
           "team": "Argentina",
-          "appearance_probability": 0.4367,
+          "appearance_probability": 0.4366,
           "win_probability": 0.3039,
-          "conditional_win_probability": 0.6959010762537211
+          "conditional_win_probability": 0.696060467246908
         },
         {
           "team": "England",
-          "appearance_probability": 0.2698,
-          "win_probability": 0.1408,
-          "conditional_win_probability": 0.5218680504077094
+          "appearance_probability": 0.2697,
+          "win_probability": 0.1407,
+          "conditional_win_probability": 0.5216907675194661
         },
         {
           "team": "Brazil",
           "appearance_probability": 0.1717,
-          "win_probability": 0.0835,
-          "conditional_win_probability": 0.48631333721607456
+          "win_probability": 0.0836,
+          "conditional_win_probability": 0.48689574839836924
         },
         {
           "team": "Portugal",
@@ -6461,27 +6455,27 @@
         },
         {
           "team": "Colombia",
-          "appearance_probability": 0.1036,
+          "appearance_probability": 0.1034,
           "win_probability": 0.0554,
-          "conditional_win_probability": 0.5347490347490348
+          "conditional_win_probability": 0.5357833655705996
         },
         {
           "team": "Germany",
           "appearance_probability": 0.075,
-          "win_probability": 0.0289,
-          "conditional_win_probability": 0.38533333333333336
+          "win_probability": 0.0288,
+          "conditional_win_probability": 0.384
         },
         {
           "team": "Norway",
-          "appearance_probability": 0.0745,
-          "win_probability": 0.0303,
-          "conditional_win_probability": 0.40671140939597317
+          "appearance_probability": 0.0746,
+          "win_probability": 0.0304,
+          "conditional_win_probability": 0.4075067024128686
         },
         {
           "team": "France",
           "appearance_probability": 0.0715,
-          "win_probability": 0.0392,
-          "conditional_win_probability": 0.5482517482517483
+          "win_probability": 0.0391,
+          "conditional_win_probability": 0.5468531468531469
         },
         {
           "team": "Switzerland",
@@ -6492,14 +6486,14 @@
         {
           "team": "Mexico",
           "appearance_probability": 0.0639,
-          "win_probability": 0.0206,
-          "conditional_win_probability": 0.3223787167449139
+          "win_probability": 0.0207,
+          "conditional_win_probability": 0.323943661971831
         },
         {
           "team": "Uruguay",
-          "appearance_probability": 0.0622,
-          "win_probability": 0.0263,
-          "conditional_win_probability": 0.4228295819935691
+          "appearance_probability": 0.0625,
+          "win_probability": 0.0264,
+          "conditional_win_probability": 0.4224
         },
         {
           "team": "Japan",
@@ -6522,8 +6516,8 @@
         {
           "team": "Senegal",
           "appearance_probability": 0.0416,
-          "win_probability": 0.0124,
-          "conditional_win_probability": 0.2980769230769231
+          "win_probability": 0.0123,
+          "conditional_win_probability": 0.2956730769230769
         },
         {
           "team": "Netherlands",
@@ -6706,10 +6700,10 @@
             "Argentina",
             "England"
           ],
-          "probability": 0.1118,
+          "probability": 0.1117,
           "team_win_probabilities": {
-            "Argentina": 0.6091234347048301,
-            "England": 0.39087656529516995
+            "Argentina": 0.6087735004476276,
+            "England": 0.39122649955237243
           }
         },
         {
@@ -6717,10 +6711,10 @@
             "Argentina",
             "Brazil"
           ],
-          "probability": 0.0749,
+          "probability": 0.0748,
           "team_win_probabilities": {
-            "Argentina": 0.664886515353805,
-            "Brazil": 0.33511348464619495
+            "Argentina": 0.6657754010695187,
+            "Brazil": 0.3342245989304813
           }
         },
         {
@@ -6728,10 +6722,10 @@
             "England",
             "Portugal"
           ],
-          "probability": 0.0357,
+          "probability": 0.0356,
           "team_win_probabilities": {
-            "England": 0.5434173669467787,
-            "Portugal": 0.4565826330532213
+            "England": 0.5421348314606742,
+            "Portugal": 0.45786516853932585
           }
         },
         {
@@ -6750,10 +6744,10 @@
             "Argentina",
             "Norway"
           ],
-          "probability": 0.0313,
+          "probability": 0.0314,
           "team_win_probabilities": {
-            "Argentina": 0.7476038338658147,
-            "Norway": 0.2523961661341853
+            "Argentina": 0.7484076433121019,
+            "Norway": 0.2515923566878981
           }
         }
       ]
@@ -6764,87 +6758,87 @@
       "entrantProbabilities": [
         {
           "team": "Spain",
-          "appearance_probability": 0.4105,
-          "win_probability": 0.283,
-          "conditional_win_probability": 0.6894031668696712
+          "appearance_probability": 0.4139,
+          "win_probability": 0.2861,
+          "conditional_win_probability": 0.6912297656438753
         },
         {
           "team": "Argentina",
-          "appearance_probability": 0.321,
-          "win_probability": 0.1915,
-          "conditional_win_probability": 0.5965732087227414
+          "appearance_probability": 0.3206,
+          "win_probability": 0.1907,
+          "conditional_win_probability": 0.5948222083593263
         },
         {
           "team": "France",
-          "appearance_probability": 0.2096,
-          "win_probability": 0.1151,
-          "conditional_win_probability": 0.5491412213740458
+          "appearance_probability": 0.2089,
+          "win_probability": 0.1147,
+          "conditional_win_probability": 0.5490665390138822
         },
         {
           "team": "England",
-          "appearance_probability": 0.1603,
-          "win_probability": 0.0772,
-          "conditional_win_probability": 0.4815970056144729
+          "appearance_probability": 0.1598,
+          "win_probability": 0.0766,
+          "conditional_win_probability": 0.4793491864831039
         },
         {
           "team": "Portugal",
-          "appearance_probability": 0.106,
-          "win_probability": 0.0468,
-          "conditional_win_probability": 0.44150943396226416
+          "appearance_probability": 0.1059,
+          "win_probability": 0.0467,
+          "conditional_win_probability": 0.4409820585457979
         },
         {
           "team": "Brazil",
-          "appearance_probability": 0.1017,
-          "win_probability": 0.0444,
-          "conditional_win_probability": 0.4365781710914454
+          "appearance_probability": 0.1018,
+          "win_probability": 0.0442,
+          "conditional_win_probability": 0.43418467583497056
         },
         {
           "team": "Colombia",
-          "appearance_probability": 0.0938,
-          "win_probability": 0.04,
-          "conditional_win_probability": 0.42643923240938164
+          "appearance_probability": 0.0935,
+          "win_probability": 0.0397,
+          "conditional_win_probability": 0.42459893048128344
         },
         {
           "team": "Netherlands",
-          "appearance_probability": 0.0721,
-          "win_probability": 0.0311,
-          "conditional_win_probability": 0.43134535367545074
+          "appearance_probability": 0.072,
+          "win_probability": 0.031,
+          "conditional_win_probability": 0.4305555555555556
         },
         {
           "team": "Ecuador",
-          "appearance_probability": 0.0633,
-          "win_probability": 0.0248,
-          "conditional_win_probability": 0.39178515007898895
+          "appearance_probability": 0.063,
+          "win_probability": 0.0244,
+          "conditional_win_probability": 0.3873015873015873
         },
         {
           "team": "Germany",
-          "appearance_probability": 0.0505,
-          "win_probability": 0.0196,
-          "conditional_win_probability": 0.38811881188118813
+          "appearance_probability": 0.0503,
+          "win_probability": 0.0195,
+          "conditional_win_probability": 0.38767395626242546
         },
         {
           "team": "Turkey",
-          "appearance_probability": 0.0485,
+          "appearance_probability": 0.0483,
           "win_probability": 0.0165,
-          "conditional_win_probability": 0.3402061855670103
+          "conditional_win_probability": 0.3416149068322981
         },
         {
           "team": "Norway",
-          "appearance_probability": 0.0435,
+          "appearance_probability": 0.0436,
           "win_probability": 0.0153,
-          "conditional_win_probability": 0.35172413793103446
+          "conditional_win_probability": 0.35091743119266056
         },
         {
           "team": "Croatia",
-          "appearance_probability": 0.0403,
+          "appearance_probability": 0.0401,
           "win_probability": 0.0134,
-          "conditional_win_probability": 0.3325062034739454
+          "conditional_win_probability": 0.3341645885286783
         },
         {
           "team": "Switzerland",
-          "appearance_probability": 0.0389,
+          "appearance_probability": 0.0388,
           "win_probability": 0.0117,
-          "conditional_win_probability": 0.30077120822622105
+          "conditional_win_probability": 0.3015463917525773
         },
         {
           "team": "Japan",
@@ -6860,27 +6854,27 @@
         },
         {
           "team": "Mexico",
-          "appearance_probability": 0.0313,
+          "appearance_probability": 0.0314,
           "win_probability": 0.0103,
-          "conditional_win_probability": 0.329073482428115
+          "conditional_win_probability": 0.32802547770700635
         },
         {
           "team": "Uruguay",
-          "appearance_probability": 0.0312,
+          "appearance_probability": 0.0313,
           "win_probability": 0.0096,
-          "conditional_win_probability": 0.3076923076923077
+          "conditional_win_probability": 0.30670926517571884
         },
         {
           "team": "Senegal",
-          "appearance_probability": 0.0197,
-          "win_probability": 0.0058,
-          "conditional_win_probability": 0.29441624365482233
+          "appearance_probability": 0.0195,
+          "win_probability": 0.0057,
+          "conditional_win_probability": 0.2923076923076923
         },
         {
           "team": "Paraguay",
-          "appearance_probability": 0.0144,
+          "appearance_probability": 0.0143,
           "win_probability": 0.0039,
-          "conditional_win_probability": 0.2708333333333333
+          "conditional_win_probability": 0.2727272727272727
         },
         {
           "team": "Morocco",
@@ -6890,15 +6884,15 @@
         },
         {
           "team": "Canada",
-          "appearance_probability": 0.0107,
+          "appearance_probability": 0.0106,
           "win_probability": 0.002,
-          "conditional_win_probability": 0.18691588785046728
+          "conditional_win_probability": 0.18867924528301888
         },
         {
           "team": "Austria",
-          "appearance_probability": 0.0083,
+          "appearance_probability": 0.0082,
           "win_probability": 0.0019,
-          "conditional_win_probability": 0.2289156626506024
+          "conditional_win_probability": 0.23170731707317074
         },
         {
           "team": "Iran",
@@ -6908,9 +6902,9 @@
         },
         {
           "team": "Scotland",
-          "appearance_probability": 0.0067,
+          "appearance_probability": 0.0066,
           "win_probability": 0.0014,
-          "conditional_win_probability": 0.208955223880597
+          "conditional_win_probability": 0.21212121212121213
         },
         {
           "team": "South Korea",
@@ -6962,7 +6956,7 @@
         },
         {
           "team": "Uzbekistan",
-          "appearance_probability": 0.0012,
+          "appearance_probability": 0.0011,
           "win_probability": 0.0,
           "conditional_win_probability": 0.0
         },
@@ -7003,10 +6997,10 @@
             "Argentina",
             "Spain"
           ],
-          "probability": 0.1232,
+          "probability": 0.1238,
           "team_win_probabilities": {
-            "Argentina": 0.44155844155844154,
-            "Spain": 0.5584415584415584
+            "Argentina": 0.4394184168012924,
+            "Spain": 0.5605815831987075
           }
         },
         {
@@ -7014,10 +7008,10 @@
             "Argentina",
             "France"
           ],
-          "probability": 0.0558,
+          "probability": 0.0556,
           "team_win_probabilities": {
-            "Argentina": 0.5842293906810035,
-            "France": 0.4157706093189964
+            "Argentina": 0.5827338129496403,
+            "France": 0.4172661870503597
           }
         },
         {
@@ -7025,10 +7019,10 @@
             "England",
             "Spain"
           ],
-          "probability": 0.0528,
+          "probability": 0.0531,
           "team_win_probabilities": {
-            "England": 0.32196969696969696,
-            "Spain": 0.678030303030303
+            "England": 0.32015065913371,
+            "Spain": 0.67984934086629
           }
         },
         {
@@ -7036,10 +7030,10 @@
             "Brazil",
             "Spain"
           ],
-          "probability": 0.0355,
+          "probability": 0.036,
           "team_win_probabilities": {
-            "Brazil": 0.2676056338028169,
-            "Spain": 0.7323943661971831
+            "Brazil": 0.26666666666666666,
+            "Spain": 0.7333333333333333
           }
         },
         {
@@ -7047,10 +7041,10 @@
             "Portugal",
             "Spain"
           ],
-          "probability": 0.0329,
+          "probability": 0.0337,
           "team_win_probabilities": {
-            "Portugal": 0.20972644376899696,
-            "Spain": 0.790273556231003
+            "Portugal": 0.21068249258160238,
+            "Spain": 0.7893175074183977
           }
         }
       ]
@@ -7060,29 +7054,29 @@
     {
       "team": "Spain",
       "rank": 1,
-      "elo": 2155.0,
-      "champion_probability": 0.283,
-      "final_probability": 0.4105,
-      "semifinal_probability": 0.5471,
-      "quarterfinal_probability": 0.6507,
-      "round_of_16_probability": 0.8378
+      "elo": 2157.0,
+      "champion_probability": 0.2861,
+      "final_probability": 0.4139,
+      "semifinal_probability": 0.5511,
+      "quarterfinal_probability": 0.6545,
+      "round_of_16_probability": 0.8405
     },
     {
       "team": "Argentina",
       "rank": 2,
       "elo": 2114.0,
-      "champion_probability": 0.1915,
-      "final_probability": 0.321,
-      "semifinal_probability": 0.4596,
-      "quarterfinal_probability": 0.6191,
-      "round_of_16_probability": 0.7394
+      "champion_probability": 0.1907,
+      "final_probability": 0.3206,
+      "semifinal_probability": 0.459,
+      "quarterfinal_probability": 0.6184,
+      "round_of_16_probability": 0.7388
     },
     {
       "team": "France",
       "rank": 3,
       "elo": 2063.0,
-      "champion_probability": 0.1151,
-      "final_probability": 0.2096,
+      "champion_probability": 0.1147,
+      "final_probability": 0.2089,
       "semifinal_probability": 0.3992,
       "quarterfinal_probability": 0.5661,
       "round_of_16_probability": 0.8045
@@ -7091,28 +7085,28 @@
       "team": "England",
       "rank": 4,
       "elo": 2021.0,
-      "champion_probability": 0.0772,
-      "final_probability": 0.1603,
-      "semifinal_probability": 0.3036,
-      "quarterfinal_probability": 0.4991,
+      "champion_probability": 0.0766,
+      "final_probability": 0.1598,
+      "semifinal_probability": 0.3031,
+      "quarterfinal_probability": 0.4985,
       "round_of_16_probability": 0.7349
     },
     {
       "team": "Portugal",
       "rank": 6,
       "elo": 1986.0,
-      "champion_probability": 0.0468,
-      "final_probability": 0.106,
-      "semifinal_probability": 0.2007,
-      "quarterfinal_probability": 0.4059,
+      "champion_probability": 0.0467,
+      "final_probability": 0.1059,
+      "semifinal_probability": 0.2003,
+      "quarterfinal_probability": 0.4052,
       "round_of_16_probability": 0.6775
     },
     {
       "team": "Brazil",
       "rank": 5,
       "elo": 1991.0,
-      "champion_probability": 0.0444,
-      "final_probability": 0.1017,
+      "champion_probability": 0.0442,
+      "final_probability": 0.1018,
       "semifinal_probability": 0.2183,
       "quarterfinal_probability": 0.3854,
       "round_of_16_probability": 0.6303
@@ -7121,18 +7115,18 @@
       "team": "Colombia",
       "rank": 7,
       "elo": 1982.0,
-      "champion_probability": 0.04,
-      "final_probability": 0.0938,
-      "semifinal_probability": 0.1717,
-      "quarterfinal_probability": 0.3335,
+      "champion_probability": 0.0397,
+      "final_probability": 0.0935,
+      "semifinal_probability": 0.171,
+      "quarterfinal_probability": 0.3327,
       "round_of_16_probability": 0.6369
     },
     {
       "team": "Netherlands",
       "rank": 8,
       "elo": 1948.0,
-      "champion_probability": 0.0311,
-      "final_probability": 0.0721,
+      "champion_probability": 0.031,
+      "final_probability": 0.072,
       "semifinal_probability": 0.1862,
       "quarterfinal_probability": 0.3836,
       "round_of_16_probability": 0.5832
@@ -7141,8 +7135,8 @@
       "team": "Ecuador",
       "rank": 9,
       "elo": 1938.0,
-      "champion_probability": 0.0248,
-      "final_probability": 0.0633,
+      "champion_probability": 0.0244,
+      "final_probability": 0.063,
       "semifinal_probability": 0.1628,
       "quarterfinal_probability": 0.2978,
       "round_of_16_probability": 0.646
@@ -7151,8 +7145,8 @@
       "team": "Germany",
       "rank": 10,
       "elo": 1932.0,
-      "champion_probability": 0.0196,
-      "final_probability": 0.0505,
+      "champion_probability": 0.0195,
+      "final_probability": 0.0503,
       "semifinal_probability": 0.1424,
       "quarterfinal_probability": 0.2745,
       "round_of_16_probability": 0.59
@@ -7162,8 +7156,8 @@
       "rank": 12,
       "elo": 1911.0,
       "champion_probability": 0.0165,
-      "final_probability": 0.0485,
-      "semifinal_probability": 0.1114,
+      "final_probability": 0.0483,
+      "semifinal_probability": 0.1109,
       "quarterfinal_probability": 0.325,
       "round_of_16_probability": 0.6303
     },
@@ -7172,10 +7166,10 @@
       "rank": 11,
       "elo": 1914.0,
       "champion_probability": 0.0153,
-      "final_probability": 0.0435,
-      "semifinal_probability": 0.1141,
-      "quarterfinal_probability": 0.2468,
-      "round_of_16_probability": 0.4974
+      "final_probability": 0.0436,
+      "semifinal_probability": 0.1142,
+      "quarterfinal_probability": 0.2469,
+      "round_of_16_probability": 0.4975
     },
     {
       "team": "Japan",
@@ -7192,9 +7186,9 @@
       "rank": 12,
       "elo": 1911.0,
       "champion_probability": 0.0134,
-      "final_probability": 0.0403,
-      "semifinal_probability": 0.0959,
-      "quarterfinal_probability": 0.1921,
+      "final_probability": 0.0401,
+      "semifinal_probability": 0.0955,
+      "quarterfinal_probability": 0.1914,
       "round_of_16_probability": 0.4818
     },
     {
@@ -7203,7 +7197,7 @@
       "elo": 1893.0,
       "champion_probability": 0.0124,
       "final_probability": 0.0369,
-      "semifinal_probability": 0.0937,
+      "semifinal_probability": 0.0933,
       "quarterfinal_probability": 0.3177,
       "round_of_16_probability": 0.6314
     },
@@ -7212,7 +7206,7 @@
       "rank": 17,
       "elo": 1891.0,
       "champion_probability": 0.0117,
-      "final_probability": 0.0389,
+      "final_probability": 0.0388,
       "semifinal_probability": 0.103,
       "quarterfinal_probability": 0.2985,
       "round_of_16_probability": 0.6822
@@ -7222,38 +7216,38 @@
       "rank": 18,
       "elo": 1875.0,
       "champion_probability": 0.0103,
-      "final_probability": 0.0313,
-      "semifinal_probability": 0.0942,
+      "final_probability": 0.0314,
+      "semifinal_probability": 0.0941,
       "quarterfinal_probability": 0.2427,
-      "round_of_16_probability": 0.5816
+      "round_of_16_probability": 0.5815
     },
     {
       "team": "Uruguay",
       "rank": 16,
       "elo": 1892.0,
       "champion_probability": 0.0096,
-      "final_probability": 0.0312,
-      "semifinal_probability": 0.0752,
+      "final_probability": 0.0313,
+      "semifinal_probability": 0.0753,
       "quarterfinal_probability": 0.1612,
-      "round_of_16_probability": 0.2946
+      "round_of_16_probability": 0.294
     },
     {
       "team": "Senegal",
       "rank": 21,
       "elo": 1867.0,
-      "champion_probability": 0.0058,
-      "final_probability": 0.0197,
+      "champion_probability": 0.0057,
+      "final_probability": 0.0195,
       "semifinal_probability": 0.0638,
       "quarterfinal_probability": 0.1777,
-      "round_of_16_probability": 0.4069
+      "round_of_16_probability": 0.407
     },
     {
       "team": "Paraguay",
       "rank": 22,
       "elo": 1833.0,
       "champion_probability": 0.0039,
-      "final_probability": 0.0144,
-      "semifinal_probability": 0.0436,
+      "final_probability": 0.0143,
+      "semifinal_probability": 0.0434,
       "quarterfinal_probability": 0.1542,
       "round_of_16_probability": 0.4348
     },
@@ -7262,7 +7256,7 @@
       "rank": 25,
       "elo": 1788.0,
       "champion_probability": 0.002,
-      "final_probability": 0.0107,
+      "final_probability": 0.0106,
       "semifinal_probability": 0.0445,
       "quarterfinal_probability": 0.1695,
       "round_of_16_probability": 0.5011
@@ -7282,17 +7276,17 @@
       "rank": 23,
       "elo": 1830.0,
       "champion_probability": 0.0019,
-      "final_probability": 0.0083,
-      "semifinal_probability": 0.0265,
-      "quarterfinal_probability": 0.0761,
-      "round_of_16_probability": 0.1918
+      "final_probability": 0.0082,
+      "semifinal_probability": 0.0264,
+      "quarterfinal_probability": 0.076,
+      "round_of_16_probability": 0.1911
     },
     {
       "team": "Scotland",
       "rank": 26,
       "elo": 1782.0,
       "champion_probability": 0.0014,
-      "final_probability": 0.0067,
+      "final_probability": 0.0066,
       "semifinal_probability": 0.0289,
       "quarterfinal_probability": 0.0967,
       "round_of_16_probability": 0.2619
@@ -7315,7 +7309,7 @@
       "final_probability": 0.0052,
       "semifinal_probability": 0.0254,
       "quarterfinal_probability": 0.1152,
-      "round_of_16_probability": 0.3712
+      "round_of_16_probability": 0.3713
     },
     {
       "team": "Iran",
@@ -7333,9 +7327,9 @@
       "elo": 1740.0,
       "champion_probability": 0.0006,
       "final_probability": 0.0037,
-      "semifinal_probability": 0.0192,
+      "semifinal_probability": 0.019,
       "quarterfinal_probability": 0.0931,
-      "round_of_16_probability": 0.3169
+      "round_of_16_probability": 0.3168
     },
     {
       "team": "Algeria",
@@ -7344,8 +7338,8 @@
       "champion_probability": 0.0006,
       "final_probability": 0.0028,
       "semifinal_probability": 0.0118,
-      "quarterfinal_probability": 0.0478,
-      "round_of_16_probability": 0.1459
+      "quarterfinal_probability": 0.0477,
+      "round_of_16_probability": 0.1452
     },
     {
       "team": "United States",
@@ -7504,17 +7498,17 @@
       "champion_probability": 0.0,
       "final_probability": 0.0003,
       "semifinal_probability": 0.0019,
-      "quarterfinal_probability": 0.0121,
-      "round_of_16_probability": 0.0476
+      "quarterfinal_probability": 0.012,
+      "round_of_16_probability": 0.0474
     },
     {
       "team": "Uzbekistan",
       "rank": 41,
       "elo": 1714.0,
       "champion_probability": 0.0,
-      "final_probability": 0.0012,
-      "semifinal_probability": 0.005,
-      "quarterfinal_probability": 0.0253,
+      "final_probability": 0.0011,
+      "semifinal_probability": 0.0049,
+      "quarterfinal_probability": 0.0252,
       "round_of_16_probability": 0.098
     },
     {

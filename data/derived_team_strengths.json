@@ -1,20 +1,20 @@
 {
   "source": "https://www.eloratings.net/World.tsv",
   "sourceName": "World Football Elo Ratings",
-  "asOf": "2026-06-08",
+  "asOf": "2026-06-09",
   "teams": [
     {
       "name": "Spain",
       "code": "ES",
       "confederation": "UEFA",
       "rank": 1,
-      "elo": 2155,
-      "rating": 2155,
-      "attack": 2226.34,
-      "defense": 2123.72,
-      "matches": 781,
+      "elo": 2157,
+      "rating": 2157,
+      "attack": 2228.39,
+      "defense": 2125.71,
+      "matches": 782,
       "ratingChange": 0,
-      "oneYearRatingChange": -2
+      "oneYearRatingChange": 0
     },
     {
       "name": "Argentina",
@@ -144,7 +144,7 @@
       "defense": 1857.05,
       "matches": 888,
       "ratingChange": 0,
-      "oneYearRatingChange": 52
+      "oneYearRatingChange": 48
     },
     {
       "name": "Croatia",
@@ -157,7 +157,7 @@
       "defense": 1875.65,
       "matches": 400,
       "ratingChange": 0,
-      "oneYearRatingChange": -1
+      "oneYearRatingChange": -15
     },
     {
       "name": "Turkey",
@@ -196,7 +196,7 @@
       "defense": 1838.83,
       "matches": 878,
       "ratingChange": 0,
-      "oneYearRatingChange": 57
+      "oneYearRatingChange": 47
     },
     {
       "name": "Uruguay",
@@ -261,7 +261,7 @@
       "defense": 1834.35,
       "matches": 903,
       "ratingChange": 0,
-      "oneYearRatingChange": -12
+      "oneYearRatingChange": -13
     },
     {
       "name": "Senegal",
@@ -313,7 +313,7 @@
       "defense": 1797.51,
       "matches": 730,
       "ratingChange": 0,
-      "oneYearRatingChange": 16
+      "oneYearRatingChange": 15
     },
     {
       "name": "Canada",
@@ -339,7 +339,7 @@
       "defense": 1738.66,
       "matches": 869,
       "ratingChange": 0,
-      "oneYearRatingChange": 66
+      "oneYearRatingChange": 65
     },
     {
       "name": "Ukraine",
@@ -456,7 +456,7 @@
       "defense": 1696.49,
       "matches": 884,
       "ratingChange": 0,
-      "oneYearRatingChange": -23
+      "oneYearRatingChange": -9
     },
     {
       "name": "Serbia",
@@ -521,7 +521,7 @@
       "defense": 1667.8,
       "matches": 109,
       "ratingChange": 0,
-      "oneYearRatingChange": 111
+      "oneYearRatingChange": 106
     },
     {
       "name": "Uzbekistan",
@@ -593,19 +593,19 @@
       "code": "PE",
       "confederation": "CONMEBOL",
       "rank": 46,
-      "elo": 1701,
-      "rating": 1701,
-      "attack": 1743.4,
-      "defense": 1652.23,
-      "matches": 709,
+      "elo": 1699,
+      "rating": 1699,
+      "attack": 1741.39,
+      "defense": 1650.15,
+      "matches": 710,
       "ratingChange": 0,
-      "oneYearRatingChange": -38
+      "oneYearRatingChange": -40
     },
     {
       "name": "Ireland",
       "code": "IE",
       "confederation": "UEFA",
-      "rank": 47,
+      "rank": 46,
       "elo": 1699,
       "rating": 1699,
       "attack": 1745.12,
