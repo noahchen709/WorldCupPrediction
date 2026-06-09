@@ -1,6 +1,12 @@
 import pytest
 
-from worldcup_prediction.models.elo import elo_expected_score, elo_win_draw_loss
+from worldcup_prediction.models.elo import (
+    DRAW_RATE_CEILING,
+    DRAW_RATE_FLOOR,
+    estimate_draw_probability,
+    elo_expected_score,
+    elo_win_draw_loss,
+)
 
 
 @pytest.mark.parametrize(
@@ -22,6 +28,12 @@ def test_elo_expected_score_applies_home_advantage_to_team_a() -> None:
     assert elo_expected_score(1500, 1500, home_advantage=100) == pytest.approx(
         elo_expected_score(1600, 1500)
     )
+
+
+def test_draw_probability_uses_calibrated_gap_curve() -> None:
+    assert estimate_draw_probability(1500, 1500) == pytest.approx(DRAW_RATE_CEILING)
+    assert estimate_draw_probability(1600, 1500) < DRAW_RATE_CEILING
+    assert estimate_draw_probability(2500, 1500) > DRAW_RATE_FLOOR
 
 
 @pytest.mark.parametrize(

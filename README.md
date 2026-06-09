@@ -123,6 +123,20 @@ This replays the 2022 FIFA World Cup format using pre-tournament Elo ratings fro
 
 The summary reports the model's top pick, the actual champion's predicted probability and rank, and how much probability mass the model assigned to the actual finalists, semifinalists, and quarterfinalists. It also includes evaluation metrics: champion log loss, Brier scores for champion and stage-progression events, Round of 16 qualification Brier score, average stage error, top-pick accuracy, and calibration buckets.
 
+## Calibrate Draw Rate
+
+```bash
+PYTHONPATH=src python3 scripts/calibrate_draw_rate.py --start-year 1994 --end-year 2025 --test-start-year 2022
+```
+
+This downloads yearly World Football Elo result tables into `data/raw/elo_results_*.tsv`, fits `P(draw | Elo gap)` on matches before the test start year, and compares the old linear draw heuristic with the fitted exponential curve on held-out match results. It also runs the 2022 World Cup backtest with both draw models.
+
+The current fitted curve is:
+
+```text
+P(draw) = 0.0200 + (0.3850 - 0.0200) * exp(-abs(Elo gap) / 344.0)
+```
+
 ## Modeling Roadmap
 
 1. **Team strength model**

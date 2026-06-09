@@ -1,4 +1,9 @@
-from math import pow
+from math import exp, pow
+
+
+DRAW_RATE_FLOOR = 0.02
+DRAW_RATE_CEILING = 0.385
+DRAW_RATE_SCALE = 344.0
 
 
 def elo_expected_score(rating_a: float, rating_b: float, home_advantage: float = 0) -> float:
@@ -8,14 +13,16 @@ def elo_expected_score(rating_a: float, rating_b: float, home_advantage: float =
 
 
 def estimate_draw_probability(rating_a: float, rating_b: float) -> float:
-    """Starter draw model based on absolute Elo gap.
+    """Estimate draw probability from absolute Elo gap.
 
     Elo itself gives expected result, not a draw probability. This curve is a
-    transparent assumption that can later be replaced by calibration on match
-    history with pre-match Elo ratings.
+    transparent assumption that can be calibrated on match history with
+    pre-match Elo ratings.
     """
     gap = abs(rating_a - rating_b)
-    return max(0.16, min(0.30, 0.30 - gap / 1200))
+    return DRAW_RATE_FLOOR + (DRAW_RATE_CEILING - DRAW_RATE_FLOOR) * exp(
+        -gap / DRAW_RATE_SCALE
+    )
 
 
 def elo_win_draw_loss(

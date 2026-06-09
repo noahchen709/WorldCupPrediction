@@ -123,7 +123,7 @@ function renderFinishTable(region = "all") {
 function predictMatch(home, away) {
   const ratingGap = home.rating - away.rating;
   const expected = 1 / (1 + Math.pow(10, -ratingGap / 400));
-  let draw = Math.max(0.16, Math.min(0.30, 0.30 - Math.abs(ratingGap) / 1200));
+  let draw = 0.02 + (0.385 - 0.02) * Math.exp(-Math.abs(ratingGap) / 344);
   let homeWin = expected - 0.5 * draw;
   let awayWin = 1 - homeWin - draw;
 
