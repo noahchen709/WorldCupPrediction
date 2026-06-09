@@ -350,6 +350,16 @@ select {
   gap: 14px;
 }
 
+.backtest-aggregate-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--line);
+}
+
 .comparison-table-wrap {
   min-width: 0;
 }
@@ -598,6 +608,13 @@ select {
   background: #f7fbfa;
 }
 
+.backtest-aggregate-table th:first-child,
+.backtest-aggregate-table td:first-child,
+.backtest-aggregate-table th:nth-child(2),
+.backtest-aggregate-table td:nth-child(2) {
+  text-align: left;
+}
+
 .table-team {
   display: block;
   font-weight: 850;
@@ -639,6 +656,7 @@ select {
   .report-summary,
   .groups-grid,
   .comparison-grid,
+  .backtest-aggregate-stats,
   .calibration-grid {
     grid-template-columns: 1fr;
   }

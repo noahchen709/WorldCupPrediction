@@ -2,6 +2,7 @@ let teams = [];
 let simulationResults = [];
 let simulationReport = null;
 let backtestResults = null;
+let backtestAggregate = null;
 
 const drawModelComparison = {
   fitWindow: "Fit 1994-2021, tested 2022-2025",
@@ -286,6 +287,120 @@ function renderBacktestMethodRows(values) {
   `;
 }
 
+function comparisonForModel(tournament, model) {
+  return tournament.methodComparison?.find((row) => row.model === model);
+}
+
+function averageMetric(tournaments, model, key) {
+  const values = tournaments
+    .map((tournament) => comparisonForModel(tournament, model)?.[key])
+    .filter((value) => Number.isFinite(value));
+  if (!values.length) {
+    return null;
+  }
+  return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
+function renderBacktestAggregate() {
+  const container = document.querySelector("#backtest-aggregate");
+  if (!container) {
+    return;
+  }
+  const tournaments = backtestAggregate?.tournaments || [];
+  if (!tournaments.length) {
+    container.innerHTML = "";
+    return;
+  }
+
+  const eloStageBrier = averageMetric(tournaments, "elo", "stage_brier_score");
+  const xgStageBrier = averageMetric(tournaments, "xg_elo_adjusted", "stage_brier_score");
+  const eloChampionLogLoss = averageMetric(tournaments, "elo", "champion_log_loss");
+  const xgChampionLogLoss = averageMetric(tournaments, "xg_elo_adjusted", "champion_log_loss");
+  const latestGenerated = backtestAggregate.generatedAt
+    ? new Date(backtestAggregate.generatedAt).toLocaleDateString()
+    : "n/a";
+
+  container.innerHTML = `
+    <section class="comparison-panel" aria-labelledby="backtest-aggregate-heading">
+      <div class="comparison-heading">
+        <div>
+          <span id="backtest-aggregate-heading">Multi-Tournament Comparison</span>
+          <small>${tournaments.length} World Cups · generated ${latestGenerated}</small>
+        </div>
+        <small>Green deltas improve the metric</small>
+      </div>
+      <div class="backtest-aggregate-stats">
+        <div class="report-stat">
+          <span>Elo Avg Stage Brier</span>
+          <strong>${formatDecimal(eloStageBrier)}</strong>
+          <small>2014-2022</small>
+        </div>
+        <div class="report-stat">
+          <span>xG/Elo Avg Stage Brier</span>
+          <strong>${formatDecimal(xgStageBrier)}</strong>
+          <small>${metricDelta(xgStageBrier, eloStageBrier)}</small>
+        </div>
+        <div class="report-stat">
+          <span>Elo Avg Champion Loss</span>
+          <strong>${formatDecimal(eloChampionLogLoss)}</strong>
+          <small>Lower is better</small>
+        </div>
+        <div class="report-stat">
+          <span>xG/Elo Avg Champion Loss</span>
+          <strong>${formatDecimal(xgChampionLogLoss)}</strong>
+          <small>${metricDelta(xgChampionLogLoss, eloChampionLogLoss)}</small>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="report-table backtest-aggregate-table">
+          <thead>
+            <tr>
+              <th>World Cup</th>
+              <th>Actual Champion</th>
+              <th>Elo Champion</th>
+              <th>xG/Elo Champion</th>
+              <th>Elo Log Loss</th>
+              <th>xG/Elo Log Loss</th>
+              <th>Elo Stage Brier</th>
+              <th>xG/Elo Stage Brier</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tournaments
+              .map((tournament) => {
+                const elo = comparisonForModel(tournament, "elo");
+                const xg = comparisonForModel(tournament, "xg_elo_adjusted");
+                const summary = tournament.summary;
+                return `
+                  <tr>
+                    <td>
+                      <span class="table-team">${escapeHtml(summary.tournament)}</span>
+                      <small>${escapeHtml(summary.as_of)}</small>
+                    </td>
+                    <td>${escapeHtml(summary.actual_champion)}</td>
+                    <td>
+                      ${formatPercent(elo.actual_champion_probability)}
+                      <small>${escapeHtml(elo.top_pick)}</small>
+                    </td>
+                    <td>
+                      ${formatPercent(xg.actual_champion_probability)}
+                      <small>${escapeHtml(xg.top_pick)}</small>
+                    </td>
+                    <td>${formatDecimal(elo.champion_log_loss)}</td>
+                    ${renderComparisonCell(xg.champion_log_loss, elo.champion_log_loss)}
+                    <td>${formatDecimal(elo.stage_brier_score)}</td>
+                    ${renderComparisonCell(xg.stage_brier_score, elo.stage_brier_score)}
+                  </tr>
+                `;
+              })
+              .join("")}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  `;
+}
+
 function renderDrawModelComparison() {
   const container = document.querySelector("#backtest-draw-comparison");
   if (!container) {
@@ -498,6 +613,7 @@ function renderBacktest() {
   const summaryContainer = document.querySelector("#backtest-summary");
   const calibrationContainer = document.querySelector("#backtest-calibration");
   const tableBody = document.querySelector("#backtest-table-body");
+  renderBacktestAggregate();
   renderDrawModelComparison();
 
   if (!backtestResults) {
@@ -671,6 +787,15 @@ async function loadDashboardData() {
     }
   } catch (error) {
     backtestResults = null;
+  }
+
+  try {
+    const response = await fetch("../reports/world-cup-backtests.json");
+    if (response.ok) {
+      backtestAggregate = await response.json();
+    }
+  } catch (error) {
+    backtestAggregate = null;
   }
 
   renderFinishReport();

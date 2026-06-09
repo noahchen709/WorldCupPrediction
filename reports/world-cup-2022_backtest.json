@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-09T02:10:59.950233+00:00",
+  "generatedAt": "2026-06-09T02:20:12.247887+00:00",
   "method": "Elo Monte Carlo backtest using pre-tournament historical ratings",
   "ratingSource": "World Football Elo ratings as of 2022-11-19, mirrored from international-football.net/elo-ratings-table",
   "summary": {

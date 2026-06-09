@@ -190,7 +190,83 @@ WORLD_CUP_2022 = HistoricalTournament(
     },
 )
 
+WORLD_CUP_2018 = HistoricalTournament(
+    name="2018 FIFA World Cup",
+    as_of="2018-06-13",
+    source=(
+        "World Football Elo ratings reconstructed from local Elo result history "
+        "before the 2018 FIFA World Cup"
+    ),
+    groups=(
+        ("A", ("Russia", "Saudi Arabia", "Egypt", "Uruguay")),
+        ("B", ("Portugal", "Spain", "Morocco", "Iran")),
+        ("C", ("France", "Australia", "Peru", "Denmark")),
+        ("D", ("Argentina", "Iceland", "Croatia", "Nigeria")),
+        ("E", ("Brazil", "Switzerland", "Costa Rica", "Serbia")),
+        ("F", ("Germany", "Mexico", "Sweden", "South Korea")),
+        ("G", ("Belgium", "Panama", "Tunisia", "England")),
+        ("H", ("Poland", "Senegal", "Colombia", "Japan")),
+    ),
+    actual_finish={
+        "France": "champion",
+        "Croatia": "runner_up",
+        "Belgium": "semifinal",
+        "England": "semifinal",
+        "Uruguay": "quarterfinal",
+        "Brazil": "quarterfinal",
+        "Sweden": "quarterfinal",
+        "Russia": "quarterfinal",
+        "Portugal": "round_of_16",
+        "Argentina": "round_of_16",
+        "Mexico": "round_of_16",
+        "Japan": "round_of_16",
+        "Spain": "round_of_16",
+        "Denmark": "round_of_16",
+        "Switzerland": "round_of_16",
+        "Colombia": "round_of_16",
+    },
+)
+
+WORLD_CUP_2014 = HistoricalTournament(
+    name="2014 FIFA World Cup",
+    as_of="2014-06-11",
+    source=(
+        "World Football Elo ratings reconstructed from local Elo result history "
+        "before the 2014 FIFA World Cup"
+    ),
+    groups=(
+        ("A", ("Brazil", "Croatia", "Mexico", "Cameroon")),
+        ("B", ("Spain", "Netherlands", "Chile", "Australia")),
+        ("C", ("Colombia", "Greece", "Ivory Coast", "Japan")),
+        ("D", ("Uruguay", "Costa Rica", "England", "Italy")),
+        ("E", ("Switzerland", "Ecuador", "France", "Honduras")),
+        ("F", ("Argentina", "Bosnia and Herzegovina", "Iran", "Nigeria")),
+        ("G", ("Germany", "Portugal", "Ghana", "United States")),
+        ("H", ("Belgium", "Algeria", "Russia", "South Korea")),
+    ),
+    actual_finish={
+        "Germany": "champion",
+        "Argentina": "runner_up",
+        "Brazil": "semifinal",
+        "Netherlands": "semifinal",
+        "Colombia": "quarterfinal",
+        "France": "quarterfinal",
+        "Costa Rica": "quarterfinal",
+        "Belgium": "quarterfinal",
+        "Chile": "round_of_16",
+        "Uruguay": "round_of_16",
+        "Nigeria": "round_of_16",
+        "Algeria": "round_of_16",
+        "Switzerland": "round_of_16",
+        "United States": "round_of_16",
+        "Mexico": "round_of_16",
+        "Greece": "round_of_16",
+    },
+)
+
 HISTORICAL_TOURNAMENTS = {
+    "world-cup-2014": WORLD_CUP_2014,
+    "world-cup-2018": WORLD_CUP_2018,
     "world-cup-2022": WORLD_CUP_2022,
 }
 
@@ -225,7 +301,10 @@ def parse_historical_matches(
             fields = line.split("\t")
             if len(fields) < 12:
                 continue
-            played_on = date(int(fields[0]), int(fields[1]), int(fields[2]))
+            try:
+                played_on = date(int(fields[0]), int(fields[1]), int(fields[2]))
+            except ValueError:
+                continue
             if played_on >= as_of:
                 continue
             team_a = code_names.get(fields[3])
@@ -244,6 +323,72 @@ def parse_historical_matches(
                 )
             )
     return matches
+
+
+def parse_rating_delta(value: str) -> float:
+    return float(value.replace("−", "-").replace("+", "") or 0)
+
+
+def load_historical_team_ratings(
+    tournament: HistoricalTournament,
+    raw_data_dir: Path = RAW_DATA_DIR,
+) -> list[TeamRecord]:
+    tournament_date = date.fromisoformat(tournament.as_of)
+    field = {
+        team_name
+        for _, group in tournament.groups
+        for team_name in group
+    }
+    code_names = parse_team_code_names(raw_data_dir / "elo_team_names.tsv")
+    latest: dict[str, tuple[date, float]] = {}
+
+    for year in range(1994, tournament_date.year + 1):
+        path = raw_data_dir / f"elo_results_{year}.tsv"
+        if not path.exists():
+            continue
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            fields = line.split("\t")
+            if len(fields) < 14:
+                continue
+            try:
+                played_on = date(int(fields[0]), int(fields[1]), int(fields[2]))
+            except ValueError:
+                continue
+            if played_on >= tournament_date:
+                continue
+            team_a = code_names.get(fields[3])
+            team_b = code_names.get(fields[4])
+            if team_a in field:
+                latest[team_a] = (
+                    played_on,
+                    float(fields[10]) + parse_rating_delta(fields[12]),
+                )
+            if team_b in field:
+                latest[team_b] = (
+                    played_on,
+                    float(fields[11]) + parse_rating_delta(fields[13]),
+                )
+
+    missing = sorted(field - set(latest))
+    if missing:
+        raise ValueError(
+            "Could not reconstruct historical Elo ratings for: "
+            + ", ".join(missing)
+        )
+
+    return [
+        TeamRecord(
+            team=team_name,
+            confederation="",
+            rating=latest[team_name][1],
+            attack_rating=latest[team_name][1],
+            defense_rating=latest[team_name][1],
+            elo=latest[team_name][1],
+        )
+        for team_name in sorted(field)
+    ]
 
 
 def build_expected_goals_model(

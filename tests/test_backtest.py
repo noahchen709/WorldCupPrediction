@@ -1,9 +1,11 @@
 from worldcup_prediction.data_loader import TeamRecord
 from worldcup_prediction.simulation.backtest import (
+    HISTORICAL_TOURNAMENTS,
     WORLD_CUP_2022,
     HistoricalTournament,
     build_expected_goals_model,
     compare_backtest_methods,
+    load_historical_team_ratings,
     run_backtest,
 )
 
@@ -132,6 +134,27 @@ def test_world_cup_2022_backtest_compares_xg_history_method() -> None:
     assert [row.model for row in comparisons] == ["elo", "xg_elo_adjusted"]
     assert all(row.actual_champion_probability >= 0 for row in comparisons)
     assert xg_result.summary.actual_champion == "Argentina"
+
+
+def test_historical_world_cups_have_complete_rating_fields() -> None:
+    for key, tournament in HISTORICAL_TOURNAMENTS.items():
+        field = {
+            team
+            for _, group in tournament.groups
+            for team in group
+        }
+        teams = (
+            [
+                TeamRecord(team, "", 1500, 1500, 1500, 1500)
+                for team in field
+            ]
+            if key == "world-cup-2022"
+            else load_historical_team_ratings(tournament)
+        )
+
+        assert len(field) == 32
+        assert len(teams) == 32
+        assert {team.team for team in teams} == field
 
 
 def test_xg_history_model_weights_recent_games_more_heavily(tmp_path) -> None:

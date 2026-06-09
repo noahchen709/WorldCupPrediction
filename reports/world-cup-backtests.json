@@ -1,0 +1,281 @@
+{
+  "generatedAt": "2026-06-09T02:20:12.250102+00:00",
+  "tournaments": [
+    {
+      "key": "world-cup-2014",
+      "summary": {
+        "tournament": "2014 FIFA World Cup",
+        "as_of": "2014-06-11",
+        "iterations": 10000,
+        "seed": 2022,
+        "actual_champion": "Germany",
+        "actual_champion_probability": 0.1807,
+        "actual_champion_rank": 3,
+        "top_pick": "Brazil",
+        "top_pick_probability": 0.2586,
+        "top_pick_actual_stage": "semifinal",
+        "finalist_probability_total": 0.5374,
+        "semifinalist_probability_total": 1.729,
+        "quarterfinalist_probability_total": 3.6014,
+        "champion_log_loss": 1.7109170813839543,
+        "champion_brier_score": 0.025045893750000003,
+        "round_of_16_brier_score": 0.251859949375,
+        "finalist_brier_score": 0.0435575,
+        "semifinalist_brier_score": 0.05879201625,
+        "quarterfinalist_brier_score": 0.1364763075,
+        "stage_brier_score": 0.10314633337500001,
+        "stage_score_mae": 0.7704187499999999,
+        "top_pick_accuracy": 0.0,
+        "calibration_error": 0.028596249999999997,
+        "calibration_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.2,
+            "count": 107,
+            "average_probability": 0.04247289719626168,
+            "observed_frequency": 0.04672897196261682,
+            "brier_score": 0.03964758112149532
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 22,
+            "average_probability": 0.28035,
+            "observed_frequency": 0.36363636363636365,
+            "brier_score": 0.22475467772727276
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 14,
+            "average_probability": 0.49562142857142855,
+            "observed_frequency": 0.42857142857142855,
+            "brier_score": 0.2547638364285714
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.8,
+            "count": 10,
+            "average_probability": 0.7047399999999999,
+            "observed_frequency": 0.7,
+            "brier_score": 0.21640713000000003
+          },
+          {
+            "lower": 0.8,
+            "upper": 1.0,
+            "count": 7,
+            "average_probability": 0.9002285714285714,
+            "observed_frequency": 0.7142857142857143,
+            "brier_score": 0.22653631999999999
+          }
+        ]
+      },
+      "methodComparison": [
+        {
+          "model": "elo",
+          "top_pick": "Brazil",
+          "actual_champion_probability": 0.1807,
+          "champion_log_loss": 1.7109170813839543,
+          "round_of_16_brier_score": 0.251859949375,
+          "stage_brier_score": 0.10314633337500001,
+          "stage_score_mae": 0.7704187499999999,
+          "calibration_error": 0.028596249999999997
+        },
+        {
+          "model": "xg_elo_adjusted",
+          "top_pick": "Brazil",
+          "actual_champion_probability": 0.0763,
+          "champion_log_loss": 2.573082340691726,
+          "round_of_16_brier_score": 0.206586660625,
+          "stage_brier_score": 0.096656658875,
+          "stage_score_mae": 0.73605,
+          "calibration_error": 0.02234250000000001
+        }
+      ]
+    },
+    {
+      "key": "world-cup-2018",
+      "summary": {
+        "tournament": "2018 FIFA World Cup",
+        "as_of": "2018-06-13",
+        "iterations": 10000,
+        "seed": 2022,
+        "actual_champion": "France",
+        "actual_champion_probability": 0.0573,
+        "actual_champion_rank": 5,
+        "top_pick": "Brazil",
+        "top_pick_probability": 0.3204,
+        "top_pick_actual_stage": "quarterfinal",
+        "finalist_probability_total": 0.1594,
+        "semifinalist_probability_total": 0.8178,
+        "quarterfinalist_probability_total": 3.2803999999999998,
+        "champion_log_loss": 2.8594546552614433,
+        "champion_brier_score": 0.032916471875,
+        "round_of_16_brier_score": 0.1431437525,
+        "finalist_brier_score": 0.06760755624999999,
+        "semifinalist_brier_score": 0.11676784124999999,
+        "quarterfinalist_brier_score": 0.170695494375,
+        "stage_brier_score": 0.10622622325,
+        "stage_score_mae": 0.81783125,
+        "top_pick_accuracy": 0.0,
+        "calibration_error": 0.04403499999999999,
+        "calibration_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.2,
+            "count": 113,
+            "average_probability": 0.04555309734513274,
+            "observed_frequency": 0.07079646017699115,
+            "brier_score": 0.061497376725663716
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 18,
+            "average_probability": 0.29609444444444444,
+            "observed_frequency": 0.3333333333333333,
+            "brier_score": 0.216521545
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 10,
+            "average_probability": 0.5272699999999999,
+            "observed_frequency": 0.4,
+            "brier_score": 0.235369237
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.8,
+            "count": 9,
+            "average_probability": 0.6863111111111111,
+            "observed_frequency": 0.4444444444444444,
+            "brier_score": 0.30657683333333335
+          },
+          {
+            "lower": 0.8,
+            "upper": 1.0,
+            "count": 10,
+            "average_probability": 0.90733,
+            "observed_frequency": 0.9,
+            "brier_score": 0.10367204700000002
+          }
+        ]
+      },
+      "methodComparison": [
+        {
+          "model": "elo",
+          "top_pick": "Brazil",
+          "actual_champion_probability": 0.0573,
+          "champion_log_loss": 2.8594546552614433,
+          "round_of_16_brier_score": 0.1431437525,
+          "stage_brier_score": 0.10622622325,
+          "stage_score_mae": 0.81783125,
+          "calibration_error": 0.04403499999999999
+        },
+        {
+          "model": "xg_elo_adjusted",
+          "top_pick": "Brazil",
+          "actual_champion_probability": 0.0556,
+          "champion_log_loss": 2.8895720777256004,
+          "round_of_16_brier_score": 0.1553361475,
+          "stage_brier_score": 0.10460055187499999,
+          "stage_score_mae": 0.82579375,
+          "calibration_error": 0.020453750000000003
+        }
+      ]
+    },
+    {
+      "key": "world-cup-2022",
+      "summary": {
+        "tournament": "2022 FIFA World Cup",
+        "as_of": "2022-11-19",
+        "iterations": 10000,
+        "seed": 2022,
+        "actual_champion": "Argentina",
+        "actual_champion_probability": 0.218,
+        "actual_champion_rank": 2,
+        "top_pick": "Brazil",
+        "top_pick_probability": 0.2685,
+        "top_pick_actual_stage": "quarterfinal",
+        "finalist_probability_total": 0.4992,
+        "semifinalist_probability_total": 1.0131,
+        "quarterfinalist_probability_total": 4.116,
+        "champion_log_loss": 1.523260216193048,
+        "champion_brier_score": 0.022285050000000004,
+        "round_of_16_brier_score": 0.25723734375,
+        "finalist_brier_score": 0.043627611875,
+        "semifinalist_brier_score": 0.101313995625,
+        "quarterfinalist_brier_score": 0.11458618749999999,
+        "stage_brier_score": 0.10781003775,
+        "stage_score_mae": 0.80275,
+        "top_pick_accuracy": 0.0,
+        "calibration_error": 0.040902499999999994,
+        "calibration_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.2,
+            "count": 113,
+            "average_probability": 0.04735663716814159,
+            "observed_frequency": 0.07079646017699115,
+            "brier_score": 0.059510090530973454
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 18,
+            "average_probability": 0.30093333333333333,
+            "observed_frequency": 0.2777777777777778,
+            "brier_score": 0.21115522555555555
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 11,
+            "average_probability": 0.4887727272727273,
+            "observed_frequency": 0.5454545454545454,
+            "brier_score": 0.22585559
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.8,
+            "count": 8,
+            "average_probability": 0.7163875,
+            "observed_frequency": 0.625,
+            "brier_score": 0.24328185374999997
+          },
+          {
+            "lower": 0.8,
+            "upper": 1.0,
+            "count": 10,
+            "average_probability": 0.91243,
+            "observed_frequency": 0.7,
+            "brier_score": 0.22935054299999996
+          }
+        ]
+      },
+      "methodComparison": [
+        {
+          "model": "elo",
+          "top_pick": "Brazil",
+          "actual_champion_probability": 0.218,
+          "champion_log_loss": 1.523260216193048,
+          "round_of_16_brier_score": 0.25723734375,
+          "stage_brier_score": 0.10781003775,
+          "stage_score_mae": 0.80275,
+          "calibration_error": 0.040902499999999994
+        },
+        {
+          "model": "xg_elo_adjusted",
+          "top_pick": "Brazil",
+          "actual_champion_probability": 0.2605,
+          "champion_log_loss": 1.3451524177887153,
+          "round_of_16_brier_score": 0.223769416875,
+          "stage_brier_score": 0.10326454599999998,
+          "stage_score_mae": 0.8150375,
+          "calibration_error": 0.04635125000000001
+        }
+      ]
+    }
+  ]
+}
