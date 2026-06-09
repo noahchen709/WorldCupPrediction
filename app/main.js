@@ -191,38 +191,54 @@ function renderGroupStageMatches() {
   }
 
   const records = new Map(teams.map((team) => [team.name, team]));
+  for (const result of simulationReport.results || []) {
+    if (!records.has(result.team)) {
+      records.set(result.team, {
+        name: result.team,
+        rating: result.elo,
+        elo: result.elo
+      });
+    }
+  }
   const groups = simulationReport.tournamentStructure?.groups || [];
   const matchCount = groups.reduce(
-    (count, group) => count + (group.teams.length * (group.teams.length - 1)) / 2,
+    (count, group) => count + (group.fixtures?.length || (group.teams.length * (group.teams.length - 1)) / 2),
     0
   );
   status.textContent = `${matchCount} matches`;
   container.innerHTML = groups
     .map((group) => {
-      const rows = [];
-      for (let i = 0; i < group.teams.length; i += 1) {
-        for (let j = i + 1; j < group.teams.length; j += 1) {
-          const homeName = group.teams[i];
-          const awayName = group.teams[j];
-          const home = records.get(homeName);
-          const away = records.get(awayName);
+      const fixtures =
+        group.fixtures ||
+        group.teams.flatMap((homeName, i) =>
+          group.teams.slice(i + 1).map((awayName) => ({
+            date: "TBD",
+            home: homeName,
+            away: awayName
+          }))
+        );
+      const rows = fixtures
+        .map((fixture) => {
+          const home = records.get(fixture.home);
+          const away = records.get(fixture.away);
           if (!home || !away) {
-            continue;
+            return "";
           }
           const probabilities = predictMatch(home, away);
-          rows.push(`
+          return `
             <tr>
+              <td>${escapeHtml(fixture.date || "TBD")}</td>
               <td>
-                <span class="table-team">${escapeHtml(homeName)} v ${escapeHtml(awayName)}</span>
+                <span class="table-team">${escapeHtml(fixture.home)} v ${escapeHtml(fixture.away)}</span>
                 <small>Elo ${home.rating} v ${away.rating}</small>
               </td>
               <td>${formatPercent(probabilities.homeWin)}</td>
               <td>${formatPercent(probabilities.draw)}</td>
               <td>${formatPercent(probabilities.awayWin)}</td>
             </tr>
-          `);
-        }
-      }
+          `;
+        })
+        .join("");
       return `
         <section class="group-match-card">
           <h3>Group ${escapeHtml(group.group)}</h3>
@@ -230,13 +246,14 @@ function renderGroupStageMatches() {
             <table class="report-table match-table">
               <thead>
                 <tr>
+                  <th>Date</th>
                   <th>Fixture</th>
                   <th>Team 1</th>
                   <th>Draw</th>
                   <th>Team 2</th>
                 </tr>
               </thead>
-              <tbody>${rows.join("")}</tbody>
+              <tbody>${rows}</tbody>
             </table>
           </div>
         </section>

@@ -6,6 +6,13 @@ from itertools import combinations
 from worldcup_prediction.data_loader import TeamRecord
 from worldcup_prediction.models.elo import elo_win_draw_loss
 
+HOST_COUNTRY_BY_TEAM_2026 = {
+    "Canada": "Canada",
+    "Mexico": "Mexico",
+    "United States": "United States",
+}
+HOST_ELO_ADVANTAGE = 100
+
 OFFICIAL_2026_GROUPS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("A", ("Mexico", "South Africa", "South Korea", "Czechia")),
     ("B", ("Canada", "Switzerland", "Qatar", "Bosnia and Herzegovina")),
@@ -73,6 +80,27 @@ MATCH_ROUNDS = {
 }
 
 
+def host_advantage_for_match(
+    team_a: TeamRecord,
+    team_b: TeamRecord,
+    venue_country: str | None = None,
+) -> int:
+    if venue_country is None:
+        return 0
+
+    team_a_adjustment = (
+        HOST_ELO_ADVANTAGE
+        if HOST_COUNTRY_BY_TEAM_2026.get(team_a.team) == venue_country
+        else 0
+    )
+    team_b_adjustment = (
+        HOST_ELO_ADVANTAGE
+        if HOST_COUNTRY_BY_TEAM_2026.get(team_b.team) == venue_country
+        else 0
+    )
+    return team_a_adjustment - team_b_adjustment
+
+
 @dataclass
 class SimTeam:
     record: TeamRecord
@@ -127,7 +155,12 @@ def sample_regulation_result(
     team_b: TeamRecord,
     rng: random.Random,
 ) -> tuple[int, int]:
-    win, draw, _ = elo_win_draw_loss(team_a.rating, team_b.rating, allow_draw=True)
+    win, draw, _ = elo_win_draw_loss(
+        team_a.rating,
+        team_b.rating,
+        home_advantage=host_advantage_for_match(team_a, team_b),
+        allow_draw=True,
+    )
     roll = rng.random()
     if roll < win:
         return 1, 0
@@ -137,7 +170,12 @@ def sample_regulation_result(
 
 
 def sample_knockout_winner(team_a: TeamRecord, team_b: TeamRecord, rng: random.Random) -> TeamRecord:
-    win, _, _ = elo_win_draw_loss(team_a.rating, team_b.rating, allow_draw=False)
+    win, _, _ = elo_win_draw_loss(
+        team_a.rating,
+        team_b.rating,
+        home_advantage=host_advantage_for_match(team_a, team_b),
+        allow_draw=False,
+    )
     return team_a if rng.random() < win else team_b
 
 

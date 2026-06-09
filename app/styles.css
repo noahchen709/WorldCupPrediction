@@ -469,7 +469,9 @@ select {
 .finish-table th:nth-child(2),
 .finish-table td:nth-child(2),
 .match-table th:first-child,
-.match-table td:first-child {
+.match-table td:first-child,
+.match-table th:nth-child(2),
+.match-table td:nth-child(2) {
   text-align: left;
 }
 

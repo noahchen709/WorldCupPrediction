@@ -11,6 +11,7 @@ from worldcup_prediction.simulation.monte_carlo import (
     KNOCKOUT_ROUNDS,
     OFFICIAL_2026_GROUPS,
     ROUND_OF_32_MATCHES,
+    host_advantage_for_match,
     simulate_tournament_with_bracket,
 )
 
@@ -168,6 +169,7 @@ def selector_label(selector: tuple[str, str], compact: bool = False) -> str:
 
 
 def tournament_structure() -> dict:
+    fixtures_by_group = dict(GROUP_STAGE_FIXTURES)
     knockout_rounds = []
     for round_name, round_matches in zip(ROUND_NAMES, KNOCKOUT_ROUNDS):
         knockout_rounds.append(
@@ -186,7 +188,14 @@ def tournament_structure() -> dict:
 
     return {
         "groups": [
-            {"group": group_name, "teams": list(teams)}
+            {
+                "group": group_name,
+                "teams": list(teams),
+                "fixtures": [
+                    {"date": date, "home": home, "away": away}
+                    for date, home, away in fixtures_by_group[group_name]
+                ],
+            }
             for group_name, teams in OFFICIAL_2026_GROUPS
         ],
         "roundOf32": [
@@ -248,7 +257,10 @@ def write_json(results, bracket_results, path, iterations: int, team_count: int,
         "iterations": iterations,
         "teamCount": team_count,
         "seed": seed,
-        "method": "Elo expected result + draw curve + official 2026 groups and knockout bracket",
+        "method": (
+            "Neutral-venue Elo expected result + draw curve + official 2026 groups "
+            "and knockout bracket; host advantage requires fixture venue countries"
+        ),
         "tournamentStructure": tournament_structure(),
         "bracketProbabilities": bracket_result_payload(bracket_results),
         "results": [result.__dict__ for result in results],
@@ -343,7 +355,12 @@ def group_match_rows_html(group_name: str, records_by_name: dict) -> str:
     for date, home_name, away_name in fixtures:
         home = records_by_name[home_name]
         away = records_by_name[away_name]
-        home_win, draw, away_win = elo_win_draw_loss(home.rating, away.rating, allow_draw=True)
+        home_win, draw, away_win = elo_win_draw_loss(
+            home.rating,
+            away.rating,
+            home_advantage=host_advantage_for_match(home, away),
+            allow_draw=True,
+        )
         rows.append(
             f"""
             <tr>
@@ -630,7 +647,7 @@ def write_html_report(
       </div>
     </section>
     <p class="note">
-      Method: World Football Elo ratings are converted to match expected result, a draw probability is estimated from Elo gap, and the official 2026 groups plus match-numbered knockout bracket are simulated. The model does not yet encode venues, injuries, live squad news, or FIFA disciplinary tie-breakers in full detail.
+      Method: World Football Elo ratings are converted to match expected result, a draw probability is estimated from Elo gap, and the official 2026 groups plus match-numbered knockout bracket are simulated. Host advantage is not applied until fixture venue countries are available. The model does not yet encode exact venues, injuries, live squad news, or FIFA disciplinary tie-breakers in full detail.
     </p>
     <script>
       const tabButtons = Array.from(document.querySelectorAll(".tab-button"));
