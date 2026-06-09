@@ -5,6 +5,14 @@ from itertools import combinations
 
 from worldcup_prediction.data_loader import TeamRecord
 from worldcup_prediction.models.elo import elo_win_draw_loss
+from worldcup_prediction.simulation.backtest import (
+    HistoricalTournament,
+    ExpectedGoalsModel,
+    XGModelConfig,
+    build_expected_goals_model,
+    sample_xg_regulation_result,
+    xg_win_draw_loss,
+)
 
 HOST_COUNTRY_BY_TEAM_2026 = {
     "Canada": "Canada",
@@ -150,17 +158,49 @@ def make_official_2026_groups(teams: list[TeamRecord]) -> dict[str, list[TeamRec
     }
 
 
+def build_2026_expected_goals_model(
+    teams: list[TeamRecord],
+    as_of: str,
+    config: XGModelConfig | None = None,
+) -> ExpectedGoalsModel:
+    tournament = HistoricalTournament(
+        name="2026 FIFA World Cup",
+        as_of=as_of,
+        source="Current World Football Elo ratings and local Elo result history",
+        groups=OFFICIAL_2026_GROUPS,
+        actual_finish={},
+    )
+    groups = make_official_2026_groups(teams)
+    field = [team for group in groups.values() for team in group]
+    return build_expected_goals_model(field, tournament, config=config)
+
+
+def match_win_draw_loss(
+    team_a: TeamRecord,
+    team_b: TeamRecord,
+    xg_model: ExpectedGoalsModel | None = None,
+    allow_draw: bool = True,
+) -> tuple[float, float, float]:
+    if xg_model is not None:
+        return xg_win_draw_loss(team_a, team_b, xg_model, allow_draw=allow_draw)
+    return elo_win_draw_loss(
+        team_a.rating,
+        team_b.rating,
+        home_advantage=host_advantage_for_match(team_a, team_b),
+        allow_draw=allow_draw,
+    )
+
+
 def sample_regulation_result(
     team_a: TeamRecord,
     team_b: TeamRecord,
     rng: random.Random,
+    xg_model: ExpectedGoalsModel | None = None,
 ) -> tuple[int, int]:
-    win, draw, _ = elo_win_draw_loss(
-        team_a.rating,
-        team_b.rating,
-        home_advantage=host_advantage_for_match(team_a, team_b),
-        allow_draw=True,
-    )
+    if xg_model is not None:
+        return sample_xg_regulation_result(team_a, team_b, rng, xg_model)
+
+    win, draw, _ = match_win_draw_loss(team_a, team_b, xg_model=None, allow_draw=True)
     roll = rng.random()
     if roll < win:
         return 1, 0
@@ -169,20 +209,24 @@ def sample_regulation_result(
     return 0, 1
 
 
-def sample_knockout_winner(team_a: TeamRecord, team_b: TeamRecord, rng: random.Random) -> TeamRecord:
-    win, _, _ = elo_win_draw_loss(
-        team_a.rating,
-        team_b.rating,
-        home_advantage=host_advantage_for_match(team_a, team_b),
-        allow_draw=False,
-    )
+def sample_knockout_winner(
+    team_a: TeamRecord,
+    team_b: TeamRecord,
+    rng: random.Random,
+    xg_model: ExpectedGoalsModel | None = None,
+) -> TeamRecord:
+    win, _, _ = match_win_draw_loss(team_a, team_b, xg_model=xg_model, allow_draw=False)
     return team_a if rng.random() < win else team_b
 
 
-def simulate_group(group: list[TeamRecord], rng: random.Random) -> list[SimTeam]:
+def simulate_group(
+    group: list[TeamRecord],
+    rng: random.Random,
+    xg_model: ExpectedGoalsModel | None = None,
+) -> list[SimTeam]:
     table = {team.team: SimTeam(team) for team in group}
     for team_a, team_b in combinations(group, 2):
-        goals_a, goals_b = sample_regulation_result(team_a, team_b, rng)
+        goals_a, goals_b = sample_regulation_result(team_a, team_b, rng, xg_model)
         row_a = table[team_a.team]
         row_b = table[team_b.team]
         row_a.goals_for += goals_a
@@ -245,9 +289,10 @@ def assign_third_place_slots(
 def qualify_official_round_of_32(
     groups: dict[str, list[TeamRecord]],
     rng: random.Random,
+    xg_model: ExpectedGoalsModel | None = None,
 ) -> tuple[dict[int, tuple[TeamRecord, TeamRecord]], list[TeamRecord]]:
     group_tables = {
-        group_name: simulate_group(group, rng)
+        group_name: simulate_group(group, rng, xg_model)
         for group_name, group in groups.items()
     }
     best_thirds = sorted(
@@ -298,6 +343,7 @@ def qualify_official_round_of_32(
 def simulate_official_knockout(
     round_of_32_matches: dict[int, tuple[TeamRecord, TeamRecord]],
     rng: random.Random,
+    xg_model: ExpectedGoalsModel | None = None,
 ) -> tuple[
     dict[str, list[TeamRecord]],
     TeamRecord,
@@ -306,7 +352,7 @@ def simulate_official_knockout(
     match_results = {}
     winners = {}
     for match_number, (team_a, team_b) in round_of_32_matches.items():
-        winner = sample_knockout_winner(team_a, team_b, rng)
+        winner = sample_knockout_winner(team_a, team_b, rng, xg_model)
         winners[match_number] = winner
         match_results[match_number] = (team_a, team_b, winner)
 
@@ -317,7 +363,7 @@ def simulate_official_knockout(
         for match_number, left_match, right_match in round_matches:
             team_a = winners[left_match]
             team_b = winners[right_match]
-            winner = sample_knockout_winner(team_a, team_b, rng)
+            winner = sample_knockout_winner(team_a, team_b, rng, xg_model)
             winners[match_number] = winner
             match_results[match_number] = (team_a, team_b, winner)
         round_winners[round_name] = [winners[match_number] for match_number, _, _ in round_matches]
@@ -379,6 +425,7 @@ def simulate_tournament_with_bracket(
     teams: list[TeamRecord],
     iterations: int = 10_000,
     seed: int = 2026,
+    xg_model: ExpectedGoalsModel | None = None,
 ) -> tuple[list[TournamentSimulationResult], list[BracketMatchSimulationResult]]:
     rng = random.Random(seed)
     groups = make_official_2026_groups(teams)
@@ -393,11 +440,15 @@ def simulate_tournament_with_bracket(
     matchup_win_counts = defaultdict(lambda: defaultdict(Counter))
 
     for _ in range(iterations):
-        round_of_32_matches, round_of_32 = qualify_official_round_of_32(groups, rng)
+        round_of_32_matches, round_of_32 = qualify_official_round_of_32(groups, rng, xg_model)
         for team in round_of_32:
             counts[team.team]["r32"] += 1
 
-        round_winners, champion, match_results = simulate_official_knockout(round_of_32_matches, rng)
+        round_winners, champion, match_results = simulate_official_knockout(
+            round_of_32_matches,
+            rng,
+            xg_model,
+        )
         for round_name, winners in round_winners.items():
             for team in winners:
                 counts[team.team][round_name] += 1
@@ -443,6 +494,12 @@ def simulate_tournament(
     teams: list[TeamRecord],
     iterations: int = 10_000,
     seed: int = 2026,
+    xg_model: ExpectedGoalsModel | None = None,
 ) -> list[TournamentSimulationResult]:
-    results, _ = simulate_tournament_with_bracket(teams, iterations=iterations, seed=seed)
+    results, _ = simulate_tournament_with_bracket(
+        teams,
+        iterations=iterations,
+        seed=seed,
+        xg_model=xg_model,
+    )
     return results

@@ -4,14 +4,16 @@ from datetime import datetime, timezone
 from html import escape
 import json
 
-from worldcup_prediction.config import REPORTS_DIR
+from worldcup_prediction.config import DERIVED_TEAMS_JSON_PATH, REPORTS_DIR
 from worldcup_prediction.data_loader import load_derived_teams
 from worldcup_prediction.models.elo import elo_win_draw_loss
 from worldcup_prediction.simulation.monte_carlo import (
     KNOCKOUT_ROUNDS,
     OFFICIAL_2026_GROUPS,
     ROUND_OF_32_MATCHES,
+    build_2026_expected_goals_model,
     host_advantage_for_match,
+    match_win_draw_loss,
     simulate_tournament_with_bracket,
 )
 
@@ -156,6 +158,13 @@ def percent(value: float) -> str:
     return f"{value * 100:.1f}%"
 
 
+def load_ratings_as_of() -> str:
+    if DERIVED_TEAMS_JSON_PATH.exists():
+        payload = json.loads(DERIVED_TEAMS_JSON_PATH.read_text(encoding="utf-8"))
+        return payload.get("asOf") or datetime.now(timezone.utc).date().isoformat()
+    return datetime.now(timezone.utc).date().isoformat()
+
+
 def selector_label(selector: tuple[str, str], compact: bool = False) -> str:
     position, group_selector = selector
     if position == "1":
@@ -168,7 +177,32 @@ def selector_label(selector: tuple[str, str], compact: bool = False) -> str:
     raise ValueError(f"Unsupported bracket selector: {selector}")
 
 
-def tournament_structure() -> dict:
+def fixture_probability_payload(home, away, xg_model=None) -> dict:
+    home_win, draw, away_win = match_win_draw_loss(
+        home,
+        away,
+        xg_model=xg_model,
+        allow_draw=True,
+    )
+    baseline_home, baseline_draw, baseline_away = elo_win_draw_loss(
+        home.rating,
+        away.rating,
+        home_advantage=host_advantage_for_match(home, away),
+        allow_draw=True,
+    )
+    return {
+        "homeWin": home_win,
+        "draw": draw,
+        "awayWin": away_win,
+        "eloBaseline": {
+            "homeWin": baseline_home,
+            "draw": baseline_draw,
+            "awayWin": baseline_away,
+        },
+    }
+
+
+def tournament_structure(records_by_name: dict | None = None, xg_model=None) -> dict:
     fixtures_by_group = dict(GROUP_STAGE_FIXTURES)
     knockout_rounds = []
     for round_name, round_matches in zip(ROUND_NAMES, KNOCKOUT_ROUNDS):
@@ -192,7 +226,22 @@ def tournament_structure() -> dict:
                 "group": group_name,
                 "teams": list(teams),
                 "fixtures": [
-                    {"date": date, "home": home, "away": away}
+                    {
+                        "date": date,
+                        "home": home,
+                        "away": away,
+                        **(
+                            {
+                                "probabilities": fixture_probability_payload(
+                                    records_by_name[home],
+                                    records_by_name[away],
+                                    xg_model=xg_model,
+                                )
+                            }
+                            if records_by_name is not None
+                            else {}
+                        ),
+                    }
                     for date, home, away in fixtures_by_group[group_name]
                 ],
             }
@@ -251,17 +300,30 @@ def write_csv(results, path) -> None:
             writer.writerow(result.__dict__)
 
 
-def write_json(results, bracket_results, path, iterations: int, team_count: int, seed: int) -> None:
+def write_json(
+    results,
+    bracket_results,
+    teams,
+    path,
+    iterations: int,
+    team_count: int,
+    seed: int,
+    ratings_as_of: str,
+    xg_model,
+) -> None:
+    records_by_name = {team.team: team for team in teams}
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "iterations": iterations,
         "teamCount": team_count,
         "seed": seed,
+        "ratingsAsOf": ratings_as_of,
         "method": (
-            "Neutral-venue Elo expected result + draw curve + official 2026 groups "
-            "and knockout bracket; host advantage requires fixture venue countries"
+            "Tuned xG/Elo-adjusted Monte Carlo using recency-weighted scoring history, "
+            "fitted Elo draw curve, official 2026 groups and knockout bracket"
         ),
-        "tournamentStructure": tournament_structure(),
+        "xgConfig": xg_model.config.__dict__,
+        "tournamentStructure": tournament_structure(records_by_name, xg_model),
         "bracketProbabilities": bracket_result_payload(bracket_results),
         "results": [result.__dict__ for result in results],
     }
@@ -349,17 +411,20 @@ def probability_bracket_html(bracket_results) -> str:
     return "\n".join(sections)
 
 
-def group_match_rows_html(group_name: str, records_by_name: dict) -> str:
+def group_match_rows_html(group_name: str, records_by_name: dict, xg_model) -> str:
     rows = []
     fixtures = dict(GROUP_STAGE_FIXTURES)[group_name]
     for date, home_name, away_name in fixtures:
         home = records_by_name[home_name]
         away = records_by_name[away_name]
-        home_win, draw, away_win = elo_win_draw_loss(
-            home.rating,
-            away.rating,
-            home_advantage=host_advantage_for_match(home, away),
-            allow_draw=True,
+        probabilities = fixture_probability_payload(home, away, xg_model=xg_model)
+        home_win = probabilities["homeWin"]
+        draw = probabilities["draw"]
+        away_win = probabilities["awayWin"]
+        baseline = probabilities["eloBaseline"]
+        baseline_label = (
+            f"Elo {percent(baseline['homeWin'])} / "
+            f"{percent(baseline['draw'])} / {percent(baseline['awayWin'])}"
         )
         rows.append(
             f"""
@@ -374,6 +439,7 @@ def group_match_rows_html(group_name: str, records_by_name: dict) -> str:
                 <span class="odds-chip">{escape(home_name)} {percent(home_win)}</span>
                 <span class="odds-chip draw-pick">Draw {percent(draw)}</span>
                 <span class="odds-chip">{escape(away_name)} {percent(away_win)}</span>
+                <span class="subtle">{escape(baseline_label)}</span>
               </td>
             </tr>
             """
@@ -389,6 +455,8 @@ def write_html_report(
     iterations: int,
     team_count: int,
     seed: int,
+    ratings_as_of: str,
+    xg_model,
 ) -> None:
     records_by_name = {team.team: team for team in teams}
     group_cards = "\n".join(
@@ -408,7 +476,7 @@ def write_html_report(
               </tr>
             </thead>
             <tbody>
-              {group_match_rows_html(group_name, records_by_name)}
+              {group_match_rows_html(group_name, records_by_name, xg_model)}
             </tbody>
           </table>
         </section>
@@ -438,7 +506,7 @@ def write_html_report(
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>World Cup 2026 Elo Monte Carlo Report</title>
+    <title>World Cup 2026 xG/Elo Monte Carlo Report</title>
     <style>
       body {{
         margin: 40px;
@@ -606,8 +674,8 @@ def write_html_report(
     </style>
   </head>
   <body>
-    <h1>World Cup 2026 Elo Monte Carlo Report</h1>
-    <p class="meta">Generated {generated} · {iterations:,} simulations · official 2026 field ({team_count} teams) · seed {seed}</p>
+    <h1>World Cup 2026 xG/Elo Monte Carlo Report</h1>
+    <p class="meta">Generated {generated} · ratings as of {escape(ratings_as_of)} · {iterations:,} simulations · official 2026 field ({team_count} teams) · seed {seed}</p>
     <nav class="tabs" role="tablist" aria-label="Report sections">
       <button class="tab-button" id="tab-probabilities" type="button" role="tab" aria-selected="true" aria-controls="panel-probabilities" data-tab="probabilities">Team Probabilities</button>
       <button class="tab-button" id="tab-bracket" type="button" role="tab" aria-selected="false" aria-controls="panel-bracket" data-tab="bracket">Probabilistic Bracket</button>
@@ -647,7 +715,7 @@ def write_html_report(
       </div>
     </section>
     <p class="note">
-      Method: World Football Elo ratings are converted to match expected result, a draw probability is estimated from Elo gap, and the official 2026 groups plus match-numbered knockout bracket are simulated. Host advantage is not applied until fixture venue countries are available. The model does not yet encode exact venues, injuries, live squad news, or FIFA disciplinary tie-breakers in full detail.
+      Method: tuned xG/Elo-adjusted Monte Carlo using recency-weighted scoring history, opponent Elo adjustment, and the fitted Elo draw curve. Official 2026 groups plus the match-numbered knockout bracket are simulated. Host advantage is not applied until fixture venue countries are available. The model does not yet encode exact venues, injuries, live squad news, or FIFA disciplinary tie-breakers in full detail.
     </p>
     <script>
       const tabButtons = Array.from(document.querySelectorAll(".tab-button"));
@@ -681,16 +749,29 @@ def main() -> None:
     args = parser.parse_args()
 
     teams = load_derived_teams()
+    ratings_as_of = load_ratings_as_of()
+    xg_model = build_2026_expected_goals_model(teams, ratings_as_of)
     results, bracket_results = simulate_tournament_with_bracket(
         teams,
         iterations=args.iterations,
         seed=args.seed,
+        xg_model=xg_model,
     )
     team_count = len(results)
 
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     write_csv(results, REPORTS_DIR / "monte_carlo_results.csv")
-    write_json(results, bracket_results, REPORTS_DIR / "monte_carlo_results.json", args.iterations, team_count, args.seed)
+    write_json(
+        results,
+        bracket_results,
+        teams,
+        REPORTS_DIR / "monte_carlo_results.json",
+        args.iterations,
+        team_count,
+        args.seed,
+        ratings_as_of,
+        xg_model,
+    )
     write_html_report(
         results,
         bracket_results,
@@ -699,6 +780,8 @@ def main() -> None:
         args.iterations,
         team_count,
         args.seed,
+        ratings_as_of,
+        xg_model,
     )
 
     print(f"Champion favorite: {results[0].team} ({percent(results[0].champion_probability)})")

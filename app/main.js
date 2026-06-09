@@ -550,7 +550,7 @@ function renderGroupStageMatches() {
     (count, group) => count + (group.fixtures?.length || (group.teams.length * (group.teams.length - 1)) / 2),
     0
   );
-  status.textContent = `${matchCount} matches · fitted vs old`;
+  status.textContent = `${matchCount} matches · xG/Elo vs Elo`;
   container.innerHTML = groups
     .map((group) => {
       const fixtures =
@@ -569,8 +569,8 @@ function renderGroupStageMatches() {
           if (!home || !away) {
             return "";
           }
-          const probabilities = predictMatch(home, away);
-          const baseline = predictBaselineMatch(home, away);
+          const probabilities = fixture.probabilities || predictMatch(home, away);
+          const baseline = fixture.probabilities?.eloBaseline || predictBaselineMatch(home, away);
           return `
             <tr>
               <td>${escapeHtml(fixture.date || "TBD")}</td>
