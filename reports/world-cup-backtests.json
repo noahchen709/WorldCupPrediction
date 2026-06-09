@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-09T02:20:12.250102+00:00",
+  "generatedAt": "2026-06-09T02:36:31.675583+00:00",
   "tournaments": [
     {
       "key": "world-cup-2014",
@@ -70,6 +70,11 @@
           }
         ]
       },
+      "xgConfig": {
+        "history_years": 4,
+        "recency_half_life_days": 500.0,
+        "elo_goal_adjustment_scale": 650.0
+      },
       "methodComparison": [
         {
           "model": "elo",
@@ -84,12 +89,12 @@
         {
           "model": "xg_elo_adjusted",
           "top_pick": "Brazil",
-          "actual_champion_probability": 0.0763,
-          "champion_log_loss": 2.573082340691726,
-          "round_of_16_brier_score": 0.206586660625,
-          "stage_brier_score": 0.096656658875,
-          "stage_score_mae": 0.73605,
-          "calibration_error": 0.02234250000000001
+          "actual_champion_probability": 0.0744,
+          "champion_log_loss": 2.598299337143091,
+          "round_of_16_brier_score": 0.205787758125,
+          "stage_brier_score": 0.096544535625,
+          "stage_score_mae": 0.73456875,
+          "calibration_error": 0.022202499999999997
         }
       ]
     },
@@ -162,6 +167,11 @@
           }
         ]
       },
+      "xgConfig": {
+        "history_years": 4,
+        "recency_half_life_days": 500.0,
+        "elo_goal_adjustment_scale": 650.0
+      },
       "methodComparison": [
         {
           "model": "elo",
@@ -176,12 +186,12 @@
         {
           "model": "xg_elo_adjusted",
           "top_pick": "Brazil",
-          "actual_champion_probability": 0.0556,
-          "champion_log_loss": 2.8895720777256004,
-          "round_of_16_brier_score": 0.1553361475,
-          "stage_brier_score": 0.10460055187499999,
-          "stage_score_mae": 0.82579375,
-          "calibration_error": 0.020453750000000003
+          "actual_champion_probability": 0.0544,
+          "champion_log_loss": 2.91139112512024,
+          "round_of_16_brier_score": 0.155192728125,
+          "stage_brier_score": 0.10478401687500001,
+          "stage_score_mae": 0.8271000000000001,
+          "calibration_error": 0.015482499999999991
         }
       ]
     },
@@ -254,6 +264,11 @@
           }
         ]
       },
+      "xgConfig": {
+        "history_years": 4,
+        "recency_half_life_days": 500.0,
+        "elo_goal_adjustment_scale": 650.0
+      },
       "methodComparison": [
         {
           "model": "elo",
@@ -268,12 +283,12 @@
         {
           "model": "xg_elo_adjusted",
           "top_pick": "Brazil",
-          "actual_champion_probability": 0.2605,
-          "champion_log_loss": 1.3451524177887153,
-          "round_of_16_brier_score": 0.223769416875,
-          "stage_brier_score": 0.10326454599999998,
-          "stage_score_mae": 0.8150375,
-          "calibration_error": 0.04635125000000001
+          "actual_champion_probability": 0.2652,
+          "champion_log_loss": 1.3272710206704297,
+          "round_of_16_brier_score": 0.22381112312499998,
+          "stage_brier_score": 0.10302014287499998,
+          "stage_score_mae": 0.81368125,
+          "calibration_error": 0.041150000000000006
         }
       ]
     }

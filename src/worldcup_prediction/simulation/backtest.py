@@ -13,7 +13,14 @@ ELO_GOAL_ADJUSTMENT_SCALE = 650.0
 GOAL_RATE_FLOOR = 0.15
 GOAL_RATE_CEILING = 4.5
 DEFAULT_HISTORY_YEARS = 4
-RECENCY_HALF_LIFE_DAYS = 548.0
+RECENCY_HALF_LIFE_DAYS = 500.0
+
+
+@dataclass(frozen=True)
+class XGModelConfig:
+    history_years: int = DEFAULT_HISTORY_YEARS
+    recency_half_life_days: float = RECENCY_HALF_LIFE_DAYS
+    elo_goal_adjustment_scale: float = ELO_GOAL_ADJUSTMENT_SCALE
 
 
 @dataclass(frozen=True)
@@ -105,6 +112,7 @@ class TeamExpectedGoalsProfile:
 class ExpectedGoalsModel:
     profiles: dict[str, TeamExpectedGoalsProfile]
     average_goals: float
+    config: XGModelConfig
 
 
 @dataclass(frozen=True)
@@ -396,11 +404,19 @@ def build_expected_goals_model(
     tournament: HistoricalTournament,
     history_years: int = DEFAULT_HISTORY_YEARS,
     recency_half_life_days: float = RECENCY_HALF_LIFE_DAYS,
+    elo_goal_adjustment_scale: float = ELO_GOAL_ADJUSTMENT_SCALE,
+    config: XGModelConfig | None = None,
     raw_data_dir: Path = RAW_DATA_DIR,
 ) -> ExpectedGoalsModel:
+    if config is None:
+        config = XGModelConfig(
+            history_years=history_years,
+            recency_half_life_days=recency_half_life_days,
+            elo_goal_adjustment_scale=elo_goal_adjustment_scale,
+        )
     tournament_date = date.fromisoformat(tournament.as_of)
     matches = parse_historical_matches(
-        tournament_date.year - history_years,
+        tournament_date.year - config.history_years,
         tournament_date.year,
         tournament_date,
         raw_data_dir=raw_data_dir,
@@ -413,14 +429,16 @@ def build_expected_goals_model(
 
     all_goals = 0
     all_team_matches = 0
-    if recency_half_life_days <= 0:
+    if config.recency_half_life_days <= 0:
         raise ValueError("recency_half_life_days must be greater than zero")
+    if config.elo_goal_adjustment_scale <= 0:
+        raise ValueError("elo_goal_adjustment_scale must be greater than zero")
 
     for match in matches:
         all_goals += match.goals_a + match.goals_b
         all_team_matches += 2
         age_days = max(0, (tournament_date - match.played_on).days)
-        recency_weight = 0.5 ** (age_days / recency_half_life_days)
+        recency_weight = 0.5 ** (age_days / config.recency_half_life_days)
         for_name = match.team_a
         against_name = match.team_b
         if for_name in totals:
@@ -430,12 +448,12 @@ def build_expected_goals_model(
             totals[for_name]["for"] += (
                 recency_weight
                 * match.goals_a
-                * math.exp(-gap / ELO_GOAL_ADJUSTMENT_SCALE)
+                * math.exp(-gap / config.elo_goal_adjustment_scale)
             )
             totals[for_name]["against"] += (
                 recency_weight
                 * match.goals_b
-                * math.exp(gap / ELO_GOAL_ADJUSTMENT_SCALE)
+                * math.exp(gap / config.elo_goal_adjustment_scale)
             )
         if against_name in totals:
             gap = match.rating_b - match.rating_a
@@ -444,12 +462,12 @@ def build_expected_goals_model(
             totals[against_name]["for"] += (
                 recency_weight
                 * match.goals_b
-                * math.exp(-gap / ELO_GOAL_ADJUSTMENT_SCALE)
+                * math.exp(-gap / config.elo_goal_adjustment_scale)
             )
             totals[against_name]["against"] += (
                 recency_weight
                 * match.goals_a
-                * math.exp(gap / ELO_GOAL_ADJUSTMENT_SCALE)
+                * math.exp(gap / config.elo_goal_adjustment_scale)
             )
 
     average_goals = all_goals / all_team_matches if all_team_matches else 1.25
@@ -468,7 +486,11 @@ def build_expected_goals_model(
             adjusted_goals_for=max(GOAL_RATE_FLOOR, adjusted_for),
             adjusted_goals_against=max(GOAL_RATE_FLOOR, adjusted_against),
         )
-    return ExpectedGoalsModel(profiles=profiles, average_goals=average_goals)
+    return ExpectedGoalsModel(
+        profiles=profiles,
+        average_goals=average_goals,
+        config=config,
+    )
 
 
 def clamp_goal_rate(value: float) -> float:
@@ -482,7 +504,9 @@ def expected_goal_rates(
 ) -> tuple[float, float]:
     profile_a = model.profiles[team_a.team]
     profile_b = model.profiles[team_b.team]
-    matchup_factor = math.exp((team_a.rating - team_b.rating) / ELO_GOAL_ADJUSTMENT_SCALE)
+    matchup_factor = math.exp(
+        (team_a.rating - team_b.rating) / model.config.elo_goal_adjustment_scale
+    )
     goals_a = math.sqrt(profile_a.adjusted_goals_for * profile_b.adjusted_goals_against) * matchup_factor
     goals_b = math.sqrt(profile_b.adjusted_goals_for * profile_a.adjusted_goals_against) / matchup_factor
     return clamp_goal_rate(goals_a), clamp_goal_rate(goals_b)
@@ -845,10 +869,11 @@ def compare_backtest_methods(
     teams: list[TeamRecord],
     iterations: int = 10_000,
     seed: int = 2022,
+    xg_config: XGModelConfig | None = None,
 ) -> tuple[BacktestResult, BacktestResult, list[MethodComparison]]:
     groups = make_groups(tournament, teams)
     field = [team for group in groups.values() for team in group]
-    xg_model = build_expected_goals_model(field, tournament)
+    xg_model = build_expected_goals_model(field, tournament, config=xg_config)
     elo_result = run_backtest(
         tournament,
         teams,
@@ -881,6 +906,7 @@ def run_backtest(
     seed: int = 2022,
     method: str = "elo",
     xg_model: ExpectedGoalsModel | None = None,
+    xg_config: XGModelConfig | None = None,
 ) -> BacktestResult:
     if method not in {"elo", "xg"}:
         raise ValueError("method must be 'elo' or 'xg'")
@@ -889,7 +915,7 @@ def run_backtest(
     groups = make_groups(tournament, teams)
     field = [team for group in groups.values() for team in group]
     if method == "xg" and xg_model is None:
-        xg_model = build_expected_goals_model(field, tournament)
+        xg_model = build_expected_goals_model(field, tournament, config=xg_config)
 
     counts = {
         team.team: {"r16": 0, "qf": 0, "sf": 0, "final": 0, "champion": 0}

@@ -9,6 +9,7 @@ from worldcup_prediction.config import DATA_DIR, REPORTS_DIR
 from worldcup_prediction.data_loader import TeamRecord
 from worldcup_prediction.simulation.backtest import (
     HISTORICAL_TOURNAMENTS,
+    XGModelConfig,
     compare_backtest_methods,
     load_historical_team_ratings,
     run_backtest,
@@ -54,7 +55,14 @@ def write_csv(result, path) -> None:
             writer.writerow(asdict(team))
 
 
-def write_json(result, tournament, path, method_comparisons=None, xg_result=None) -> None:
+def write_json(
+    result,
+    tournament,
+    path,
+    method_comparisons=None,
+    xg_result=None,
+    xg_config: XGModelConfig | None = None,
+) -> None:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "method": "Elo Monte Carlo backtest using pre-tournament historical ratings",
@@ -65,11 +73,14 @@ def write_json(result, tournament, path, method_comparisons=None, xg_result=None
     if method_comparisons is not None:
         payload["methodComparison"] = [asdict(row) for row in method_comparisons]
     if xg_result is not None:
+        if xg_config is None:
+            xg_config = XGModelConfig()
         payload["xgEloAdjusted"] = {
             "method": (
                 "Monte Carlo using recency-weighted team scoring history as an expected-goals "
                 "proxy, adjusted for opponent Elo difference while retaining the fitted draw rate"
             ),
+            "config": asdict(xg_config),
             "summary": asdict(xg_result.summary),
             "teams": [asdict(team) for team in xg_result.teams],
         }
@@ -88,7 +99,15 @@ def load_teams(tournament_key: str, tournament, ratings_path: Path | None) -> li
     return load_historical_team_ratings(tournament)
 
 
-def run_tournament(tournament_key: str, tournament, teams, iterations: int, seed: int, method: str):
+def run_tournament(
+    tournament_key: str,
+    tournament,
+    teams,
+    iterations: int,
+    seed: int,
+    method: str,
+    xg_config: XGModelConfig,
+):
     xg_result = None
     comparisons = None
     if method == "compare":
@@ -97,6 +116,7 @@ def run_tournament(tournament_key: str, tournament, teams, iterations: int, seed
             teams,
             iterations=iterations,
             seed=seed,
+            xg_config=xg_config,
         )
     else:
         result = run_backtest(
@@ -105,6 +125,7 @@ def run_tournament(tournament_key: str, tournament, teams, iterations: int, seed
             iterations=iterations,
             seed=seed,
             method=method,
+            xg_config=xg_config,
         )
 
     csv_path = REPORTS_DIR / f"{tournament_key}_backtest.csv"
@@ -114,13 +135,21 @@ def run_tournament(tournament_key: str, tournament, teams, iterations: int, seed
     if xg_result is not None:
         xg_csv_path = REPORTS_DIR / f"{tournament_key}_xg_backtest.csv"
         write_csv(xg_result, xg_csv_path)
-    write_json(result, tournament, json_path, method_comparisons=comparisons, xg_result=xg_result)
+    write_json(
+        result,
+        tournament,
+        json_path,
+        method_comparisons=comparisons,
+        xg_result=xg_result,
+        xg_config=xg_config,
+    )
 
     return {
         "key": tournament_key,
         "result": result,
         "xg_result": xg_result,
         "comparisons": comparisons,
+        "xg_config": xg_config,
         "csv_path": csv_path,
         "xg_csv_path": xg_csv_path,
         "json_path": json_path,
@@ -169,6 +198,7 @@ def write_aggregate_json(rows, path) -> None:
             {
                 "key": row["key"],
                 "summary": asdict(row["result"].summary),
+                "xgConfig": asdict(row["xg_config"]),
                 "methodComparison": (
                     [asdict(comparison) for comparison in row["comparisons"]]
                     if row["comparisons"] is not None
@@ -199,12 +229,20 @@ def main() -> None:
         default="compare",
         help="Backtest method to run. Default compares Elo and xG/Elo-adjusted history.",
     )
+    parser.add_argument("--xg-history-years", type=int, default=4)
+    parser.add_argument("--xg-half-life-days", type=float, default=500.0)
+    parser.add_argument("--xg-elo-scale", type=float, default=650.0)
     args = parser.parse_args()
 
     if args.tournament == "all" and args.ratings is not None:
         raise ValueError("--ratings can only be used with one tournament.")
 
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    xg_config = XGModelConfig(
+        history_years=args.xg_history_years,
+        recency_half_life_days=args.xg_half_life_days,
+        elo_goal_adjustment_scale=args.xg_elo_scale,
+    )
     tournament_keys = (
         sorted(HISTORICAL_TOURNAMENTS)
         if args.tournament == "all"
@@ -222,6 +260,7 @@ def main() -> None:
             iterations=args.iterations,
             seed=args.seed,
             method=args.method,
+            xg_config=xg_config,
         )
         rows.append(row)
         if index:
