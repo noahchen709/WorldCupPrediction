@@ -312,6 +312,90 @@ select {
   background: #fff;
 }
 
+.comparison-panel {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.comparison-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.comparison-heading span,
+.comparison-table-wrap h3 {
+  font-weight: 850;
+}
+
+.comparison-heading small {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.comparison-heading > div {
+  display: grid;
+  gap: 3px;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.comparison-table-wrap {
+  min-width: 0;
+}
+
+.comparison-table-wrap h3 {
+  margin: 0 0 8px;
+  font-size: 0.86rem;
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.comparison-table th,
+.comparison-table td {
+  padding: 8px 7px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.comparison-table th:first-child,
+.comparison-table td:first-child {
+  text-align: left;
+}
+
+.comparison-table th {
+  color: #344054;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.comparison-table .positive {
+  color: #067647;
+}
+
+.comparison-table .negative {
+  color: #b42318;
+}
+
+.comparison-table .neutral {
+  color: var(--muted);
+}
+
 .calibration-heading {
   display: flex;
   align-items: baseline;
@@ -462,6 +546,35 @@ select {
   text-transform: uppercase;
 }
 
+.probability-cell {
+  min-width: 112px;
+}
+
+.probability-cell strong,
+.probability-cell small {
+  display: block;
+}
+
+.probability-cell small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.probability-cell .positive {
+  color: #067647;
+}
+
+.probability-cell .negative {
+  color: #b42318;
+}
+
+.probability-cell .neutral {
+  color: var(--muted);
+}
+
 .report-table:not(.finish-table):not(.match-table) th:nth-child(2),
 .report-table:not(.finish-table):not(.match-table) td:nth-child(2),
 .report-table:not(.finish-table):not(.match-table) th:nth-child(3),
@@ -525,10 +638,12 @@ select {
 
   .report-summary,
   .groups-grid,
+  .comparison-grid,
   .calibration-grid {
     grid-template-columns: 1fr;
   }
 
+  .comparison-heading,
   .calibration-heading {
     display: grid;
   }

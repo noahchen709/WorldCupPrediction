@@ -3,6 +3,44 @@ let simulationResults = [];
 let simulationReport = null;
 let backtestResults = null;
 
+const drawModelComparison = {
+  fitWindow: "Fit 1994-2021, tested 2022-2025",
+  drawPrediction: [
+    {
+      model: "Old heuristic",
+      observed: 0.2341,
+      averagePrediction: 0.1928,
+      logLoss: 0.54091,
+      brier: 0.17801
+    },
+    {
+      model: "Fitted curve",
+      observed: 0.2341,
+      averagePrediction: 0.2296,
+      logLoss: 0.52063,
+      brier: 0.17223
+    }
+  ],
+  tournamentBacktest: [
+    {
+      model: "Old heuristic",
+      championLogLoss: 1.5110,
+      roundOf16Brier: 0.25348,
+      stageBrier: 0.10711,
+      stageError: 0.8033,
+      calibrationError: 0.04766
+    },
+    {
+      model: "Fitted curve",
+      championLogLoss: 1.5233,
+      roundOf16Brier: 0.25724,
+      stageBrier: 0.10781,
+      stageError: 0.8027,
+      calibrationError: 0.04090
+    }
+  ]
+};
+
 function championProbability(team) {
   const strength = team.rating * 0.65 + team.attack * 0.2 + team.defense * 0.15;
   const fieldAverage =
@@ -51,9 +89,9 @@ function formatPercent(value) {
   return `${(value * 100).toFixed(1)}%`;
 }
 
-function formatDecimal(value) {
+function formatDecimal(value, digits = 3) {
   const number = Number(value);
-  return Number.isFinite(number) ? number.toFixed(3) : "n/a";
+  return Number.isFinite(number) ? number.toFixed(digits) : "n/a";
 }
 
 function formatStage(stage) {
@@ -121,9 +159,21 @@ function renderFinishTable(region = "all") {
 }
 
 function predictMatch(home, away) {
+  return predictMatchWithDraw(home, away, (ratingGap) => (
+    0.02 + (0.385 - 0.02) * Math.exp(-Math.abs(ratingGap) / 344)
+  ));
+}
+
+function predictBaselineMatch(home, away) {
+  return predictMatchWithDraw(home, away, (ratingGap) => (
+    Math.max(0.16, Math.min(0.30, 0.30 - Math.abs(ratingGap) / 1200))
+  ));
+}
+
+function predictMatchWithDraw(home, away, drawProbability) {
   const ratingGap = home.rating - away.rating;
   const expected = 1 / (1 + Math.pow(10, -ratingGap / 400));
-  let draw = 0.02 + (0.385 - 0.02) * Math.exp(-Math.abs(ratingGap) / 344);
+  let draw = drawProbability(ratingGap);
   let homeWin = expected - 0.5 * draw;
   let awayWin = 1 - homeWin - draw;
 
@@ -134,6 +184,113 @@ function predictMatch(home, away) {
   }
 
   return { homeWin, draw, awayWin };
+}
+
+function formatDelta(value) {
+  if (Math.abs(value) < 0.0005) {
+    return "0.0 pp";
+  }
+  const sign = value > 0 ? "+" : "";
+  return `${sign}${(value * 100).toFixed(1)} pp`;
+}
+
+function probabilityComparisonCell(current, baseline) {
+  const delta = current - baseline;
+  const deltaClass = delta > 0.0005 ? "positive" : delta < -0.0005 ? "negative" : "neutral";
+  return `
+    <td class="probability-cell">
+      <strong>${formatPercent(current)}</strong>
+      <small>old ${formatPercent(baseline)} <span class="${deltaClass}">${formatDelta(delta)}</span></small>
+    </td>
+  `;
+}
+
+function metricDelta(current, baseline, lowerIsBetter = true) {
+  const delta = current - baseline;
+  const improved = lowerIsBetter ? delta < -0.00001 : delta > 0.00001;
+  const worsened = lowerIsBetter ? delta > 0.00001 : delta < -0.00001;
+  const deltaClass = improved ? "positive" : worsened ? "negative" : "neutral";
+  const sign = delta > 0 ? "+" : "";
+  return `<span class="${deltaClass}">${sign}${delta.toFixed(5)}</span>`;
+}
+
+function formatMetricValue(key, value) {
+  if (["observed", "averagePrediction"].includes(key)) {
+    return formatPercent(value);
+  }
+  return formatDecimal(value, 5);
+}
+
+function renderMetricRow(label, key, values, lowerIsBetter = true) {
+  const [baseline, fitted] = values;
+  return `
+    <tr>
+      <td>${label}</td>
+      <td>${formatMetricValue(key, baseline[key])}</td>
+      <td>${formatMetricValue(key, fitted[key])}</td>
+      <td>${metricDelta(fitted[key], baseline[key], lowerIsBetter)}</td>
+    </tr>
+  `;
+}
+
+function renderDrawModelComparison() {
+  const container = document.querySelector("#backtest-draw-comparison");
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = `
+    <section class="comparison-panel" aria-labelledby="draw-comparison-heading">
+      <div class="comparison-heading">
+        <div>
+          <span id="draw-comparison-heading">Draw Model Comparison</span>
+          <small>${drawModelComparison.fitWindow}</small>
+        </div>
+        <small>Green deltas improve the metric</small>
+      </div>
+      <div class="comparison-grid">
+        <div class="comparison-table-wrap">
+          <h3>Draw Prediction</h3>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Old</th>
+                <th>Fitted</th>
+                <th>Delta</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${renderMetricRow("Observed Draw Rate", "observed", drawModelComparison.drawPrediction)}
+              ${renderMetricRow("Avg Prediction", "averagePrediction", drawModelComparison.drawPrediction, false)}
+              ${renderMetricRow("Log Loss", "logLoss", drawModelComparison.drawPrediction)}
+              ${renderMetricRow("Brier", "brier", drawModelComparison.drawPrediction)}
+            </tbody>
+          </table>
+        </div>
+        <div class="comparison-table-wrap">
+          <h3>2022 Tournament Backtest</h3>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Old</th>
+                <th>Fitted</th>
+                <th>Delta</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${renderMetricRow("Champion Log Loss", "championLogLoss", drawModelComparison.tournamentBacktest)}
+              ${renderMetricRow("Round of 16 Brier", "roundOf16Brier", drawModelComparison.tournamentBacktest)}
+              ${renderMetricRow("Stage Brier", "stageBrier", drawModelComparison.tournamentBacktest)}
+              ${renderMetricRow("Stage Error", "stageError", drawModelComparison.tournamentBacktest)}
+              ${renderMetricRow("Calibration Error", "calibrationError", drawModelComparison.tournamentBacktest)}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  `;
 }
 
 function renderFinishReport() {
@@ -205,7 +362,7 @@ function renderGroupStageMatches() {
     (count, group) => count + (group.fixtures?.length || (group.teams.length * (group.teams.length - 1)) / 2),
     0
   );
-  status.textContent = `${matchCount} matches`;
+  status.textContent = `${matchCount} matches · fitted vs old`;
   container.innerHTML = groups
     .map((group) => {
       const fixtures =
@@ -225,6 +382,7 @@ function renderGroupStageMatches() {
             return "";
           }
           const probabilities = predictMatch(home, away);
+          const baseline = predictBaselineMatch(home, away);
           return `
             <tr>
               <td>${escapeHtml(fixture.date || "TBD")}</td>
@@ -232,9 +390,9 @@ function renderGroupStageMatches() {
                 <span class="table-team">${escapeHtml(fixture.home)} v ${escapeHtml(fixture.away)}</span>
                 <small>Elo ${home.rating} v ${away.rating}</small>
               </td>
-              <td>${formatPercent(probabilities.homeWin)}</td>
-              <td>${formatPercent(probabilities.draw)}</td>
-              <td>${formatPercent(probabilities.awayWin)}</td>
+              ${probabilityComparisonCell(probabilities.homeWin, baseline.homeWin)}
+              ${probabilityComparisonCell(probabilities.draw, baseline.draw)}
+              ${probabilityComparisonCell(probabilities.awayWin, baseline.awayWin)}
             </tr>
           `;
         })
@@ -267,6 +425,7 @@ function renderBacktest() {
   const summaryContainer = document.querySelector("#backtest-summary");
   const calibrationContainer = document.querySelector("#backtest-calibration");
   const tableBody = document.querySelector("#backtest-table-body");
+  renderDrawModelComparison();
 
   if (!backtestResults) {
     status.textContent = "Unavailable";
