@@ -116,6 +116,22 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function rankBadge(rank) {
+  const medalClass = rank <= 3 ? ` rank-${rank}` : "";
+  return `<span class="rank-badge${medalClass}">${rank}</span>`;
+}
+
+function probabilityCell(value, maxValue) {
+  const pct = formatPercent(value);
+  const width = maxValue > 0 ? Math.min(100, (value / maxValue) * 100) : 0;
+  return `
+    <td class="prob-cell">
+      <span class="prob-value">${pct}</span>
+      <span class="prob-bar" aria-hidden="true"><span class="prob-bar-fill" style="width: ${width}%"></span></span>
+    </td>
+  `;
+}
+
 function renderBars(region) {
   renderFinishTable(region);
 }
@@ -132,20 +148,22 @@ function renderFinishTable(region = "all") {
     return;
   }
 
+  const maxProb = ranked[0]?.probability || 1;
   tableBody.innerHTML = ranked
     .map((team, index) => {
+      const rank = index + 1;
       return `
         <tr>
-          <td>${index + 1}</td>
+          <td class="rank-cell">${rankBadge(rank)}</td>
           <td>
             <span class="table-team">${escapeHtml(team.name)}</span>
             <small>${escapeHtml(team.confederation)} · Elo ${team.elo || team.rating} · Rank ${team.rank || "n/a"}</small>
           </td>
-          <td>${formatPercent(team.probability)}</td>
-          <td>${formatPercent(team.final_probability || 0)}</td>
-          <td>${formatPercent(team.semifinal_probability || 0)}</td>
-          <td>${formatPercent(team.quarterfinal_probability || 0)}</td>
-          <td>${formatPercent(team.round_of_16_probability || 0)}</td>
+          ${probabilityCell(team.probability, maxProb)}
+          ${probabilityCell(team.final_probability || 0, maxProb)}
+          ${probabilityCell(team.semifinal_probability || 0, maxProb)}
+          ${probabilityCell(team.quarterfinal_probability || 0, maxProb)}
+          ${probabilityCell(team.round_of_16_probability || 0, maxProb)}
         </tr>
       `;
     })
@@ -714,10 +732,11 @@ function renderBacktest() {
   tableBody.innerHTML = backtestTeams
     .slice(0, 16)
     .map((team, index) => {
+      const rank = index + 1;
       const championClass = team.actual_stage === "champion" ? " actual-champion" : "";
       return `
         <tr class="${championClass}">
-          <td>${index + 1}</td>
+          <td class="rank-cell">${rankBadge(rank)}</td>
           <td>
             <span class="table-team">${escapeHtml(team.team)}</span>
             <small>Elo ${team.elo.toFixed(0)}</small>
@@ -754,7 +773,28 @@ document.querySelector("#region-filter").addEventListener("change", (event) => {
   renderBars(event.target.value);
 });
 
+function setDataStatus(message, isLive = true) {
+  const status = document.querySelector("#data-status");
+  const pill = document.querySelector("#status-pill");
+  status.textContent = message;
+  pill.classList.toggle("is-live", isLive);
+}
+
+function updateSimulationMetric() {
+  const countEl = document.querySelector("#sim-count");
+  const detailEl = document.querySelector("#sim-detail");
+  if (simulationReport) {
+    countEl.textContent = simulationReport.iterations.toLocaleString();
+    detailEl.textContent = `${simulationReport.teamCount} teams · seed ${simulationReport.seed}`;
+  } else {
+    countEl.textContent = "—";
+    detailEl.textContent = "Run simulation to populate";
+  }
+}
+
 async function loadDashboardData() {
+  let eloAsOf = null;
+
   try {
     const response = await fetch("../data/derived_team_strengths.json");
     if (!response.ok) {
@@ -762,9 +802,10 @@ async function loadDashboardData() {
     }
     const data = await response.json();
     teams = data.teams;
-    document.querySelector("#data-status").textContent = `Elo as of ${data.asOf || "latest"}`;
+    eloAsOf = data.asOf || "latest";
+    setDataStatus(`Elo as of ${eloAsOf}`);
   } catch (error) {
-    document.querySelector("#data-status").textContent = "Data unavailable";
+    setDataStatus("Data unavailable", false);
   }
 
   try {
@@ -773,7 +814,8 @@ async function loadDashboardData() {
       const simulation = await response.json();
       simulationReport = simulation;
       simulationResults = simulation.results;
-      document.querySelector("#data-status").textContent = `${simulation.iterations.toLocaleString()} simulations`;
+      const date = new Date(simulation.generatedAt).toLocaleDateString();
+      setDataStatus(`${simulation.iterations.toLocaleString()} sims · ${date}`);
     }
   } catch (error) {
     simulationReport = null;
@@ -798,6 +840,7 @@ async function loadDashboardData() {
     backtestAggregate = null;
   }
 
+  updateSimulationMetric();
   renderFinishReport();
   renderGroupStageMatches();
   renderBars("all");

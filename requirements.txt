@@ -1,0 +1,3 @@
+# Core data fetching and simulation scripts run on the Python standard library.
+# The PDF infographic generator (scripts/make_infographic.py) needs matplotlib.
+matplotlib>=3.8

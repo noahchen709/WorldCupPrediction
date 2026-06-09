@@ -4,101 +4,134 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>World Cup 2026 Quant Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <main class="shell">
-      <section class="topbar" aria-label="Dashboard overview">
-        <div>
-          <p class="eyebrow">2026 FIFA World Cup</p>
+      <header class="topbar" aria-label="Dashboard overview">
+        <div class="topbar-brand">
+          <p class="eyebrow">2026 FIFA World Cup &middot; United States, Canada &amp; Mexico</p>
           <h1>Quant Prediction Dashboard</h1>
+          <p class="subtitle">
+            A Monte Carlo tournament model built on World Football Elo ratings and xG-adjusted match
+            outcomes, validated against four previous World Cups.
+          </p>
         </div>
-        <div class="status-pill">
-          <span class="dot"></span>
-          <span id="data-status">Loading data</span>
+        <div class="topbar-meta">
+          <span class="status-pill" id="status-pill">
+            <span class="dot" id="status-dot"></span>
+            <span id="data-status">Loading data</span>
+          </span>
         </div>
-      </section>
+      </header>
 
       <section class="summary-grid" aria-label="Model summary">
         <article class="metric">
-          <span class="metric-label">Top Champion Pick</span>
-          <strong id="top-team">Loading</strong>
+          <span class="metric-label">Title Favourite</span>
+          <strong id="top-team" class="metric-value">Loading</strong>
           <small id="top-team-detail">World Football Elo baseline</small>
         </article>
         <article class="metric">
-          <span class="metric-label">Highest Strength</span>
-          <strong id="best-strength">Loading</strong>
-          <small>Current Elo rating</small>
+          <span class="metric-label">Strongest Side</span>
+          <strong id="best-strength" class="metric-value">Loading</strong>
+          <small>Pre-tournament Elo rating</small>
         </article>
         <article class="metric">
-          <span class="metric-label">Model Stage</span>
-          <strong>Starter</strong>
-          <small>Structure and prototype only</small>
+          <span class="metric-label">Simulations Run</span>
+          <strong id="sim-count" class="metric-value">&mdash;</strong>
+          <small id="sim-detail">48-team field &middot; full knockout bracket</small>
         </article>
       </section>
 
-      <nav class="tabs" aria-label="Report sections">
-        <button class="tab-button active" type="button" data-tab="finish" aria-selected="true">
+      <nav class="tabs" aria-label="Report sections" role="tablist">
+        <button
+          class="tab-button active"
+          type="button"
+          data-tab="finish"
+          role="tab"
+          aria-selected="true"
+          aria-controls="finish-tab"
+        >
           Finish Probabilities
         </button>
-        <button class="tab-button" type="button" data-tab="groups" aria-selected="false">
+        <button
+          class="tab-button"
+          type="button"
+          data-tab="groups"
+          role="tab"
+          aria-selected="false"
+          aria-controls="groups-tab"
+        >
           Group Matches
         </button>
-        <button class="tab-button" type="button" data-tab="backtest" aria-selected="false">
+        <button
+          class="tab-button"
+          type="button"
+          data-tab="backtest"
+          role="tab"
+          aria-selected="false"
+          aria-controls="backtest-tab"
+        >
           Backtest
         </button>
       </nav>
 
-      <section id="finish-tab" class="tab-panel active" data-tab-panel="finish">
+      <section id="finish-tab" class="tab-panel active" data-tab-panel="finish" role="tabpanel">
         <section class="report-summary" id="finish-summary" aria-label="Finish probability summary"></section>
 
         <section class="panel" aria-labelledby="finish-table-heading">
-            <div class="panel-heading">
-              <div>
+          <div class="panel-heading">
+            <div>
               <p class="eyebrow">Finish probabilities</p>
-              <h2 id="finish-table-heading">Stage Progression</h2>
-              </div>
-              <label class="select-label">
-                Region
-                <select id="region-filter">
-                  <option value="all">All</option>
-                  <option value="UEFA">UEFA</option>
-                  <option value="CONMEBOL">CONMEBOL</option>
-                  <option value="CONCACAF">CONCACAF</option>
-                  <option value="CAF">CAF</option>
-                  <option value="AFC">AFC</option>
-                </select>
-              </label>
+              <h2 id="finish-table-heading">How far each team is likely to go</h2>
             </div>
-            <div class="table-wrap">
+            <label class="select-label">
+              Confederation
+              <select id="region-filter">
+                <option value="all">All teams</option>
+                <option value="UEFA">UEFA</option>
+                <option value="CONMEBOL">CONMEBOL</option>
+                <option value="CONCACAF">CONCACAF</option>
+                <option value="CAF">CAF</option>
+                <option value="AFC">AFC</option>
+              </select>
+            </label>
+          </div>
+          <div class="table-wrap">
             <table class="report-table finish-table">
-                <thead>
-                  <tr>
+              <thead>
+                <tr>
                   <th>Rank</th>
-                    <th>Team</th>
-                    <th>Win</th>
-                    <th>Final</th>
-                    <th>Semi</th>
-                    <th>Quarter</th>
-                    <th>Round of 16</th>
-                  </tr>
-                </thead>
-                <tbody id="finish-table-body">
-                  <tr>
-                  <td colspan="7">Loading finish probabilities</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
+                  <th>Team</th>
+                  <th>Win</th>
+                  <th>Final</th>
+                  <th>Semi</th>
+                  <th>Quarter</th>
+                  <th>Round of 16</th>
+                </tr>
+              </thead>
+              <tbody id="finish-table-body">
+                <tr>
+                  <td colspan="7" class="loading-cell">Loading finish probabilities&hellip;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
       </section>
 
-      <section id="groups-tab" class="tab-panel" data-tab-panel="groups">
+      <section id="groups-tab" class="tab-panel" data-tab-panel="groups" role="tabpanel">
         <section class="panel report-section" aria-labelledby="groups-heading">
           <div class="panel-heading">
             <div>
               <p class="eyebrow">Group stage</p>
-              <h2 id="groups-heading">Match Win/Draw/Loss</h2>
+              <h2 id="groups-heading">Match win, draw &amp; loss odds</h2>
             </div>
             <span id="group-match-status" class="panel-status">Loading</span>
           </div>
@@ -106,17 +139,17 @@
         </section>
       </section>
 
-      <section id="backtest-tab" class="tab-panel" data-tab-panel="backtest">
+      <section id="backtest-tab" class="tab-panel" data-tab-panel="backtest" role="tabpanel">
         <section class="panel" aria-labelledby="backtest-heading">
           <div class="panel-heading">
             <div>
               <p class="eyebrow">Historical validation</p>
-              <h2 id="backtest-heading">World Cup Backtests</h2>
+              <h2 id="backtest-heading">How the model did on past World Cups</h2>
             </div>
             <span id="backtest-status" class="panel-status">Loading</span>
           </div>
           <div id="backtest-aggregate"></div>
-          <div id="backtest-summary" class="report-summary" aria-live="polite"></div>
+          <div id="backtest-summary" class="report-summary report-summary-wide" aria-live="polite"></div>
           <div id="backtest-draw-comparison"></div>
           <div id="backtest-calibration"></div>
           <div class="table-wrap">
@@ -134,13 +167,21 @@
               </thead>
               <tbody id="backtest-table-body">
                 <tr>
-                  <td colspan="7">Loading backtest results</td>
+                  <td colspan="7" class="loading-cell">Loading backtest results&hellip;</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </section>
       </section>
+
+      <footer class="site-footer">
+        <p>
+          Built in Python &middot; ratings from
+          <a href="https://www.eloratings.net/" target="_blank" rel="noopener noreferrer">eloratings.net</a>
+          &middot; Monte Carlo simulation with a calibrated draw model
+        </p>
+      </footer>
     </main>
     <script src="./main.js"></script>
   </body>

@@ -28,7 +28,9 @@ This repo intentionally does not include a full prediction model yet. It provide
 ├── scripts/
 │   ├── fetch_elo_data.py        # Download and export Elo starter ratings
 │   ├── run_simulation.py        # Run Monte Carlo and write report files
+│   ├── make_infographic.py      # Render the PDF/PNG forecast infographic
 │   └── smoke.py                 # Import and data smoke check
+├── requirements.txt             # matplotlib, for the infographic generator
 ├── src/worldcup_prediction/
 │   ├── config.py
 │   ├── data_loader.py
@@ -122,6 +124,42 @@ This replays the 2022 FIFA World Cup format using pre-tournament Elo ratings fro
 - `reports/world-cup-2022_backtest.json`
 
 The summary reports the model's top pick, the actual champion's predicted probability and rank, and how much probability mass the model assigned to the actual finalists, semifinalists, and quarterfinalists. It also includes evaluation metrics: champion log loss, Brier scores for champion and stage-progression events, Round of 16 qualification Brier score, average stage error, top-pick accuracy, and calibration buckets.
+
+## Generate The PDF Infographic
+
+Render a polished, print-ready PDF infographic (plus optional shareable PNGs) from the
+simulation and backtest outputs:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python3 scripts/make_infographic.py --png
+```
+
+This writes:
+
+- `reports/world_cup_2026_infographic.pdf`
+- `reports/world_cup_2026_infographic_page1.png` … `_page3.png` (with `--png`)
+
+The infographic is a three-page editorial poster:
+
+1. **The forecast** — title odds for the top contenders, champion probability by
+   confederation, and the favourite's stage-by-stage path.
+2. **The bracket** — a stage-progression matrix (round of 16 through the title) and the two
+   most likely sides to advance from each group.
+3. **Model validation** — how the same model scored on past World Cups using only
+   pre-tournament ratings, with headline accuracy and calibration stats.
+
+Useful flags:
+
+- `--png` also export each page as a high-resolution PNG.
+- `--dpi 300` raise the export resolution (default `200`).
+- `--out path/to/file.pdf` choose a different output location.
+
+It reads `reports/monte_carlo_results.json`, `data/derived_team_strengths.json`, and
+`reports/world-cup-backtests.json`, so run the simulation (and, optionally, the backtests)
+first.
 
 ## Calibrate Draw Rate
 
