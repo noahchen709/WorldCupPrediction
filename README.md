@@ -1,58 +1,65 @@
-# World Cup Prediction
+# 2026 FIFA World Cup Quant Prediction Starter
 
-A Python-based forecasting project for the 2026 FIFA World Cup. It combines World Football Elo ratings, a calibrated draw model, expected-goals style scoring profiles, Monte Carlo tournament simulation, historical backtesting, and a small static dashboard.
+A clean starter project for building a quantitative 2026 FIFA World Cup prediction system.
 
-The goal is not to pretend soccer is fully predictable. The goal is to build a transparent forecasting pipeline that can ingest real ratings, simulate the tournament structure thousands of times, validate the approach on past World Cups, and publish the results in recruiter-friendly artifacts.
+This repo intentionally does not include a full prediction model yet. It provides:
 
-## Highlights
+- A project structure for modeling, simulation, data, and dashboard work
+- A real-data ingestion script for World Football Elo ratings
+- A working dashboard prototype showing estimated champion likelihoods
+- An Elo Monte Carlo using the actual 2026 World Cup groups and knockout bracket
+- Lightweight Python stubs for the future model pipeline
 
-- **Real data pipeline**: fetches World Football Elo ratings, confederation files, team names, and historical result tables from `eloratings.net`.
-- **Tournament simulation**: models the 48-team 2026 format with 12 groups, best third-place qualifiers, Round of 32, and match-numbered knockout paths.
-- **Calibrated match probabilities**: uses Elo expected score, a fitted draw-rate curve, host advantage, and an xG/Elo-adjusted scoring-history model.
-- **Backtesting**: replays completed World Cups using pre-tournament ratings and reports log loss, Brier scores, calibration buckets, stage error, and top-pick accuracy.
-- **Recruiter-visible outputs**: includes generated CSV/JSON reports, an HTML report, a three-page PDF infographic, and a static dashboard prototype.
+## Project Layout
 
-## Current Forecast Snapshot
-
-Latest checked-in simulation: `50,000` iterations, generated from World Football Elo data and the configured 2026 tournament field.
-
-| Team | Champion | Final | Semi-final |
-| --- | ---: | ---: | ---: |
-| Spain | 21.3% | 33.2% | 45.4% |
-| Argentina | 20.5% | 31.0% | 44.4% |
-| England | 12.1% | 20.8% | 34.8% |
-| France | 8.0% | 15.6% | 29.3% |
-| Colombia | 4.8% | 10.4% | 19.7% |
-
-Full outputs:
-
-- [Monte Carlo CSV](reports/monte_carlo_results.csv)
-- [Monte Carlo JSON](reports/monte_carlo_results.json)
-- [HTML report](reports/monte_carlo_report.html)
-- [PDF infographic](reports/world_cup_2026_infographic.pdf)
-- [Dashboard](app/index.html)
-
-## Quickstart
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+```text
+.
+├── app/                         # Static dashboard prototype
+│   ├── index.html
+│   ├── main.js
+│   └── styles.css
+├── data/
+│   ├── raw/world_elo.tsv        # Downloaded World Football Elo table
+│   ├── raw/elo_team_names.tsv   # Downloaded Elo team-code names
+│   ├── derived_team_strengths.csv
+│   └── derived_team_strengths.json
+├── notebooks/                   # Exploratory analysis notebooks
+├── reports/                     # Generated simulation outputs
+├── scripts/
+│   ├── fetch_elo_data.py        # Download and export Elo starter ratings
+│   ├── run_simulation.py        # Run Monte Carlo and write report files
+│   ├── make_infographic.py      # Render the PDF/PNG forecast infographic
+│   └── smoke.py                 # Import and data smoke check
+├── requirements.txt             # matplotlib, for the infographic generator
+├── src/worldcup_prediction/
+│   ├── config.py
+│   ├── data_loader.py
+│   ├── models/
+│   │   ├── match_outcome.py     # Win/draw/loss prediction stub
+│   │   ├── scoreline.py         # Scoreline prediction stub
+│   │   └── team_strength.py     # Team strength model stub
+│   └── simulation/
+│       └── tournament.py        # Tournament simulation stub
+└── tests/                       # Future tests
 ```
 
-Run the smoke check:
+## Data Source
 
-```bash
-PYTHONPATH=src python3 scripts/smoke.py
+The real data source is World Football Elo Ratings:
+
+```text
+https://www.eloratings.net/
 ```
 
-Run the test suite:
+This starter downloads the current world ratings table from:
 
-```bash
-PYTHONPATH=src pytest
+```text
+https://www.eloratings.net/World.tsv
 ```
 
-Regenerate the main forecast:
+It also downloads Elo team names and confederation pages from `eloratings.net` so the dashboard can show readable team names and regional filters. The exported starter ratings preserve the official Elo value directly. The `attack_rating` and `defense_rating` fields are lightweight dashboard placeholders derived from historical goals for/against per match; they are not official Elo fields.
+
+## Refresh Elo Data
 
 ```bash
 PYTHONPATH=src python3 scripts/run_simulation.py --iterations 50000
@@ -125,42 +132,62 @@ python3 scripts/make_infographic.py --png
 Generated infographic pages:
 
 - `reports/world_cup_2026_infographic.pdf`
-- `reports/world_cup_2026_infographic_page1.png`
-- `reports/world_cup_2026_infographic_page2.png`
-- `reports/world_cup_2026_infographic_page3.png`
+- `reports/world_cup_2026_infographic_page1.png` … `_page3.png` (with `--png`)
 
-## Model Notes
+The infographic is a three-page editorial poster:
 
-The baseline starts with World Football Elo expected score and converts it into win/draw/loss probabilities using a fitted draw curve:
+1. **The forecast** — title odds for the top contenders, champion probability by
+   confederation, and the favourite's stage-by-stage path.
+2. **The bracket** — a stage-progression matrix (round of 16 through the title) and the two
+   most likely sides to advance from each group.
+3. **Model validation** — how the same model scored on past World Cups using only
+   pre-tournament ratings, with headline accuracy and calibration stats.
+
+Useful flags:
+
+- `--png` also export each page as a high-resolution PNG.
+- `--dpi 300` raise the export resolution (default `200`).
+- `--out path/to/file.pdf` choose a different output location.
+
+It reads `reports/monte_carlo_results.json`, `data/derived_team_strengths.json`, and
+`reports/world-cup-backtests.json`, so run the simulation (and, optionally, the backtests)
+first.
+
+## Calibrate Draw Rate
+
+```bash
+PYTHONPATH=src python3 scripts/calibrate_draw_rate.py --start-year 1994 --end-year 2025 --test-start-year 2022
+```
+
+This downloads yearly World Football Elo result tables into `data/raw/elo_results_*.tsv`, fits `P(draw | Elo gap)` on matches before the test start year, and compares the old linear draw heuristic with the fitted exponential curve on held-out match results. It also runs the 2022 World Cup backtest with both draw models.
+
+The current fitted curve is:
 
 ```text
 P(draw) = 0.0200 + (0.3850 - 0.0200) * exp(-abs(Elo gap) / 344.0)
 ```
 
-The newer simulation path adds a lightweight expected-goals profile from recent scoring history. Matches are weighted by recency and match importance, adjusted for opponent Elo, and then combined with the fitted draw model. The pipeline remains intentionally inspectable: every major output is written to CSV or JSON so the assumptions can be audited.
+## Modeling Roadmap
 
-## Data Source
+1. **Team strength model**
+   - Blend Elo, recent form, squad value, confederation strength, travel/rest effects, and injury availability.
+   - Output attack, defense, and overall strength ratings.
 
-This project uses World Football Elo Ratings:
+2. **Match win/draw/loss prediction**
+   - Convert team strengths into calibrated probabilities.
+   - Benchmark multinomial logistic regression, Dixon-Coles style models, and gradient boosting.
 
-```text
-https://www.eloratings.net/
-```
+3. **Scoreline prediction**
+   - Estimate expected goals for each team.
+   - Use Poisson, bivariate Poisson, or Dixon-Coles corrections for low-score dependence.
 
-Primary downloaded files include:
+4. **Tournament simulation**
+   - Simulate groups, knockouts, extra time, and penalties.
+   - Run thousands of draws to estimate progression and champion probabilities.
 
-- `https://www.eloratings.net/World.tsv`
-- `https://www.eloratings.net/en.teams.tsv`
-- Confederation files such as `UEFA.tsv`, `CONMEBOL.tsv`, `CONCACAF.tsv`, `CAF.tsv`, `AFC.tsv`, and `OFC.tsv`
-- Historical result files such as `https://www.eloratings.net/2022_results.tsv`
+5. **Dashboard**
+   - Display champion probabilities, expected goals, match cards, uncertainty, and scenario controls.
 
-The derived `rating` and `elo` fields preserve official Elo values. Dashboard compatibility fields such as `attack_rating` and `defense_rating` are derived features, not official Elo fields.
+## Current Status
 
-## What This Demonstrates
-
-- Designing a reproducible data-to-report pipeline
-- Turning sports ratings into calibrated probabilistic predictions
-- Building Monte Carlo simulations with deterministic seeds and test coverage
-- Evaluating forecasts with proper scoring rules instead of only narrative accuracy
-- Publishing results in formats useful to both engineers and non-technical readers
-
+This is scaffolding plus a dashboard prototype. The next useful milestone is to implement a small deterministic baseline model and connect it to the dashboard-generated probabilities.
