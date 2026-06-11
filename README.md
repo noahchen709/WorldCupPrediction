@@ -1,15 +1,4 @@
-# 2026 FIFA World Cup Quant Prediction Starter
-
-A clean starter project for building a quantitative 2026 FIFA World Cup prediction system.
-
-This repo intentionally does not include a full prediction model yet. It provides:
-
-- A project structure for modeling, simulation, data, and dashboard work
-- A real-data ingestion script for World Football Elo ratings
-- A working dashboard prototype showing estimated champion likelihoods
-- An Elo Monte Carlo using the actual 2026 World Cup groups and knockout bracket
-- Lightweight Python stubs for the future model pipeline
-
+# 2026 FIFA World Cup Quant Prediction
 ## Project Layout
 
 ```text
@@ -51,7 +40,7 @@ The real data source is World Football Elo Ratings:
 https://www.eloratings.net/
 ```
 
-This starter downloads the current world ratings table from:
+This project downloads the current world ratings table from:
 
 ```text
 https://www.eloratings.net/World.tsv
@@ -151,12 +140,6 @@ The infographic is a three-page editorial poster:
 3. **Model validation** — how the same model scored on past World Cups using only
    pre-tournament ratings, with headline accuracy and calibration stats.
 
-Useful flags:
-
-- `--png` also export each page as a high-resolution PNG.
-- `--dpi 300` raise the export resolution (default `200`).
-- `--out path/to/file.pdf` choose a different output location.
-
 It reads `reports/monte_carlo_results.json`, `data/derived_team_strengths.json`, and
 `reports/world-cup-backtests.json`, so run the simulation (and, optionally, the backtests)
 first.
@@ -195,7 +178,3 @@ P(draw) = 0.0200 + (0.3850 - 0.0200) * exp(-abs(Elo gap) / 344.0)
 
 5. **Dashboard**
    - Display champion probabilities, expected goals, match cards, uncertainty, and scenario controls.
-
-## Current Status
-
-This is scaffolding plus a dashboard prototype. The next useful milestone is to implement a small deterministic baseline model and connect it to the dashboard-generated probabilities.
