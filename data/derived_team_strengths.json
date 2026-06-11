@@ -1,7 +1,7 @@
 {
   "source": "https://www.eloratings.net/World.tsv",
   "sourceName": "World Football Elo Ratings",
-  "asOf": "2026-06-09",
+  "asOf": "2026-06-11",
   "teams": [
     {
       "name": "Spain",
@@ -21,13 +21,13 @@
       "code": "AR",
       "confederation": "CONMEBOL",
       "rank": 2,
-      "elo": 2114,
-      "rating": 2114,
-      "attack": 2180.66,
-      "defense": 2078.18,
-      "matches": 1110,
+      "elo": 2115,
+      "rating": 2115,
+      "attack": 2181.69,
+      "defense": 2079.21,
+      "matches": 1111,
       "ratingChange": 0,
-      "oneYearRatingChange": -32
+      "oneYearRatingChange": -17
     },
     {
       "name": "France",
@@ -47,13 +47,13 @@
       "code": "EN",
       "confederation": "UEFA",
       "rank": 4,
-      "elo": 2021,
-      "rating": 2021,
-      "attack": 2103.0,
-      "defense": 1987.3,
-      "matches": 1161,
+      "elo": 2024,
+      "rating": 2024,
+      "attack": 2106.02,
+      "defense": 1990.33,
+      "matches": 1162,
       "ratingChange": 0,
-      "oneYearRatingChange": 10
+      "oneYearRatingChange": 40
     },
     {
       "name": "Brazil",
@@ -66,20 +66,20 @@
       "defense": 1959.61,
       "matches": 1067,
       "ratingChange": 0,
-      "oneYearRatingChange": -3
+      "oneYearRatingChange": -10
     },
     {
       "name": "Portugal",
       "code": "PT",
       "confederation": "UEFA",
       "rank": 6,
-      "elo": 1986,
-      "rating": 1986,
-      "attack": 2047.64,
-      "defense": 1946.72,
-      "matches": 695,
+      "elo": 1989,
+      "rating": 1989,
+      "attack": 2050.65,
+      "defense": 1949.73,
+      "matches": 696,
       "ratingChange": 0,
-      "oneYearRatingChange": -44
+      "oneYearRatingChange": -41
     },
     {
       "name": "Colombia",
@@ -92,7 +92,7 @@
       "defense": 1942.05,
       "matches": 650,
       "ratingChange": 0,
-      "oneYearRatingChange": 46
+      "oneYearRatingChange": 32
     },
     {
       "name": "Netherlands",
@@ -105,7 +105,7 @@
       "defense": 1903.66,
       "matches": 903,
       "ratingChange": 0,
-      "oneYearRatingChange": -26
+      "oneYearRatingChange": -27
     },
     {
       "name": "Ecuador",
@@ -118,7 +118,7 @@
       "defense": 1885.27,
       "matches": 600,
       "ratingChange": 0,
-      "oneYearRatingChange": 29
+      "oneYearRatingChange": 33
     },
     {
       "name": "Germany",
@@ -151,10 +151,10 @@
       "code": "HR",
       "confederation": "UEFA",
       "rank": 12,
-      "elo": 1911,
-      "rating": 1911,
-      "attack": 1971.9,
-      "defense": 1875.65,
+      "elo": 1912,
+      "rating": 1912,
+      "attack": 1972.9,
+      "defense": 1876.65,
       "matches": 400,
       "ratingChange": 0,
       "oneYearRatingChange": -15
@@ -163,14 +163,14 @@
       "name": "Turkey",
       "code": "TR",
       "confederation": "UEFA",
-      "rank": 12,
+      "rank": 13,
       "elo": 1911,
       "rating": 1911,
-      "attack": 1960.71,
-      "defense": 1860.4,
-      "matches": 671,
+      "attack": 1960.63,
+      "defense": 1860.33,
+      "matches": 670,
       "ratingChange": 0,
-      "oneYearRatingChange": 64
+      "oneYearRatingChange": 75
     },
     {
       "name": "Japan",
@@ -183,17 +183,17 @@
       "defense": 1864.76,
       "matches": 836,
       "ratingChange": 0,
-      "oneYearRatingChange": 52
+      "oneYearRatingChange": 49
     },
     {
       "name": "Belgium",
       "code": "BE",
       "confederation": "UEFA",
       "rank": 15,
-      "elo": 1893,
-      "rating": 1893,
-      "attack": 1957.02,
-      "defense": 1838.83,
+      "elo": 1894,
+      "rating": 1894,
+      "attack": 1958.02,
+      "defense": 1839.83,
       "matches": 878,
       "ratingChange": 0,
       "oneYearRatingChange": 47
@@ -209,7 +209,7 @@
       "defense": 1848.93,
       "matches": 1019,
       "ratingChange": 0,
-      "oneYearRatingChange": 3
+      "oneYearRatingChange": -9
     },
     {
       "name": "Switzerland",
@@ -218,11 +218,11 @@
       "rank": 17,
       "elo": 1891,
       "rating": 1891,
-      "attack": 1943.29,
-      "defense": 1833.1,
-      "matches": 897,
+      "attack": 1943.27,
+      "defense": 1833.03,
+      "matches": 896,
       "ratingChange": 0,
-      "oneYearRatingChange": 64
+      "oneYearRatingChange": 46
     },
     {
       "name": "Mexico",
@@ -231,11 +231,11 @@
       "rank": 18,
       "elo": 1875,
       "rating": 1875,
-      "attack": 1937.15,
-      "defense": 1839.12,
-      "matches": 1030,
+      "attack": 1937.21,
+      "defense": 1839.15,
+      "matches": 1029,
       "ratingChange": 0,
-      "oneYearRatingChange": 73
+      "oneYearRatingChange": 62
     },
     {
       "name": "Denmark",
@@ -248,7 +248,7 @@
       "defense": 1821.78,
       "matches": 905,
       "ratingChange": 0,
-      "oneYearRatingChange": 5
+      "oneYearRatingChange": 4
     },
     {
       "name": "Italy",
@@ -268,26 +268,26 @@
       "code": "SN",
       "confederation": "CAF",
       "rank": 21,
-      "elo": 1867,
-      "rating": 1867,
-      "attack": 1915.11,
-      "defense": 1833.64,
-      "matches": 705,
+      "elo": 1860,
+      "rating": 1860,
+      "attack": 1908.04,
+      "defense": 1826.69,
+      "matches": 706,
       "ratingChange": 0,
-      "oneYearRatingChange": 109
+      "oneYearRatingChange": 75
     },
     {
       "name": "Paraguay",
       "code": "PY",
       "confederation": "CONMEBOL",
       "rank": 22,
-      "elo": 1833,
-      "rating": 1833,
-      "attack": 1877.63,
-      "defense": 1783.54,
+      "elo": 1834,
+      "rating": 1834,
+      "attack": 1878.63,
+      "defense": 1784.54,
       "matches": 789,
       "ratingChange": 0,
-      "oneYearRatingChange": 2
+      "oneYearRatingChange": 9
     },
     {
       "name": "Austria",
@@ -326,7 +326,7 @@
       "defense": 1743.43,
       "matches": 490,
       "ratingChange": 0,
-      "oneYearRatingChange": -8
+      "oneYearRatingChange": 3
     },
     {
       "name": "Scotland",
@@ -352,7 +352,7 @@
       "defense": 1743.15,
       "matches": 340,
       "ratingChange": 0,
-      "oneYearRatingChange": -11
+      "oneYearRatingChange": -19
     },
     {
       "name": "Australia",
@@ -365,7 +365,20 @@
       "defense": 1737.66,
       "matches": 637,
       "ratingChange": 0,
-      "oneYearRatingChange": 19
+      "oneYearRatingChange": 2
+    },
+    {
+      "name": "Algeria",
+      "code": "DZ",
+      "confederation": "CAF",
+      "rank": 29,
+      "elo": 1772,
+      "rating": 1772,
+      "attack": 1825.62,
+      "defense": 1736.34,
+      "matches": 690,
+      "ratingChange": 0,
+      "oneYearRatingChange": 68
     },
     {
       "name": "Iran",
@@ -378,46 +391,33 @@
       "defense": 1744.57,
       "matches": 670,
       "ratingChange": 0,
-      "oneYearRatingChange": -26
-    },
-    {
-      "name": "Nigeria",
-      "code": "NG",
-      "confederation": "CAF",
-      "rank": 30,
-      "elo": 1770,
-      "rating": 1770,
-      "attack": 1822.79,
-      "defense": 1734.66,
-      "matches": 716,
-      "ratingChange": 0,
-      "oneYearRatingChange": 194
+      "oneYearRatingChange": -29
     },
     {
       "name": "Russia",
       "code": "RU",
       "confederation": "UEFA",
-      "rank": 30,
-      "elo": 1770,
-      "rating": 1770,
-      "attack": 1833.59,
-      "defense": 1736.5,
-      "matches": 814,
+      "rank": 29,
+      "elo": 1772,
+      "rating": 1772,
+      "attack": 1835.64,
+      "defense": 1738.55,
+      "matches": 815,
       "ratingChange": 0,
-      "oneYearRatingChange": -14
+      "oneYearRatingChange": -21
     },
     {
-      "name": "Algeria",
-      "code": "DZ",
+      "name": "Nigeria",
+      "code": "NG",
       "confederation": "CAF",
       "rank": 32,
-      "elo": 1760,
-      "rating": 1760,
-      "attack": 1813.49,
-      "defense": 1724.29,
-      "matches": 689,
+      "elo": 1767,
+      "rating": 1767,
+      "attack": 1819.77,
+      "defense": 1731.61,
+      "matches": 717,
       "ratingChange": 0,
-      "oneYearRatingChange": 50
+      "oneYearRatingChange": 191
     },
     {
       "name": "South Korea",
@@ -430,7 +430,7 @@
       "defense": 1725.93,
       "matches": 1052,
       "ratingChange": 0,
-      "oneYearRatingChange": -9
+      "oneYearRatingChange": -12
     },
     {
       "name": "Greece",
@@ -443,7 +443,7 @@
       "defense": 1695.65,
       "matches": 658,
       "ratingChange": 0,
-      "oneYearRatingChange": -92
+      "oneYearRatingChange": -94
     },
     {
       "name": "Czechia",
@@ -472,49 +472,62 @@
       "oneYearRatingChange": -103
     },
     {
+      "name": "Venezuela",
+      "code": "VE",
+      "confederation": "CONMEBOL",
+      "rank": 37,
+      "elo": 1733,
+      "rating": 1733,
+      "attack": 1770.97,
+      "defense": 1669.67,
+      "matches": 483,
+      "ratingChange": 0,
+      "oneYearRatingChange": -12
+    },
+    {
       "name": "Panama",
       "code": "PA",
       "confederation": "CONCACAF",
-      "rank": 37,
+      "rank": 38,
       "elo": 1730,
       "rating": 1730,
       "attack": 1773.78,
       "defense": 1676.09,
       "matches": 594,
       "ratingChange": 0,
-      "oneYearRatingChange": 5
+      "oneYearRatingChange": 1
     },
     {
       "name": "United States",
       "code": "US",
       "confederation": "CONCACAF",
-      "rank": 38,
+      "rank": 39,
       "elo": 1726,
       "rating": 1726,
       "attack": 1778.9,
       "defense": 1680.42,
       "matches": 827,
       "ratingChange": 0,
-      "oneYearRatingChange": 14
+      "oneYearRatingChange": 32
     },
     {
-      "name": "Venezuela",
-      "code": "VE",
+      "name": "Chile",
+      "code": "CL",
       "confederation": "CONMEBOL",
-      "rank": 39,
-      "elo": 1722,
-      "rating": 1722,
-      "attack": 1759.9,
-      "defense": 1658.54,
-      "matches": 482,
+      "rank": 40,
+      "elo": 1717,
+      "rating": 1717,
+      "attack": 1766.06,
+      "defense": 1667.04,
+      "matches": 854,
       "ratingChange": 0,
-      "oneYearRatingChange": -35
+      "oneYearRatingChange": 28
     },
     {
       "name": "Kosovo",
       "code": "KO",
       "confederation": "UEFA",
-      "rank": 40,
+      "rank": 41,
       "elo": 1715,
       "rating": 1715,
       "attack": 1765.09,
@@ -527,92 +540,79 @@
       "name": "Uzbekistan",
       "code": "UZ",
       "confederation": "AFC",
-      "rank": 41,
+      "rank": 42,
       "elo": 1714,
       "rating": 1714,
       "attack": 1774.65,
       "defense": 1675.66,
       "matches": 367,
       "ratingChange": 0,
-      "oneYearRatingChange": 20
+      "oneYearRatingChange": 7
     },
     {
       "name": "Sweden",
       "code": "SE",
       "confederation": "UEFA",
-      "rank": 42,
+      "rank": 43,
       "elo": 1712,
       "rating": 1712,
       "attack": 1781.66,
       "defense": 1665.53,
       "matches": 1120,
       "ratingChange": 0,
-      "oneYearRatingChange": -42
+      "oneYearRatingChange": -48
+    },
+    {
+      "name": "Hungary",
+      "code": "HU",
+      "confederation": "UEFA",
+      "rank": 44,
+      "elo": 1710,
+      "rating": 1710,
+      "attack": 1780.14,
+      "defense": 1658.36,
+      "matches": 1035,
+      "ratingChange": 0,
+      "oneYearRatingChange": 9
     },
     {
       "name": "Poland",
       "code": "PL",
       "confederation": "UEFA",
-      "rank": 43,
+      "rank": 44,
       "elo": 1710,
       "rating": 1710,
       "attack": 1769.44,
       "defense": 1662.76,
       "matches": 921,
       "ratingChange": 0,
-      "oneYearRatingChange": 4
-    },
-    {
-      "name": "Chile",
-      "code": "CL",
-      "confederation": "CONMEBOL",
-      "rank": 44,
-      "elo": 1708,
-      "rating": 1708,
-      "attack": 1757.03,
-      "defense": 1658.02,
-      "matches": 853,
-      "ratingChange": 0,
-      "oneYearRatingChange": -9
-    },
-    {
-      "name": "Hungary",
-      "code": "HU",
-      "confederation": "UEFA",
-      "rank": 45,
-      "elo": 1707,
-      "rating": 1707,
-      "attack": 1777.1,
-      "defense": 1655.35,
-      "matches": 1034,
-      "ratingChange": 0,
-      "oneYearRatingChange": 10
+      "oneYearRatingChange": 28
     },
     {
       "name": "Peru",
       "code": "PE",
       "confederation": "CONMEBOL",
       "rank": 46,
-      "elo": 1699,
-      "rating": 1699,
-      "attack": 1741.39,
-      "defense": 1650.15,
+      "elo": 1700,
+      "rating": 1700,
+      "attack": 1742.39,
+      "defense": 1651.15,
       "matches": 710,
       "ratingChange": 0,
-      "oneYearRatingChange": -40
+      "oneYearRatingChange": -44
     },
     {
       "name": "Ireland",
       "code": "IE",
       "confederation": "UEFA",
-      "rank": 46,
+      "rank": 47,
       "elo": 1699,
       "rating": 1699,
       "attack": 1745.12,
       "defense": 1644.31,
       "matches": 743,
       "ratingChange": 0,
-      "oneYearRatingChange": 64
+      "oneYearRatingChange": 66
     },
     {
       "name": "Egypt",
