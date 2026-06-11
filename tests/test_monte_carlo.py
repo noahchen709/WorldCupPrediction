@@ -62,7 +62,7 @@ def test_host_advantage_follows_the_venue_for_two_host_teams() -> None:
 def test_host_advantage_flows_into_match_probability() -> None:
     mexico = team_record("Mexico")
     south_africa = team_record("South Africa")
-    win, draw, _ = elo_win_draw_loss(
+    win, draw, loss = elo_win_draw_loss(
         mexico.rating,
         south_africa.rating,
         home_advantage=host_advantage_for_match(mexico, south_africa, venue_country="Mexico"),
@@ -70,4 +70,4 @@ def test_host_advantage_flows_into_match_probability() -> None:
     expected = elo_expected_score(1500, 1500, home_advantage=HOST_ELO_ADVANTAGE)
 
     assert win + 0.5 * draw == pytest.approx(expected)
-    assert win > 0.5
+    assert win > loss

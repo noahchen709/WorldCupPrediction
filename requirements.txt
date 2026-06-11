@@ -1,3 +1,5 @@
 # Core data fetching and simulation scripts run on the Python standard library.
-# The PDF infographic generator (scripts/make_infographic.py) needs matplotlib.
+# matplotlib powers the PDF/PNG infographic generator.
+# pytest supports the documented quickstart test command.
 matplotlib>=3.8
+pytest>=8.0
