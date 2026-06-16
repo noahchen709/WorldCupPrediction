@@ -2,6 +2,11 @@
 
 A Python project for forecasting the 2026 FIFA World Cup with Elo ratings, Monte Carlo simulation, historical backtests, and a small static dashboard.
 
+## Pre-tournament Results
+![Project Screenshot](/reports/world_cup_2026_infographic_page1.png)
+![Project Screenshot](/reports/world_cup_2026_infographic_page2.png)
+![Project Screenshot](/reports/world_cup_2026_infographic_page3.png)
+
 ## What It Includes
 
 - World Football Elo data ingestion
